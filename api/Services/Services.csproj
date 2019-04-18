@@ -5,8 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DataEntities\DataEntities.csproj" />
-      <ProjectReference Include="..\Repositories\Repositories.csproj" />
+      <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+      <ProjectReference Include="..\DataContracts\DataContracts.csproj" />
+      <ProjectReference Include="..\DataEntities\DataEntities.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\Repositories\Repositories.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
     </ItemGroup>
 

@@ -5,9 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-      <ProjectReference Include="..\DataContracts\DataContracts.csproj" />
-      <ProjectReference Include="..\DataEntities\DataEntities.csproj" />
+      <ProjectReference Include="..\DataAccess\DataAccess.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\DataContracts\DataContracts.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\DataEntities\DataEntities.csproj" PrivateAssets="All" />
     </ItemGroup>
 
 </Project>

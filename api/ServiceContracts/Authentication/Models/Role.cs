@@ -1,4 +1,4 @@
-namespace DataEntities.Entities
+namespace ServiceContracts.Authentication.Models
 {
     public static class Role
     {

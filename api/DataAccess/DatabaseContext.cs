@@ -21,7 +21,7 @@ namespace DataAccess
             
             builder.Entity<UserEntity>()
                 .Property(x => x.Role)
-                .HasDefaultValue(Role.User);
+                .HasDefaultValue("User");
         }
     }
 }

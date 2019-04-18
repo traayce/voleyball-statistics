@@ -25,7 +25,7 @@ namespace Services
                 options.UseSqlServer(connectionString));
             
             var appSettingsSection = configuration.GetSection("AppSettings");
-            //services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<AppSettings>(appSettingsSection);
 
             services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));
             return services;

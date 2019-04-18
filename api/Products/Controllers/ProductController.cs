@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Api.Models.Product;
 using Api.Services;
-using DataEntities.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceContracts.Authentication.Models;
 
 namespace Api.Controllers
 {
@@ -15,9 +15,9 @@ namespace Api.Controllers
         private const string DoesntExist = "Product with such ID doesn't exist";
         private const string UniqueCode = "Code must be unique";
         private readonly IProductApplicationService _productApplicationService;
-        public ProductController(IProductApplicationService _productApplicationService)
+        public ProductController(IProductApplicationService productApplicationService)
         {
-            this._productApplicationService = _productApplicationService;
+            this._productApplicationService = productApplicationService;
         }
         
         

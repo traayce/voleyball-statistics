@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,14 @@ namespace Api.Configurations.Swagger
             options.SwaggerDoc("v1.0", new Info { Title = "API", Version = "v1.0" });
             options.SwaggerDoc("v1.1", new Info { Title = "API", Version = "v1.1" });
             options.OperationFilter<SwaggerApiVersionOperationFilter>();
+            
+            options.AddSecurityDefinition("Bearer",
+                new ApiKeyScheme { In = "header",
+                    Description = "Please enter into field the word 'Bearer' following by space and JWT", 
+                    Name = "Authorization", Type = "apiKey" });
+            options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                { "Bearer", Enumerable.Empty<string>() },
+            });
         }
 
         public static void ConfigureSwaggerUi(this SwaggerUIOptions options)

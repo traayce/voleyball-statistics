@@ -3,6 +3,7 @@ using Api.Configurations.Common;
 using Api.Configurations.Swagger;
 using Api.Mappings;
 using Api.Services;
+using Api.Utils.Exceptions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ using ServiceContracts;
 using ServiceContracts.Authentication;
 using Services;
 using Services.Authentication;
+using AppSettings = Api.Configurations.Common.AppSettings;
 
 namespace Api
 {
@@ -75,6 +77,11 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
             
+            app.UseExceptionHandler(new ExceptionHandlerOptions 
+            {
+                ExceptionHandler = new ExceptionHandlingMiddleware().Invoke
+            });
+            
             app.UseSwagger();
 
             app.UseSwaggerUI(c => c.ConfigureSwaggerUi());
@@ -87,6 +94,7 @@ namespace Api
             app.UseAuthentication();
 
             app.UseMvc();
+            
         }
     }
 }

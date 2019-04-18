@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DataContracts;
 using DataContracts.Base;
@@ -52,17 +53,17 @@ namespace Services
         }
         
 
-        public ProductDomainModel GetById(int id)
+        public async Task<ProductDomainModel> GetById(int id)
         {
-            var entity = productRepository.GetById(id);
+            var entity = await productRepository.GetById(id);
             if (entity == null) return null;
 
             return _mapper.Map<ProductDomainModel>(entity);
         }
         
-        public ProductDomainModel Delete(int id)
+        public Task<ProductDomainModel> Delete(int id)
         {
-            var entity = productRepository.GetById(id);
+            var entity = await productRepository.GetById(id);
             if (entity == null) return null;
             
             productRepository.Delete(entity);

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using DataContracts;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -24,9 +25,10 @@ namespace Services.Authentication
             this.appSettings = appSettings.Value;
         }
         
-        public UserDomainModel Authenticate(string username, string password)
+        public async Task<UserDomainModel> Authenticate(string username, string password)
         {
-            var user = userRepository.GetAll().SingleOrDefault(x => x.Name == username && x.Password == password);
+            var users = await userRepository.GetAll();
+            var user = users.SingleOrDefault(x => x.Name == username && x.Password == password);
 
             // return null if user not found
             if (user == null)

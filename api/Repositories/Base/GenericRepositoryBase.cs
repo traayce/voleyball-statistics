@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DataAccess;
 using DataContracts.Base;
 using DataEntities.Base;
@@ -19,9 +20,9 @@ namespace Repositories.Base
             Dbset = dbContext.Set<TEntity>();
         }
         
-        public virtual TEntity GetById(int id)
+        public virtual Task<TEntity> GetById(int id)
         {
-            return Dbset.Find(id);
+            return Dbset.FindAsync(id);
         }
 
         public virtual TEntity Add(TEntity entity)
@@ -41,9 +42,9 @@ namespace Repositories.Base
             UpdateAudit(entity);
         }
 
-        public virtual IList<TEntity> GetAll()
+        public virtual Task<List<TEntity>> GetAll()
         {
-            return Dbset.ToList();
+            return Dbset.ToListAsync();
         }
         
         private void UpdateAudit(TEntity entity)

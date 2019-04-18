@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
+
 namespace DataContracts.Base
 {
     public interface IUnitOfWork
     {
-        int CommitChanges();
+        Task<int> CommitChanges();
+        void Rollback();
     }
 }

@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using DataAccess;
 using DataContracts.Base;
 
@@ -13,9 +15,14 @@ namespace Repositories.Base
             _dbContext = context;
         }
 
-        public int CommitChanges()
+        public async Task<int> CommitChanges()
         {
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
+        }
+        
+        public void Rollback()
+        {
+            _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
         }
     }
 }

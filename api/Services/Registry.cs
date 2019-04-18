@@ -15,20 +15,24 @@ namespace Services
 {
     public static class Registry
     {
-        private const string connectionString =
-            "Data Source=localhost\\MSSQLSERVER01;Initial Catalog=TaskDatabase;Integrated Security=True";
         public static IServiceCollection AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(connectionString));
-            
             var appSettingsSection = configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));
 
             services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));
             return services;
         }
+    }
+    
+    public class AppSettings
+    {
+        public string Secret { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

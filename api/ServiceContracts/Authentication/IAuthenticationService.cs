@@ -5,6 +5,7 @@ namespace ServiceContracts.Authentication
 {
     public interface IAuthenticationService
     {
-        Task<UserDomainModel> Authenticate(string name, string password);
+        Task<T> Authenticate<T>(string name, string password) where T: IUserDomainModel, new();
+        Task<string> Register<T>(T model) where T : IUserRegistrationDomainModel;
     }
 }

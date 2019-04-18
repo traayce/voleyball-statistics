@@ -16,7 +16,7 @@ namespace DataAccess
                 .IsUnique();
             
             builder.Entity<UserEntity>()
-                .HasIndex(x => x.Name)
+                .HasIndex(x => x.Email)
                 .IsUnique();
             
             builder.Entity<UserEntity>()

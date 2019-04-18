@@ -4,7 +4,7 @@ namespace DataContracts.Base
 {
     public interface IUnitOfWork
     {
-        Task<int> CommitChanges();
+        Task<int> CommitChangesAsync();
         void Rollback();
     }
 }

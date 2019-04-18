@@ -15,7 +15,7 @@ namespace Repositories.Base
             _dbContext = context;
         }
 
-        public async Task<int> CommitChanges()
+        public async Task<int> CommitChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();
         }

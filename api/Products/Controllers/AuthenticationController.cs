@@ -15,11 +15,12 @@ namespace Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
-        
+
         [Authorize]
         [HttpGet]
         public ActionResult<UserDomainModel> Get()
@@ -30,12 +31,23 @@ namespace Api.Controllers
                 Token = ""
             });
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserLoginModel model)
+        public async Task<ActionResult<IUserDomainModel>> Post([FromBody] UserLoginModel model)
         {
-            var response = await _authenticationService.Authenticate(model.Name, model.Password);
+            var response = await _authenticationService.Authenticate<UserDomainModel>(model.Name, model.Password);
             return Ok(response);
         }
-    }
+
+        [HttpPut]
+        public async Task<ActionResult<string>> Put([FromBody] UserRegistrationModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            return Ok(await _authenticationService.Register(model));
+        }
+}
 }

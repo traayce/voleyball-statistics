@@ -15,5 +15,7 @@ namespace DataEntities.Entities
         public string Password { get; set; }
         [Required]
         public string Role { get; set; }
+        [Required]
+        public string Email { get; set; }
     }
 }

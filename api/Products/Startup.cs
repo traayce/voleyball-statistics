@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Api.Configurations.Common;
 using Api.Configurations.Swagger;
 using Api.Mappings;
 using Api.Services;
@@ -12,8 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using ServiceContracts;
-using ServiceContracts.Authentication.Models;
+using ServiceContracts.Authentication;
 using Services;
+using Services.Authentication;
 
 namespace Api
 {
@@ -32,6 +34,7 @@ namespace Api
             Registry.AddServices(services, Configuration);
             services.TryAddTransient<IProductService, ProductService>();
             services.TryAddTransient<IProductApplicationService, ProductApplicationService>();
+            services.TryAddTransient<IAuthenticationService, AuthenticationService>();
             services.AddSwaggerGen(c => c.Configure());
 
             services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));

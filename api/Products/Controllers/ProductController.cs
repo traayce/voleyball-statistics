@@ -9,15 +9,16 @@ namespace Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]/v{version:apiVersion}")]
+    [Authorize]
     [ApiController]
     public class ProductController : ControllerBase
     {
         private const string DoesntExist = "Product with such ID doesn't exist";
         private const string UniqueCode = "Code must be unique";
         private readonly IProductApplicationService _productApplicationService;
-        public ProductController(IProductApplicationService productApplicationService)
+        public ProductController(IProductApplicationService _productApplicationService)
         {
-            this._productApplicationService = productApplicationService;
+            this._productApplicationService = _productApplicationService;
         }
         
         

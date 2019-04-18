@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "strict": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "skipLibCheck": true,
+        "declaration": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "plugins": [{
+            "name": "typescript-tslint-plugin",
+            "alwaysShowRuleFailuresAsWarnings": true,
+            "ignoreDefinitionFiles": true,
+            "configFile": "./tslint.json",
+            "suppressWhileTypeErrorsPresent": false,
+            "mockTypeScriptVersion": false
+          }],
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es6",
+            "es2017.object"
+          ]
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "reportFiles": [
+            "./src/**/*"
+        ]
+    }
+}

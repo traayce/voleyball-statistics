@@ -20,7 +20,7 @@ namespace Repositories.Base
             Dbset = dbContext.Set<TEntity>();
         }
         
-        public virtual Task<TEntity> GetById(int id)
+        public virtual Task<TEntity> GetByIdAsync(int id)
         {
             return Dbset.FindAsync(id);
         }
@@ -42,9 +42,14 @@ namespace Repositories.Base
             UpdateAudit(entity);
         }
 
-        public virtual Task<List<TEntity>> GetAll()
+        public virtual Task<List<TEntity>> GetAllAsync()
         {
             return Dbset.ToListAsync();
+        }
+        
+        public virtual IEnumerable<TEntity> GetAllMatching(Func<TEntity, bool> expression)
+        {
+            return Dbset.Where(expression);
         }
         
         private void UpdateAudit(TEntity entity)

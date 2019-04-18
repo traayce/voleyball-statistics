@@ -15,7 +15,7 @@ namespace Services
     {
         private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper _mapper;  
+        private readonly IMapper _mapper;
 
         public ProductService(
             IProductRepository productRepository,
@@ -30,15 +30,15 @@ namespace Services
         public IEnumerable<T> GetAll<T>(string name) where T : class, IProductDomainModel, new()
         {
             bool query = string.IsNullOrEmpty(name);
-            var list = productRepository.GetAll().Where(x => query || x.Name.StartsWith(name)).Select(x => 
+            var list = productRepository.GetAllMatching(x => query || x.Name.StartsWith(name)).Select(x =>
                 new T
-            {
-                Id = x.Id,
-                Price = x.Price,
-                Code = x.Code,
-                Name = x.Name,
-                Photo = x.Photo
-            });
+                {
+                    Id = x.Id,
+                    Price = x.Price,
+                    Code = x.Code,
+                    Name = x.Name,
+                    Photo = x.Photo
+                });
 
             return list;
         }
@@ -51,31 +51,31 @@ namespace Services
 
             return _mapper.Map(entity, model);
         }
-        
+
 
         public async Task<ProductDomainModel> GetById(int id)
         {
-            var entity = await productRepository.GetById(id);
+            var entity = await productRepository.GetByIdAsync(id);
             if (entity == null) return null;
 
             return _mapper.Map<ProductDomainModel>(entity);
         }
-        
-        public Task<ProductDomainModel> Delete(int id)
+
+        public async Task<ProductDomainModel> Delete(int id)
         {
-            var entity = await productRepository.GetById(id);
+            var entity = await productRepository.GetByIdAsync(id);
             if (entity == null) return null;
-            
+
             productRepository.Delete(entity);
             unitOfWork.CommitChanges();
             return _mapper.Map<ProductDomainModel>(entity);
         }
-        
-        public ProductDomainModel Edit(int id, ProductDomainModel model)
+
+        public async Task<ProductDomainModel> Edit(int id, ProductDomainModel model)
         {
-            var entity = productRepository.GetById(id);
+            var entity = await productRepository.GetByIdAsync(id);
             if (entity == null) return null;
-            
+
             _mapper.Map(model, entity);
             productRepository.Edit(entity);
             unitOfWork.CommitChanges();
@@ -85,7 +85,7 @@ namespace Services
         public bool IsCodeValid(string code, int id = 0)
         {
             if (String.IsNullOrEmpty(code)) return false;
-            var entity = productRepository.GetAll().FirstOrDefault(x => x.Code == code);
+            var entity = productRepository.GetAllMatching(x => x.Code == code).SingleOrDefault();
             return !(entity != null && entity.Id != id);
         }
     }

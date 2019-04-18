@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
+using Infrastructure;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ServiceContracts.Authentication;
@@ -27,12 +28,11 @@ namespace Services.Authentication
         
         public async Task<UserDomainModel> Authenticate(string username, string password)
         {
-            var users = await userRepository.GetAll();
+            var users = await userRepository.GetAllAsync();
             var user = users.SingleOrDefault(x => x.Name == username && x.Password == password);
 
-            // return null if user not found
             if (user == null)
-                return null;
+                throw new RulesException("User With Such Credentials Does Not Exist");
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();

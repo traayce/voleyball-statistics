@@ -3,31 +3,38 @@ import { render } from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
 import { storeCreator } from "./store/createStore";
-import { ProductContainer } from "./components/products/components-products-container";
+import { AuthenticationContainer } from "./components/authentication/components-authentication-container";
 const rootEl = document.getElementById("root");
 
 const store = storeCreator();
-render(
+
+const RootComponent: React.SFC<{}> = () => (
     <Provider store={store}>
-        <AppContainer>
-            <ProductContainer />
-        </AppContainer>
-    </Provider>,
+            <AuthenticationContainer />
+    </Provider>
+);
+render(
+    <RootComponent />,
     rootEl
 );
 
 // Hot Module Replacement API
 declare let module: { hot: any };
+type RenderFactory = (component: React.ComponentClass<any> | React.SFC<any>) => void;
+if (!module.hot) {
+    render(<RootComponent />, rootEl);
+} else {
 
-if (module.hot) {
-    module.hot.accept("./components/App", () => {
-        const NewApp = require("./components/App").default;
-
+    const renderFactory: RenderFactory = Component => {
+        console.log("Hot Reload");
         render(
             <AppContainer>
-                <NewApp />
+                <Component />
             </AppContainer>,
             rootEl
         );
-    });
+    };
+    renderFactory(RootComponent);
+    module.hot.accept("./components/authentication/components-authentication-container", () => renderFactory(RootComponent));
 }
+

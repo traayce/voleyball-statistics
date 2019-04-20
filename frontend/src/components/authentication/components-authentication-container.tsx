@@ -1,13 +1,15 @@
 import * as React from "react";
-import { ProductsContainerStyles } from "./components-products-styles";
+import { AuthenticationContainerStyles } from "./components-products-styles";
 import { WithStyles, Paper, withStyles } from "@material-ui/core";
+import { hot } from "react-hot-loader/root";
+import { LoginComponent } from "./components-login-component";
 
-class AuthenticationContainerClass extends React.PureComponent<WithStyles<typeof ProductsContainerStyles>> {
+class AuthenticationContainerClass extends React.PureComponent<WithStyles<typeof AuthenticationContainerStyles>> {
     public render(): JSX.Element {
         const { classes } = this.props;
         return <Paper className={classes.Container}>
-            <div>helloas1ssasafd5</div>
+            <LoginComponent />
         </Paper>;
     }
 }
-export const AuthenticationContainer = withStyles(ProductsContainerStyles)(AuthenticationContainerClass);
+export const AuthenticationContainer = hot(withStyles(AuthenticationContainerStyles)(AuthenticationContainerClass));

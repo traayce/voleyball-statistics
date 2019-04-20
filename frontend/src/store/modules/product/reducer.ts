@@ -7,9 +7,11 @@ const defaultState: IState = {
   error: undefined,
   isLoaded: false
 };
+
 interface Type {
   type: string;
 }
+
 type Action = IState & Type;
 
 export const productsReducer = (state: IState = defaultState, action: Action) => {

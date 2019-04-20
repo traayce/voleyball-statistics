@@ -1,8 +1,8 @@
-import { AxiosInstance } from "axios";
-import { ThunkAction as ReduxThunkAction } from "redux-thunk";
-import { IStore } from "./state";
 
-export type ThunkAction = ReduxThunkAction<any, IStore, AxiosInstance, any>;
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
+
+export type ThunkAction<T> = ThunkDispatch<T, void, Action>;
 
 export interface IAction<T, M = any> {
   readonly type: string;
@@ -16,12 +16,3 @@ export type ActionCreator<T, M = any> = (
   error?: boolean,
   meta?: M
 ) => IAction<T, M>;
-
-export function createAction<T, M = any> (type: string): ActionCreator<T, M> {
-  return (payload?: T, error?: boolean, meta?: M) => ({
-    type,
-    payload,
-    error,
-    meta
-  });
-}

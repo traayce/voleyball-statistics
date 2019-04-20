@@ -6,19 +6,19 @@ const sourceDir = "dist";
 
 app.use(express.static(sourceDir));
 app.use("/", frontendApp);
-// const API_PATH = "http://localhost:5000";
-// let proxy = require("http-proxy-middleware");
-// let options = {
-//   target: API_PATH,
-//   changeOrigin: true,
-//   logLevel: "debug",
-//   onError: function onError(err: string, req: any, res: any) {
-//     console.log("Something went wrong with the proxy middleware.", err);
-//     res.end();
-//   }
-// };
-// let prox = proxy(options);
-// app.use("/api", prox);
+const API_PATH = "http://localhost:5000";
+let proxy = require("http-proxy-middleware");
+let options = {
+  target: API_PATH,
+  changeOrigin: true,
+  logLevel: "debug",
+  onError: function onError(err: string, req: any, res: any) {
+    console.log("Something went wrong with the proxy middleware.", err);
+    res.end();
+  }
+};
+let prox = proxy(options);
+app.use("/api", prox);
 
 
 app.listen(portNumber, () => {

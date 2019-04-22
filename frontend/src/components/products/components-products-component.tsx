@@ -12,7 +12,7 @@ import { ProductFormComponent } from "./form/components-products-form-component"
 interface StateProps {
   isLoading: boolean;
   products: Array<ProductDTO>;
-  error: undefined | string;
+  error?: boolean;
   isLoaded: boolean;
 }
 
@@ -36,7 +36,7 @@ class ProductsClass extends React.Component<Props, State> {
   };
   public state: State = this.initialState;
   public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = storeState => ({
-    products: storeState.products.products,
+    products: storeState.products.productsList,
     isLoading: storeState.products.isLoading,
     error: storeState.products.error,
     isLoaded: storeState.products.isLoaded

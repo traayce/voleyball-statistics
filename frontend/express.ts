@@ -1,5 +1,5 @@
 const express = require("express");
-import {frontendApp} from "./devMilddleware";
+import { frontendApp } from "./devMilddleware";
 const app = express();
 const portNumber = 3000;
 const sourceDir = "dist";

@@ -7,7 +7,6 @@ const request = axios.create({
     }
 });
 
-import { IRegisterModel } from 'client/helpers/registration'
 export namespace authenticationCommands {
     export const authenticate = (email: string, password: string) => {
         return request
@@ -15,7 +14,7 @@ export namespace authenticationCommands {
             .then(res => res.data);
     };
 
-    export const register = (model: IRegisterModel) => {
+    export const register = (model: RegistrationModel) => {
         return request
             .put("/auth", { ...model })
             .then(res => res.data);

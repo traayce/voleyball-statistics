@@ -1,11 +1,13 @@
 import * as React from "react";
-import { authenticate } from "client/store/modules/auth/actions";
-import { connect } from "react-redux";
-import { IStore } from "client/store/state";
+import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
+import { actions } from "@reducers/authentication";
 import { LoginComponentForm } from "./components-login-form";
 import { Redirect } from "react-router";
-interface OwnProps {
-  isLoading: boolean;
+import { IStore } from "src/store/state";
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
+interface StateProps {
+  isLoading?: boolean;
   isLoggedIn: boolean;
   error: undefined | string;
 }
@@ -14,7 +16,7 @@ interface DispatchProps {
   authenticate: (email: string, password: string) => any;
 }
 
-type Props = OwnProps & DispatchProps;
+type Props = StateProps & DispatchProps;
 
 interface IState {
   password: any;
@@ -23,7 +25,20 @@ interface IState {
   error: any;
 }
 
-export class LoginComponentClass extends React.Component<Props, IState> {
+class LoginComponentClass extends React.Component<Props, IState> {
+
+  public static MapStateToProps: MapStateToProps<StateProps, {}, IStore> = ({ authentication }) => ({
+    isLoggedIn: authentication.token !== undefined,
+    isLoading: authentication.isLoading,
+    error: authentication.errorMessage
+  })
+
+  public static MapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: ThunkDispatch<object, void, Action>, props) => {
+    return ({
+      authenticate: (email, password) => dispatch(actions.authenticate(email, password))
+    });
+  }
+
   public state: IState = {
     name: "",
     password: "",
@@ -77,13 +92,4 @@ export class LoginComponentClass extends React.Component<Props, IState> {
   }
 }
 
-export const LoginComponent = connect<OwnProps, DispatchProps>(
-  ({ auth }: IStore) => ({
-    isLoggedIn: auth.token !== undefined,
-    isLoading: auth.isLoading,
-    error: auth.error
-  }),
-  (dispatch) => ({
-    authenticate: (email, password) => dispatch(authenticate(email, password))
-  })
-)(LoginComponentClass);
+export const LoginComponent = connect(LoginComponentClass.MapStateToProps, LoginComponentClass.MapDispatchToProps)(LoginComponentClass);

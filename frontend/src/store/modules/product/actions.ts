@@ -2,10 +2,10 @@ import { GET_PRODUCTS_SUCCESS, GET_PRODUCTS_FAILURE, GET_PRODUCTS_START } from "
 import { productCommands } from "./api";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { IState } from "./state";
+import { ProductReducerState } from "./state";
 
 export const getProducts = (searchText: string) => {
-  return async (dispatch: ThunkDispatch<IState, void, Action>) => {
+  return async (dispatch: ThunkDispatch<ProductReducerState, void, Action>) => {
     dispatch(getProductsStart());
     setTimeout(() =>
       productCommands
@@ -39,7 +39,7 @@ const getProductsStart = () => ({
 });
 
 export const deleteProduct = (id: number) => {
-  return async (dispatch: ThunkDispatch<IState, void, Action>) => {
-      productCommands.deleteProduct(id);
+  return async (dispatch: ThunkDispatch<ProductReducerState, void, Action>) => {
+    productCommands.deleteProduct(id);
   };
 };

@@ -14,20 +14,37 @@
         "declaration": false,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "plugins": [{
-            "name": "typescript-tslint-plugin",
-            "alwaysShowRuleFailuresAsWarnings": true,
-            "ignoreDefinitionFiles": true,
-            "configFile": "./tslint.json",
-            "suppressWhileTypeErrorsPresent": false,
-            "mockTypeScriptVersion": false
-          }],
+        "baseUrl": "./",
+        "paths": {
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@reducers/*": [
+                "src/store/modules/*"
+            ],
+            "@assets/*": [
+                "src/assets/*"
+            ],
+            "@types/*": [
+                "src/types/models.ts"
+            ]
+        },
+        "plugins": [
+            {
+                "name": "typescript-tslint-plugin",
+                "alwaysShowRuleFailuresAsWarnings": true,
+                "ignoreDefinitionFiles": true,
+                "configFile": "./tslint.json",
+                "suppressWhileTypeErrorsPresent": false,
+                "mockTypeScriptVersion": false
+            }
+        ],
         "lib": [
             "dom",
             "dom.iterable",
             "es6",
             "es2017.object"
-          ]
+        ]
     },
     "include": [
         "./src/**/*"

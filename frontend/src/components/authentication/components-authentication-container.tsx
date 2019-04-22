@@ -8,7 +8,7 @@ class AuthenticationContainerClass extends React.PureComponent<WithStyles<typeof
     public render(): JSX.Element {
         const { classes } = this.props;
         return <Paper className={classes.Container}>
-            <LoginComponent />
+            <LoginComponent authenticate={() => null} />
         </Paper>;
     }
 }

@@ -1,24 +1,21 @@
 import { GET_PRODUCTS_FAILURE, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_START } from "./constants";
-import { IState } from "./state";
+import { ProductReducerState } from "./state";
+import { IAction } from "src/store/action";
+import { Reducer } from "redux";
 
-const defaultState: IState = {
-  products: [],
+const defaultState: ProductReducerState = {
+  productsList: [],
   isLoading: false,
-  error: undefined,
+  error: false,
   isLoaded: false
 };
 
-interface Type {
-  type: string;
-}
-
-type Action = IState & Type;
-
-export const productsReducer = (state: IState = defaultState, action: Action) => {
+export const productsReducer: Reducer<ProductReducerState, IAction<ProductReducerState>> = (state = defaultState, action) => {
   switch (action.type) {
     case GET_PRODUCTS_SUCCESS:
       return {
-        products: action.products,
+        ...state,
+        ...action.payload,
         isLoading: false,
         error: undefined,
         isLoaded: true
@@ -27,7 +24,7 @@ export const productsReducer = (state: IState = defaultState, action: Action) =>
       return {
         ...state,
         isLoading: false,
-        products: [],
+        productsList: [],
         error: action.error,
         isLoaded: true
       };

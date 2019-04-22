@@ -1,4 +1,6 @@
-import { IState as productState } from "./modules/product";
+import { AuthenticationReducerState } from "@reducers/authentication";
+import { ProductReducerState } from "@reducers/product/state";
 export interface IStore {
-  readonly products:  productState;
+  readonly products: ProductReducerState;
+  readonly authentication: AuthenticationReducerState;
 }

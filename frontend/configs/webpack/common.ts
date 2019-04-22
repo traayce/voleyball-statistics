@@ -1,11 +1,17 @@
 
-const {resolve} = require("path");
-const {CheckerPlugin} = require("awesome-typescript-loader");
+const { resolve } = require("path");
+const { CheckerPlugin } = require("awesome-typescript-loader");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as webpack from "webpack";
 
 export const common = {
   resolve: {
+    alias: {
+      "@reducers": resolve(__dirname, "../../src/store/modules/"),
+      "@components": resolve(__dirname, "../../src/components/"),
+      "@assets": resolve(__dirname, "../../src/assets/"),
+      "@types": resolve(__dirname, "../../src/types/models.ts")
+    },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   context: resolve(__dirname, "../../src"),
@@ -50,7 +56,7 @@ export const common = {
       __SENTRY_CLIENT_DSN__: JSON.stringify(process.env.SENTRY_DSN_CLIENT)
     }),
     new CheckerPlugin(),
-    new HtmlWebpackPlugin({template: "index.html.ejs", }),
+    new HtmlWebpackPlugin({ template: "index.html.ejs", }),
   ],
   externals: {
     "react": "React",
@@ -60,3 +66,4 @@ export const common = {
     hints: false,
   },
 };
+console.log(common);

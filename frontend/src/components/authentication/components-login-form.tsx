@@ -27,6 +27,7 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
                     {error}
                 </div>);
             }
+            return null;
         }
         public render() {
             const {

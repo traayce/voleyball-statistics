@@ -1,7 +1,7 @@
 import { ProductDTO } from "./dto";
-export interface IState {
-  products: Array<ProductDTO>;
+export interface ProductReducerState {
+  productsList: Array<ProductDTO>;
   isLoading: boolean;
   isLoaded: boolean;
-  error: string | undefined;
+  error: boolean | undefined;
 }

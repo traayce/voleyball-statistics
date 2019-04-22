@@ -72,9 +72,11 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.9.0",
+    "@types/module-alias": "^2.0.0",
     "@types/react-redux": "^7.0.0",
     "axios": "^0.18.0",
     "http-proxy-middleware": "^0.19.1",
+    "module-alias": "^2.2.0",
     "raven-js": "^3.27.0",
     "react-redux": "^6.0.0",
     "react-router": "^5.0.0",
@@ -82,5 +84,19 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "typescript-tslint-plugin": "^0.2.1"
+  },
+  "_moduleAliases": {
+    "@components/*": [
+      "src/components/*"
+    ],
+    "@reducers/*": [
+      "src/store/modules/*"
+    ],
+    "@assets/*": [
+      "src/assets/*"
+    ],
+    "@types/*": [
+      "src/types/models.ts"
+    ]
   }
 }

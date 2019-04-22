@@ -3,5 +3,5 @@ export interface AuthenticationReducerState {
     id?: number;
     name?: string;
     isLoading?: boolean;
-    error?: string;
+    errorMessage?: string;
 }

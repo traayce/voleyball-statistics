@@ -1,25 +1,21 @@
 import { AUTH_LOGIN_SUCCESS, AUTH_lOGIN_ERROR, AUTH_REGISTER_START, AUTH_REGISTER_ERROR, AUTH_REGISTER_SUCCESS, AUTH_LOGOUT_SUCCESS } from "./constants";
 import { AuthenticationReducerState } from "./state";
-import { Action } from "redux";
+import { IAction } from "src/store/action";
+import { Reducer } from "redux";
 
 const defaultState: AuthenticationReducerState = {
     token: undefined,
     id: undefined,
     name: undefined,
-    isLoading: false,
-    error: undefined
+    isLoading: false
 };
 
-
-
-const reducer = (state: AuthenticationReducerState = defaultState, action: Action) => {
+export const authenticationReducer: Reducer<AuthenticationReducerState, IAction<AuthenticationReducerState>> = (state = defaultState, action) => {
     switch (action.type) {
         case AUTH_LOGIN_SUCCESS:
             return {
                 ...state,
-                token: action.token,
-                name: action.name,
-                id: action.id,
+                ...action.payload,
                 isLoading: false,
                 error: undefined
             };
@@ -60,5 +56,3 @@ const reducer = (state: AuthenticationReducerState = defaultState, action: Actio
             return state;
     }
 };
-
-export default reducer;

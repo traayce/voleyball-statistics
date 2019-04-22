@@ -12,8 +12,8 @@ namespace Api.Models.AuthenticationModels
         [Required]
         public string Password { get; set; }
         
-        [Required(ErrorMessage = "The email address is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [Required(ErrorMessage = "El.Pašto adresas yra privalomas")]
+        [EmailAddress(ErrorMessage = "Neteisingas El.Pašto formatas")]
         public string Email { get; set; }
     }
 }

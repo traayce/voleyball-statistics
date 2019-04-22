@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -19,7 +18,6 @@ namespace Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-
         private readonly IUserRepository userRepository;
         private readonly AppSettings appSettings;
         private readonly IUnitOfWork _unitOfWork;
@@ -34,19 +32,34 @@ namespace Services.Authentication
             this._unitOfWork = _unitOfWork;
         }
         
+        public async Task<T> GetUserInfo<T>(int userId) where T: IUserInfoDomainModel, new()
+        {
+            var user = await userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+                throw new RulesException("Vartotojas tokiu ID neegzistuoja");
+
+            return new T
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Role = user.Role
+            };
+        }
+        
         public async Task<T> Authenticate<T>(string name, string password) where T: IUserDomainModel, new()
         {
             var users = await userRepository.GetAllAsync();
-            var user = users.SingleOrDefault(x => x.Name == name && x.Password == password);
+            var user = users.SingleOrDefault(x => x.Name == name && x.Password == GetHash(password));
 
             if (user == null)
-                throw new RulesException("User With Such Credentials Does Not Exist");
+                throw new RulesException("Paskyra tokiais duomenimis neegzistuoja");
 
             return new T
             {
                 Token = GetToken(user.Id, user.Role),
                 Name = name
-            };;
+            };
         }
         
         public async Task<string> Register<T>(T model) where T : IUserRegistrationDomainModel
@@ -54,7 +67,7 @@ namespace Services.Authentication
             var user = userRepository.GetAllMatching(x => x.Email ==  model.Email).SingleOrDefault();
             if (user != null)
             {
-               throw new RulesException(nameof(model.Email), "Paskyra tokiu El.paštu jau egzistuoja.");
+               throw new RulesException(nameof(model.Email), "Paskyra tokiu el.paštu jau egzistuoja");
             }
 
             var hash = GetHash(model.Password);

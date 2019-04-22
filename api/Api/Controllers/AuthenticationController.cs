@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Models.AuthenticationModels;
@@ -25,11 +26,7 @@ namespace Api.Controllers
         [HttpGet]
         public ActionResult<UserDomainModel> Get()
         {
-            return Ok(new UserDomainModel()
-            {
-                Name = User.Identity.Name,
-                Token = ""
-            });
+            return Ok(_authenticationService.GetUserInfo<UserInfoDomainModel>(Int32.Parse(User.Identity.Name)));
         }
 
         [HttpPost]

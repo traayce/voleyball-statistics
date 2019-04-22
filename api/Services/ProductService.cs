@@ -67,7 +67,7 @@ namespace Services
             if (entity == null) return null;
 
             productRepository.Delete(entity);
-            unitOfWork.CommitChangesAsync();
+            await unitOfWork.CommitChangesAsync();
             return _mapper.Map<ProductDomainModel>(entity);
         }
 
@@ -78,7 +78,7 @@ namespace Services
 
             _mapper.Map(model, entity);
             productRepository.Edit(entity);
-            unitOfWork.CommitChangesAsync();
+            await unitOfWork.CommitChangesAsync();
             return _mapper.Map(entity, model);
         }
 

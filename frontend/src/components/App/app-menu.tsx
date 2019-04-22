@@ -3,6 +3,7 @@ import { Grid, Divider, List, ListItem, ListItemIcon, ListItemText, SwipeableDra
 import InboxIcon from "@material-ui/icons/Inbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { createStyles, WithStyles, withStyles, Theme, WithTheme } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 const drawerWidth = 240;
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -48,6 +49,16 @@ interface State {
     mobileOpen: boolean;
 }
 
+interface MenuItem {
+    name: string;
+    path: string;
+}
+const Paths: MenuItem[] = [
+    { name: "Varžybos", path: "/games" },
+    { name: "Komanda", path: "/team" },
+    { name: "Naujienos", path: "/news" },
+    { name: "Kontaktai", path: "/contacts" }];
+
 class NavigationComponentClass extends React.Component<Props, State> {
     public state: State = {
         mobileOpen: false
@@ -58,10 +69,10 @@ class NavigationComponentClass extends React.Component<Props, State> {
             <div className={toolbarClass} />
             <Divider />
             <List>
-                {["Varžybos", "Komanda", "Naujienos", "Kontaktai"].map((text, index) => (
-                    <ListItem button key={text}>
+                {Paths.map((item, index) => (
+                    <ListItem button key={item.name}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                        <Link to={item.path}><ListItemText primary={item.name} /></Link>
                     </ListItem>
                 ))}
             </List>

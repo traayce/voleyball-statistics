@@ -1,14 +1,15 @@
 import * as React from "react";
-import { Paper } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { hot } from "react-hot-loader/root";
 import { AuthenticationContainer } from "@components/authentication/components-authentication-container";
+import { HeaderComponent } from "./app-header";
 
 class AppComponentClass extends React.PureComponent {
     public render(): JSX.Element {
-        return <Paper>
+        return <Grid container >
+            <HeaderComponent isAuthenticated={true} />
             <AuthenticationContainer />
-            <div>hellsasdasdsas</div>
-        </Paper>;
+        </Grid>;
     }
 }
 export const AppComponent = hot(AppComponentClass);

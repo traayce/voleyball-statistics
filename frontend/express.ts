@@ -5,7 +5,6 @@ const portNumber = 3000;
 const sourceDir = "dist";
 
 app.use(express.static(sourceDir));
-app.use("/", frontendApp);
 const API_PATH = "http://localhost:5000";
 let proxy = require("http-proxy-middleware");
 let options = {
@@ -18,8 +17,9 @@ let options = {
   }
 };
 let prox = proxy(options);
-app.use("/api", prox);
 
+app.use("/api", prox);
+app.use("/", frontendApp);
 
 app.listen(portNumber, () => {
   console.log(`Express web server started: http://localhost:${portNumber}`);

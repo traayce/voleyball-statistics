@@ -4,8 +4,9 @@ import { devSettings } from "./configs/webpack";
 import * as webpack from "webpack";
 const express = require("express");
 const compiler = webpack(devSettings as any);
-
+const history = require("connect-history-api-fallback");
 const devMiddleware = (app: any) => {
+  app.use(history());
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: "/",

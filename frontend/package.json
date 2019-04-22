@@ -78,6 +78,7 @@
     "@types/react-redux": "^7.0.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "connect-history-api-fallback": "^1.6.0",
     "http-proxy-middleware": "^0.19.1",
     "module-alias": "^2.2.0",
     "raven-js": "^3.27.0",

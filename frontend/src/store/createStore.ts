@@ -14,5 +14,5 @@ export const storeCreator = (initialState?: IStore): Store<IStore | {}> => {
   if (devTools != null) {
     storeMiddleware = compose(storeMiddleware, devTools);
   }
-  return createStore(reducer, storeMiddleware);
+  return createStore(reducer, initialState, storeMiddleware);
 };

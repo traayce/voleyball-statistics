@@ -1,4 +1,4 @@
-import { Paper, WithStyles, withStyles, Button, FormControl, InputLabel, Input, FormHelperText } from "@material-ui/core";
+import { WithStyles, withStyles, Button, FormControl, InputLabel, Input, FormHelperText, Grid } from "@material-ui/core";
 import * as React from "react";
 import { Redirect } from "react-router";
 import { AuthenticationContainerStyles } from "./components-products-styles";
@@ -42,31 +42,28 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
                 classes
             } = this.props;
             return (
-                <Paper className={classes.Container}>
+                <Grid>
                     {this.redirectAction(redirect)}
                     {this.renderError(error)}
                     <form onSubmit={onSubmit}>
-                        <FormControl error={false}>
+                        <FormControl error={false} fullWidth>
                             <InputLabel >El. paštas</InputLabel>
                             <Input
                                 id="email"
                                 value={emailValue}
-                                type="number"
+                                type="email"
                                 placeholder="El. paštas"
-                                onChange={onEmailChange}
-                                autoFocus
-                                fullWidth />
+                                onChange={onEmailChange} />
                             <FormHelperText></FormHelperText>
                         </FormControl>
-                        <FormControl error={false}>
+                        <FormControl error={false} fullWidth>
                             <InputLabel >Slaptažodis</InputLabel>
                             <Input
-                                id="email"
+                                id="password"
                                 value={passwordValue}
-                                type="number"
+                                type="password"
                                 placeholder="Slaptažodis"
-                                onChange={onPasswordChange}
-                                fullWidth />
+                                onChange={onPasswordChange} />
                             <FormHelperText></FormHelperText>
                         </FormControl>
                         <Button type="submit" variant="contained" fullWidth >
@@ -79,7 +76,7 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
                             Registracija
                 </Button>
                     </div>
-                </Paper>
+                </Grid>
             );
         }
     });

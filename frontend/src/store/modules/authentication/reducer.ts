@@ -4,9 +4,6 @@ import { IAction } from "src/store/action";
 import { Reducer } from "redux";
 
 const defaultState: AuthenticationReducerState = {
-    token: undefined,
-    id: undefined,
-    name: undefined,
     isLoading: false
 };
 
@@ -17,27 +14,30 @@ export const authenticationReducer: Reducer<AuthenticationReducerState, IAction<
                 ...state,
                 ...action.payload,
                 isLoading: false,
-                error: undefined
+                error: false,
+                isLoggedIn: true,
             };
         case AUTH_lOGIN_ERROR:
             return {
                 ...state,
+                ...action.payload,
                 isLoggedIn: false,
                 isLoading: false,
-                token: undefined,
-                error: action.error
+                token: undefined
             };
         case AUTH_REGISTER_SUCCESS:
             return {
                 ...state,
+                ...action.payload,
                 isLoading: false,
-                error: undefined,
-                ...action
+                error: false,
+                isLoggedIn: true
             };
         case AUTH_REGISTER_ERROR:
             return {
                 ...state,
                 error: action.error,
+                ...action.payload,
                 isLoading: false
             };
         case AUTH_REGISTER_START:

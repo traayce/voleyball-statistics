@@ -90,7 +90,6 @@ class NavigationComponentClass extends React.Component<Props, State> {
 
     public render(): JSX.Element {
         const { classes, isMenuOpen, toggle } = this.props;
-        console.log(isMenuOpen);
         return <Grid>
             <nav className={classes.drawer}>
                 <SwipeableDrawer

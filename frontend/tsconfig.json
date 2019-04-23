@@ -24,9 +24,6 @@
             ],
             "@assets/*": [
                 "src/assets/*"
-            ],
-            "@types/*": [
-                "src/types/models.ts"
             ]
         },
         "plugins": [

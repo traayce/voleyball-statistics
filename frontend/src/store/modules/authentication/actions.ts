@@ -4,19 +4,36 @@ import { ThunkDispatch } from "redux-thunk";
 import { AuthenticationReducerState } from "./state";
 import { Action } from "redux";
 import { IAction } from "../../action";
+import { AxiosResponse, AxiosError } from "axios";
+import { ProblemDetails, RegistrationModel } from "src/types";
 
 type dispatchType = ThunkDispatch<AuthenticationReducerState, void, Action>;
 
-export const authenticate = (email: string, password: string) => (
+function isAxiosReponse(item: AxiosResponse<ProblemDetails>): item is AxiosResponse<ProblemDetails> {
+    return (<ProblemDetails>item.data) !== undefined;
+}
+
+
+export const authenticate = (email: string, password: string) => async (
     dispatch: dispatchType,
 ) => {
     dispatch(authenticateStart());
-    authenticationCommands
-        .authenticate(email, password)
-        .then((res) => dispatch(authenticateSuccess(res._id, res.login, res.token)))
-        .catch((err: any) => dispatch(authenticateFail(err.response)));
+    try {
+        const response = await authenticationCommands.authenticate(email, password);
+        dispatch(authenticateSuccess(response._id, response.login, response.token));
+    } catch (e) {
+        if (isAxiosError(e)) {
+            if (e.response == null) return;
+            if (isAxiosReponse(e.response)) {
+                dispatch(authenticateFail(e.response.data.Errors[""][0]));
+            }
+        }
+    }
 };
 
+function isAxiosError(instance: AxiosError): instance is AxiosError {
+    return (<AxiosError>instance) !== undefined;
+}
 const authenticateStart = (): IAction<AuthenticationReducerState> => ({
     type: AUTH_LOGIN_START
 });
@@ -30,9 +47,12 @@ const authenticateSuccess = (id: number, name: string, token: string): IAction<A
     }
 });
 
-const authenticateFail = (err: string) => ({
+const authenticateFail = (err: string): IAction<AuthenticationReducerState> => ({
     type: AUTH_lOGIN_ERROR,
-    error: err
+    error: true,
+    payload: {
+        errorMessage: err
+    }
 });
 
 // register

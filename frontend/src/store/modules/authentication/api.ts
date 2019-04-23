@@ -1,7 +1,8 @@
 import axios from "axios";
+import { RegistrationModel } from "src/types";
 const baseURL: string = "http://localhost:3000/api";
 const request = axios.create({
-    baseURL,
+    baseURL: baseURL + "/authentication",
     headers: {
         Accept: "application/json"
     }
@@ -10,27 +11,27 @@ const request = axios.create({
 export namespace authenticationCommands {
     export const authenticate = (email: string, password: string) => {
         return request
-            .post("/auth", { email, password })
+            .post("", { name: email, password })
             .then(res => res.data);
     };
 
     export const register = (model: RegistrationModel) => {
         return request
-            .put("/auth", { ...model })
+            .put("", { ...model })
             .then(res => res.data);
     };
 
     export const logout = (token: string) => {
         return request
-            .delete("/auth", { params: { token } })
+            .delete("", { params: { token } })
             .then(res => res.data);
     };
 
     export const getInfo = (token: string) => {
         return request
-            .get(`/auth`, {
+            .get(``, {
                 headers: {
-                    "x-access-token": token
+                    "Authorization": `Bearer: ${token}`
                 }
             })
             .then(res => res.data)

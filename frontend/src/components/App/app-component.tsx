@@ -5,16 +5,25 @@ import { AuthenticationContainer } from "@components/authentication/components-a
 import { HeaderComponent } from "./app-header";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ContactsComponent } from "@components/about/components-about";
-
-class AppComponentClass extends React.PureComponent {
+import { PrivateRoute } from "./app-private-route";
+import { MapStateToProps, connect } from "react-redux";
+import { IStore } from "src/store/state";
+interface ReduxProps {
+    isLoggedIn: boolean;
+}
+class AppComponentClass extends React.PureComponent<ReduxProps> {
+    public static MapStateToProps: MapStateToProps<ReduxProps, {}, IStore> = ({ authentication }) => ({
+        isLoggedIn: authentication.token !== undefined
+    })
     public render(): JSX.Element {
+        const { isLoggedIn } = this.props;
         return <Router>
             <Grid container >
-                <HeaderComponent isAuthenticated={true} />
+                <HeaderComponent isAuthenticated={isLoggedIn} />
                 <Route exact path="/" component={AuthenticationContainer} />
-                <Route path="/contacts" component={ContactsComponent} />
+                <PrivateRoute path="/contacts" component={ContactsComponent} isLoggedIn={isLoggedIn} />
             </Grid>
         </Router>;
     }
 }
-export const AppComponent = hot(AppComponentClass);
+export const AppComponent = hot(connect(AppComponentClass.MapStateToProps)(AppComponentClass));

@@ -51,7 +51,7 @@ class LoginComponentClass extends React.Component<Props, IState> {
     const stateError = this.state.error;
     const { isLoggedIn, error } = this.props;
     if (isLoggedIn) {
-      return (<Redirect to="/logout" />);
+      // return <Redirect to="/contacts" />;
     }
 
     return (
@@ -68,19 +68,19 @@ class LoginComponentClass extends React.Component<Props, IState> {
     );
   }
 
-  private handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+  private handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ name: e.target.value });
   }
 
-  private handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
+  private handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: e.target.value });
   }
 
-  private handleRedirect(e: React.MouseEvent<HTMLInputElement>) {
+  private handleRedirect = (e: React.MouseEvent<HTMLInputElement>) => {
     this.setState({ redirect: true });
   }
 
-  private handleSubmit(e: React.FormEvent<any>) {
+  private handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
     const { name, password } = this.state;
     if (!name.length || !password.length) {

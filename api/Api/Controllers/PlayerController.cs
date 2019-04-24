@@ -21,12 +21,6 @@ namespace Api.Controllers
         }
         
         [HttpGet]
-        public ActionResult<PlayerDomainModel> Get(int playerId)
-        {
-            return Ok(_playerService.Get<PlayerDomainModel>(playerId));
-        }
-        
-        [HttpGet]
         public ActionResult<IEnumerable<PlayerDomainModel>> Get(int[] playerIds)
         {
             return Ok(_playerService.GetByIds<PlayerDomainModel>(playerIds));

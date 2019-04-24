@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataAccess;
@@ -26,8 +27,9 @@ namespace Services
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));
-
-            services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingConfig>());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //services.AddAutoMapper(x => x.AddProfile<MappingConfig>());
             return services;
         }
     }

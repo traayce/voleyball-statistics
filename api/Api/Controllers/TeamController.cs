@@ -21,12 +21,6 @@ namespace Api.Controllers
         }
         
         [HttpGet]
-        public ActionResult<TeamDomainModel> Get(int teamId)
-        {
-            return Ok(_teamService.Get<TeamDomainModel>(teamId));
-        }
-        
-        [HttpGet]
         public ActionResult<IEnumerable<TeamDomainModel>> Get(int[] teamIds)
         {
             return Ok(_teamService.GetByIds<TeamDomainModel>(teamIds));

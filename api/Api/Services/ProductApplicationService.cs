@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using Api.Models.Product;
+using Api.Models.ProductModels;
 using AutoMapper;
 using ServiceContracts;
 using ServiceContracts.Models.Product;

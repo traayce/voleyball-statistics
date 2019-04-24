@@ -15,8 +15,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using ServiceContracts;
 using ServiceContracts.Authentication;
+using ServiceContracts.Services.TeamService;
 using Services;
 using Services.Authentication;
+using Services.Services.TeamService;
 using AppSettings = Api.Configurations.Common.AppSettings;
 
 namespace Api
@@ -37,6 +39,7 @@ namespace Api
             services.TryAddTransient<IProductService, ProductService>();
             services.TryAddTransient<IProductApplicationService, ProductApplicationService>();
             services.TryAddTransient<IAuthenticationService, AuthenticationService>();
+            services.TryAddTransient<ITeamService, TeamService>();
             services.AddSwaggerGen(c => c.Configure());
 
             services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));

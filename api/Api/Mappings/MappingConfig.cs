@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
-using Api.Models.Product;
+using Api.Models.ProductModels;
 using AutoMapper;
 using ServiceContracts.Models.Product;
 

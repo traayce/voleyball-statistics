@@ -4,47 +4,22 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190424101812_team-player")]
+    partial class teamplayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DataEntities.Entities.PlayerEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("Number");
-
-                    b.Property<int>("TeamEntityId");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.Property<int>("UpdatedBy");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamEntityId");
-
-                    b.ToTable("Players");
-                });
 
             modelBuilder.Entity("DataEntities.Entities.ProductEntity", b =>
                 {
@@ -75,29 +50,6 @@ namespace DataAccess.Migrations
                         .HasFilter("[Code] IS NOT NULL");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("DataEntities.Entities.TeamEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<string>("Name");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.Property<int>("UpdatedBy");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("DataEntities.Entities.UserEntity", b =>
@@ -134,14 +86,6 @@ namespace DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DataEntities.Entities.PlayerEntity", b =>
-                {
-                    b.HasOne("DataEntities.Entities.TeamEntity", "TeamEntity")
-                        .WithMany("Players")
-                        .HasForeignKey("TeamEntityId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

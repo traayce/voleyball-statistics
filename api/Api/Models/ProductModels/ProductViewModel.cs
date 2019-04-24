@@ -1,9 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 using ServiceContracts.Models.Product;
 
-namespace Api.Models.Product
+namespace Api.Models.ProductModels
 {
     public class ProductViewModel : IProductDomainModel
     {

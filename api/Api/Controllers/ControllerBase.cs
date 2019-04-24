@@ -1,5 +1,4 @@
 using System;
-using Api.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

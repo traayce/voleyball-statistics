@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Api.Models.Product;
+using Api.Models.ProductModels;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

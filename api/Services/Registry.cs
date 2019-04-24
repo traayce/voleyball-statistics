@@ -21,6 +21,8 @@ namespace Services
             services.Configure<AppSettings>(appSettingsSection);
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));

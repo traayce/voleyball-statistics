@@ -36,12 +36,8 @@ namespace Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             Registry.AddServices(services, Configuration);
-            services.TryAddTransient<IProductService, ProductService>();
-            services.TryAddTransient<IProductApplicationService, ProductApplicationService>();
-            services.TryAddTransient<IAuthenticationService, AuthenticationService>();
-            services.TryAddTransient<ITeamService, TeamService>();
             services.AddSwaggerGen(c => c.Configure());
-
+            services.ConfigureDi();
             services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));
             services.AddApiVersioning(option =>
             {

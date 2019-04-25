@@ -4,4 +4,9 @@
         <TargetFramework>netcoreapp2.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\MatchServices\MatchPointService\Models" />
+      <Folder Include="Services\MatchServices\PlayerPointService\Models" />
+    </ItemGroup>
+
 </Project>

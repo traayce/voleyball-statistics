@@ -2,11 +2,11 @@ using Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ServiceContracts;
-using ServiceContracts.Authentication;
+using ServiceContracts.Services.AuthenticationService;
 using ServiceContracts.Services.PlayerService;
 using ServiceContracts.Services.TeamService;
 using Services;
-using Services.Authentication;
+using Services.Services.AuthenticationService;
 using Services.Services.PlayerService;
 using Services.Services.TeamService;
 

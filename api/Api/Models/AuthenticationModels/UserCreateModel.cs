@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using ServiceContracts.Authentication.Models;
+using ServiceContracts.Services.UserService.Models;
 
 namespace Api.Models.AuthenticationModels
 {
-    public class UserRegistrationModel : IUserRegistrationDomainModel
+    public class UserCreateModel : IUserCreateDomainModel
     {
         [StringLength(50)]
         [Required]

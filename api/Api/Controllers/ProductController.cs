@@ -3,7 +3,7 @@ using Api.Models.ProductModels;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServiceContracts.Authentication.Models;
+using ServiceContracts.Services.AuthenticationService.Models;
 
 namespace Api.Controllers
 {

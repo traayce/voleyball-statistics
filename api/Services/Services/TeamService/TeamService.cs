@@ -12,7 +12,6 @@ using DataContracts.Base;
 using DataEntities.Entities;
 using Infrastructure;
 using Microsoft.IdentityModel.Tokens;
-using ServiceContracts.Authentication.Models;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService;
 using ServiceContracts.Services.TeamService.Models;

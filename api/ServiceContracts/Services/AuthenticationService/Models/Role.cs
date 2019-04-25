@@ -1,4 +1,4 @@
-namespace ServiceContracts.Authentication.Models
+namespace ServiceContracts.Services.AuthenticationService.Models
 {
     public static class Role
     {

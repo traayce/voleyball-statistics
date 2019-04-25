@@ -1,30 +1,30 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Models.TeamModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServiceContracts.Services.AuthenticationService.Models;
+using ServiceContracts.Authentication.Models;
 using ServiceContracts.Services.TeamService;
 using ServiceContracts.Services.TeamService.Models;
 
-namespace Api.Controllers
+namespace Api.Controllers.MatchControllers
 {
     [Authorize]
-    [Route("api/[controller]")]
-    public class TeamController: ControllerBaseCommand
+    [Route("api/match/")]
+    public class MatchController: ControllerBaseCommand
     {
         private readonly ITeamService _teamService;
 
-        public TeamController(ITeamService teamService)
+        public MatchController(ITeamService teamService)
         {
-            _teamService = teamService;
+            this._teamService = teamService;
         }
         
-        [HttpGet]
-        public ActionResult<IEnumerable<TeamDomainModel>> Get(int[] teamIds)
+        [HttpGet("{matchId}")]
+        public ActionResult<IEnumerable<TeamDomainModel>> Get(int matchId)
         {
-            return Ok(_teamService.GetByIds<TeamDomainModel>(teamIds));
+            return Ok(_teamService.GetByIds<TeamDomainModel>(matchId));
         }
 
         [Authorize(Roles = Role.Secretary)]
@@ -34,4 +34,4 @@ namespace Api.Controllers
             return Command((Func<Task<object>>) (async () => await _teamService.Save<TeamDomainModel>(model)));
         }
     }
-}
+}*/

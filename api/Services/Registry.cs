@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Repositories;
 using Repositories.Base;
-using ServiceContracts.Authentication.Models;
 using Services.Mappings;
 
 namespace Services

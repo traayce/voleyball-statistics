@@ -14,10 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using ServiceContracts;
-using ServiceContracts.Authentication;
 using ServiceContracts.Services.TeamService;
 using Services;
-using Services.Authentication;
 using Services.Services.TeamService;
 using AppSettings = Api.Configurations.Common.AppSettings;
 

@@ -28,4 +28,10 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\MatchServices\MatchPointService" />
+      <Folder Include="Services\MatchServices\MatchService" />
+      <Folder Include="Services\MatchServices\PlayerPointService" />
+    </ItemGroup>
+
 </Project>

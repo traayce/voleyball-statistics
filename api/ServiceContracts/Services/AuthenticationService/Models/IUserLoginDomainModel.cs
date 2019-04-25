@@ -1,11 +1,11 @@
-namespace ServiceContracts.Authentication.Models
+namespace ServiceContracts.Services.AuthenticationService.Models
 {
-    public interface IUserDomainModel
+    public interface IUserLoginDomainModel
     {
          string Name { get; set; }
          string Token { get; set; }
     }
-    public class UserDomainModel : IUserDomainModel
+    public class UserLoginDomainModel : IUserLoginDomainModel
     {
         public string Name { get; set; }
         public string Token { get; set; }

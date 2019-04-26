@@ -20,6 +20,11 @@ namespace Repositories.Base
             return await _dbContext.SaveChangesAsync();
         }
         
+        public int CommitChanges()
+        {
+            return _dbContext.SaveChanges();
+        }
+        
         public void Rollback()
         {
             _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());

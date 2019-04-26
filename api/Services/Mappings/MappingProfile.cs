@@ -7,9 +7,9 @@ using ServiceContracts.Services.TeamService.Models;
 
 namespace Services.Mappings
 {
-    public class MappingConfig : Profile  
+    public class MappingProfile : Profile  
     {  
-        public MappingConfig()
+        public MappingProfile()
         {
             CreateMap<ProductDomainModel, ProductEntity>()
                 .ForMember(x => x.Id, c => c.Ignore())
@@ -17,13 +17,14 @@ namespace Services.Mappings
             CreateMap<ProductEntity, ProductDomainModel>();
             
             CreateMap<TeamEntity, TeamCreateDomainModel>();
-            CreateMap<TeamCreateDomainModel, TeamEntity>()
+            
+            CreateMap<ITeamCreateDomainModel, TeamEntity>()
                 .ForMember(x => x.Players, c => c.Ignore())
                 .IgnoreAudit();
             
             CreateMap<PlayerEntity, PlayerCreateDomainModel>()
                 .ForMember(x => x.TeamId, c => c.MapFrom(x => x.TeamEntityId));
-            CreateMap<PlayerCreateDomainModel, PlayerEntity>()
+            CreateMap<IPlayerCreateDomainModel, PlayerEntity>()
                 .ForMember(x => x.TeamEntityId, c => c.MapFrom(x => x.TeamId))
                 .ForMember(x => x.TeamEntity, c => c.Ignore())
                 .IgnoreAudit();

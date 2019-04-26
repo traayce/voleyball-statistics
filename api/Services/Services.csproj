@@ -14,7 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
     </ItemGroup>
@@ -30,7 +31,6 @@
 
     <ItemGroup>
       <Folder Include="Services\MatchServices\MatchPointService" />
-      <Folder Include="Services\MatchServices\MatchService" />
       <Folder Include="Services\MatchServices\PlayerPointService" />
     </ItemGroup>
 

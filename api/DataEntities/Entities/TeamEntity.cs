@@ -12,6 +12,6 @@ namespace DataEntities.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
-        public ICollection<PlayerEntity> Players { get; set; }
+        public virtual ICollection<PlayerEntity> Players { get; set; }
     }
 }

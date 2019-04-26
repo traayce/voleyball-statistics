@@ -43,9 +43,10 @@ namespace Services.Services.TeamService
 
             return new T
             {
+                Id = team.Id,
                 Name = team.Name,
                 City = team.City,
-                Players = team.Players.Select(x => new PlayerDomainModel()
+                Players = team.Players?.Select(x => new PlayerDomainModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -62,7 +63,7 @@ namespace Services.Services.TeamService
                 {
                     Name = team.Name,
                     City = team.City,
-                    Players = team.Players.Select(x => new PlayerDomainModel()
+                    Players = team.Players?.Select(x => new PlayerDomainModel()
                     {
                         Id = x.Id,
                         Name = x.Name,
@@ -83,8 +84,9 @@ namespace Services.Services.TeamService
             if (model.Id != 0)
                 entity = await teamRepository.GetByIdAsync(model.Id);
 
-            _mapper.Map(model, entity);
-            await _unitOfWork.CommitChangesAsync();
+            Mapper.Map(model, entity);
+            teamRepository.Add(entity);
+            _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
         }

@@ -13,6 +13,7 @@ namespace DataEntities.Entities
         public int Number { get; set; }
         
         public int TeamEntityId { get; set; }
-        public TeamEntity TeamEntity { get; set; }
+        [ForeignKey("TeamEntityId")]
+        public virtual TeamEntity TeamEntity { get; set; }
     }
 }

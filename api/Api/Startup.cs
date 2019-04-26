@@ -40,7 +40,8 @@ namespace Api
             Registry.AddServices(services, Configuration);
             services.AddSwaggerGen(c => c.Configure());
             services.ConfigureDi();
-            services.AddAutoMapper(x => x.AddProfile(new MappingConfig()));
+            services.AddAutoMapper();
+            services.AddHttpContextAccessor();
             services.AddApiVersioning(option =>
             {
                 option.ReportApiVersions = true;

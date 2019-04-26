@@ -7,9 +7,11 @@ using DataContracts.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Repositories;
 using Repositories.Base;
 using Services.Mappings;
+using Services.Services.Base;
 
 namespace Services
 {
@@ -19,16 +21,15 @@ namespace Services
         {
             var appSettingsSection = configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            services.TryAddTransient<ITransactionDealerRepository, TransactionDealerRepository>();
+            services.TryAddTransient<ITransactedCaller, TransactedCaller>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));
-            Mapper.Initialize(cfg => cfg.AddProfile<MappingConfig>());
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //services.AddAutoMapper(x => x.AddProfile<MappingConfig>());
+                options.UseLazyLoadingProxies().UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));
             return services;
         }
     }

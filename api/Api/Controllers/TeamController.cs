@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.TeamService;
 using ServiceContracts.Services.TeamService.Models;
+using Services.Services.Base;
 
 namespace Api.Controllers
 {
@@ -16,7 +17,7 @@ namespace Api.Controllers
     {
         private readonly ITeamService _teamService;
 
-        public TeamController(ITeamService teamService)
+        public TeamController(ITeamService teamService, ITransactedCaller executor) : base(executor)
         {
             _teamService = teamService;
         }
@@ -31,7 +32,7 @@ namespace Api.Controllers
         [HttpPost]
         public ActionResult<TeamDomainModel> Post([FromBody] TeamCreateModel model)
         {
-            return Command((Func<Task<object>>) (async () => await _teamService.Save<TeamDomainModel>(model)));
+            return Command( async () => await _teamService.Save<TeamDomainModel>(model));
         }
     }
 }

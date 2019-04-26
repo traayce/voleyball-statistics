@@ -36,6 +36,7 @@ namespace Services.Services.PlayerService
 
             return new T
             {
+                Id = player.Id,
                 Name = player.Name,
                 Number = player.Number,
                 TeamId = player.TeamEntityId
@@ -47,6 +48,7 @@ namespace Services.Services.PlayerService
             var players = PlayerRepository.GetAllMatching(x => playerIds.Contains(x.Id)).Select(player => 
                 new T
                 {
+                    Id = player.Id,
                     Name = player.Name,
                     Number = player.Number,
                     TeamId = player.TeamEntityId
@@ -63,9 +65,9 @@ namespace Services.Services.PlayerService
             var entity = new PlayerEntity();
             if (model.Id != 0)
                 entity = await PlayerRepository.GetByIdAsync(model.Id);
-
             _mapper.Map(model, entity);
-            await _unitOfWork.CommitChangesAsync();
+            PlayerRepository.Add(entity);
+            _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
         }

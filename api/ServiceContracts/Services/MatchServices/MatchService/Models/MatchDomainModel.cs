@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService.Models;
+using ServiceContracts.Services.UserService.Models;
 
 namespace ServiceContracts.Services.MatchServices.MatchService.Models
 {
@@ -15,11 +16,11 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         
         bool IsStarted { get; set; }
         
-        int SecretaryId { get; set; }
+        IUserInfoDomainModel Secretary { get; set; }
         
-        TeamDomainModel TeamA { get; set; }
+        ITeamDomainModel TeamA { get; set; }
         
-        TeamDomainModel TeamB { get; set; }
+        ITeamDomainModel TeamB { get; set; }
     }
     
     public class MatchDomainModel : IMatchDomainModel
@@ -32,10 +33,10 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         
         public bool IsStarted { get; set; }
         
-        public int SecretaryId { get; set; }
+        public IUserInfoDomainModel Secretary { get; set; }
         
-        public TeamDomainModel TeamA { get; set; }
+        public ITeamDomainModel TeamA { get; set; }
         
-        public TeamDomainModel TeamB { get; set; }
+        public ITeamDomainModel TeamB { get; set; }
     }
 }

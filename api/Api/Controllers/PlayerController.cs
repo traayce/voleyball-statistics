@@ -6,18 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.PlayerService;
 using ServiceContracts.Services.PlayerService.Models;
+using Services.Services.Base;
 
 namespace Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class PlayerController: ControllerBase
+    public class PlayerController: ControllerBaseCommand
     {
         private readonly IPlayerService _playerService;
 
-        public PlayerController(IPlayerService playerService)
+        public PlayerController(IPlayerService playerService, ITransactedCaller executor): base(executor)
         {
-            this._playerService = playerService;
+            _playerService = playerService;
         }
         
         [HttpGet]
@@ -28,10 +29,9 @@ namespace Api.Controllers
 
         [Authorize(Roles = Role.Secretary)]
         [HttpPost]
-        public async Task<ActionResult<IUserLoginDomainModel>> Post([FromBody] PlayerCreateModel model)
+        public ActionResult<IUserLoginDomainModel> Post([FromBody] PlayerCreateModel model)
         {
-            var response = await _playerService.Save<PlayerDomainModel>(model);
-            return Ok(response);
+            return Command(async () => await _playerService.Save<PlayerDomainModel>(model));
         }
     }
 }

@@ -5,10 +5,12 @@ using ServiceContracts;
 using ServiceContracts.Services.AuthenticationService;
 using ServiceContracts.Services.PlayerService;
 using ServiceContracts.Services.TeamService;
+using ServiceContracts.Services.UserService;
 using Services;
 using Services.Services.AuthenticationService;
 using Services.Services.PlayerService;
 using Services.Services.TeamService;
+using Services.Services.UserService;
 
 namespace Api.Configurations.Common
 {
@@ -21,6 +23,7 @@ namespace Api.Configurations.Common
             services.TryAddTransient<IAuthenticationService, AuthenticationService>();
             services.TryAddTransient<ITeamService, TeamService>();
             services.TryAddTransient<IPlayerService, PlayerService>();
+            services.TryAddTransient<IUserService, UserService>();
         }
     }
 }

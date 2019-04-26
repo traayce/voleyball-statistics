@@ -32,6 +32,10 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting(option =>
+            {
+                option.LowercaseUrls = true;
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             Registry.AddServices(services, Configuration);
             services.AddSwaggerGen(c => c.Configure());
@@ -64,7 +68,6 @@ namespace Api
                         ValidateAudience = false
                     };
                 });
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

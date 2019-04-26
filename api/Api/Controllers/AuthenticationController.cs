@@ -24,9 +24,9 @@ namespace Api.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult<UserInfoDomainModel> Get()
+        public async Task<ActionResult<UserInfoDomainModel>> Get()
         {
-            return Ok(_userService.GetUserInfo<UserInfoDomainModel>(Int32.Parse(User.Identity.Name)));
+            return Ok(await _userService.GetUserInfo<UserInfoDomainModel>(Int32.Parse(User.Identity.Name)));
         }
 
         [HttpPost]

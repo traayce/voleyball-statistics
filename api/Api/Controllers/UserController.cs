@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Api.Models.AuthenticationModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService;
 using ServiceContracts.Services.AuthenticationService.Models;
@@ -16,7 +17,7 @@ namespace Api.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
 
-        public AuthenticationController(IAuthenticationService authenticationService, IUserService userService)
+        public UserController(IAuthenticationService authenticationService, IUserService userService)
         {
             _authenticationService = authenticationService;
             _userService = userService;
@@ -24,9 +25,16 @@ namespace Api.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult<UserInfoDomainModel> Get()
+        public async Task<ActionResult<UserInfoDomainModel>> Get()
         {
-            return Ok(_userService.GetUserInfo<UserInfoDomainModel>(Int32.Parse(User.Identity.Name)));
+            return Ok(await _userService.GetUserInfo<UserInfoDomainModel>(Int32.Parse(User.Identity.Name)));
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserInfoDomainModel>> Get([FromRoute] int id)
+        {
+            return Ok(await _userService.GetUserInfo<UserInfoDomainModel>(id));
         }
 
         [HttpPost]
@@ -34,6 +42,14 @@ namespace Api.Controllers
         {
             var response = await _authenticationService.Authenticate<UserLoginDomainModel>(model.Name, model.Password);
             return Ok(response);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<UserInfoDomainModel>> Patch([FromRoute] int id,
+            [FromBody] JsonPatchDocument<UserInfoDomainModel> personPatch)
+        {
+            //not yet implemented
+            return Ok();
         }
     }
 }

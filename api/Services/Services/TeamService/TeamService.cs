@@ -77,6 +77,22 @@ namespace Services.Services.TeamService
 
             return teams;
         }
+
+        public static ITeamDomainModel FormModel(TeamEntity entity)
+        {
+            return new TeamDomainModel()
+            {
+                Name = entity.Name,
+                City = entity.City,
+                Players = entity.Players?.Select(x => new PlayerDomainModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Number = x.Number,
+                    TeamId = entity.Id
+                })
+            };
+        }
         
         public async Task<T> Save<T>(ITeamCreateDomainModel model) where T: ITeamDomainModel, new()
         {

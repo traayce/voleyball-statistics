@@ -38,6 +38,17 @@ namespace Services.Services.UserService
                 Role = user.Role
             };
         }
+        
+        public static IUserInfoDomainModel FormModel(UserEntity entity)
+        {
+            return new UserInfoDomainModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Email = entity.Email,
+                Role = entity.Role
+            };
+        }
 
         public async Task<IUserInfoDomainModel> Create<T>(T model) where T : IUserCreateDomainModel
         {

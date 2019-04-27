@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DataEntities.Base;
@@ -29,5 +30,7 @@ namespace DataEntities.Entities.Match
         [ForeignKey("TeamBEntity")]
         public int TeamBId { get; set; }
         public TeamEntity TeamBEntity { get; set; }
+        
+        public virtual ICollection<MatchPointEntity> Points { get; set; }
     }
 }

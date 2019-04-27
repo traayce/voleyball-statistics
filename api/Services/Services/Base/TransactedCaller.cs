@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using DataAccess;
+using DataContracts.Base;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 
 namespace Services.Services.Base
 {

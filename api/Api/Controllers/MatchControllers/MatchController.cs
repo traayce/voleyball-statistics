@@ -1,12 +1,11 @@
-/*using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Api.Models.TeamModels;
+using Api.Models.MatchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServiceContracts.Authentication.Models;
-using ServiceContracts.Services.TeamService;
-using ServiceContracts.Services.TeamService.Models;
+using ServiceContracts.Services.AuthenticationService.Models;
+using ServiceContracts.Services.MatchServices.MatchService;
+using ServiceContracts.Services.MatchServices.MatchService.Models;
+using Services.Services.Base;
 
 namespace Api.Controllers.MatchControllers
 {
@@ -14,24 +13,24 @@ namespace Api.Controllers.MatchControllers
     [Route("api/match/")]
     public class MatchController: ControllerBaseCommand
     {
-        private readonly ITeamService _teamService;
+        private readonly IMatchService _matchService;
 
-        public MatchController(ITeamService teamService)
+        public MatchController(IMatchService matchService, ITransactedCaller executor) : base(executor)
         {
-            this._teamService = teamService;
+            _matchService = matchService;
         }
         
-        [HttpGet("{matchId}")]
-        public ActionResult<IEnumerable<TeamDomainModel>> Get(int matchId)
+        [HttpGet]
+        public ActionResult<IEnumerable<MatchDomainModel>> Get(int[] matchIds)
         {
-            return Ok(_teamService.GetByIds<TeamDomainModel>(matchId));
+            return Ok(_matchService.GetByIds<MatchDomainModel>(matchIds));
         }
 
-        [Authorize(Roles = Role.Secretary)]
         [HttpPost]
-        public ActionResult<TeamDomainModel> Post([FromBody] TeamCreateModel model)
+        [Authorize(Roles = Role.Secretary)]
+        public ActionResult<MatchDomainModel> Post([FromBody] MatchCreateModel model)
         {
-            return Command((Func<Task<object>>) (async () => await _teamService.Save<TeamDomainModel>(model)));
+            return Command( async () => await _matchService.Save<MatchDomainModel>(model));
         }
     }
-}*/
+}

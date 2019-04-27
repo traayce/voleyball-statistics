@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DataEntities.Base;
@@ -18,5 +19,7 @@ namespace DataEntities.Entities.Match
         
         public int MatchId { get; set; }
         public MatchEntity MatchEntity{ get; set; }
+        
+        public virtual ICollection<PlayerPointEntity> Players { get; set; }
     }
 }

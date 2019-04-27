@@ -1,9 +1,13 @@
 using AutoMapper;
 using DataEntities.Base;
 using DataEntities.Entities;
+using DataEntities.Entities.Match;
 using ServiceContracts.Models.Product;
+using ServiceContracts.Services.MatchServices.MatchService.Models;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService.Models;
+using Services.Services.TeamService;
+using Services.Services.UserService;
 
 namespace Services.Mappings
 {
@@ -28,6 +32,17 @@ namespace Services.Mappings
                 .ForMember(x => x.TeamEntityId, c => c.MapFrom(x => x.TeamId))
                 .ForMember(x => x.TeamEntity, c => c.Ignore())
                 .IgnoreAudit();
+            
+            CreateMap<MatchEntity, IMatchCreateDomainModel>();
+            CreateMap<IMatchCreateDomainModel, MatchEntity>()
+                .ForMember(x => x.TeamAEntity, c => c.Ignore())
+                .ForMember(x => x.TeamBEntity, c => c.Ignore())
+                .IgnoreAudit();
+            
+            CreateMap<MatchEntity, IMatchDomainModel>()
+                .ForMember(x => x.TeamA, c => c.MapFrom(x => TeamService.FormModel(x.TeamAEntity)))
+                .ForMember(x => x.TeamB, c => c.MapFrom(x => TeamService.FormModel(x.TeamBEntity)))
+                .ForMember(x => x.Secretary, c => c.MapFrom(x => UserService.FormModel(x.SecretaryEntity)));
          }  
      }
 

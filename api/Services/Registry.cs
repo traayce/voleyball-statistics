@@ -1,16 +1,14 @@
-using System;
-using System.Threading.Tasks;
-using AutoMapper;
 using DataAccess;
 using DataContracts;
 using DataContracts.Base;
+using DataContracts.MatchRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Repositories;
 using Repositories.Base;
-using Services.Mappings;
+using Repositories.MatchRepositories;
 using Services.Services.Base;
 
 namespace Services
@@ -27,6 +25,9 @@ namespace Services
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<IMatchRepository, MatchRepository>();
+            services.AddTransient<IMatchPointRepository, MatchPointRepository>();
+            services.AddTransient<IPlayerPointRepository, PlayerPointRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));

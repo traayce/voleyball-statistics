@@ -10,26 +10,9 @@ namespace DataEntities.Entities.Match
         [Key]
         public int Id { get; set; }
         
-        public ClsfPointType PointType { get; set; }
-        
-        public int PointNumber { get; set; }
-        
-        public bool IsSetPoint { get; set; }
-        
-        public bool IsMatchPoint { get; set; }
+        public int PointType { get; set; }
         
         public int MatchPointId { get; set; }
-        public MatchPointEntity MatchPointEntity{ get; set; }
-    }
-
-    public enum ClsfPointType
-    {
-        Point = 1,
-        Block = 2,
-        Assist = 3,
-        Turnover = 4,
-        Ace = 5,
-        CardYellow = 6,
-        CardRed = 7
+        public virtual MatchPointEntity MatchPointEntity{ get; set; }
     }
 }

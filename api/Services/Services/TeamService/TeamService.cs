@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService;
 using ServiceContracts.Services.TeamService.Models;
+using ServiceContracts.Services.UserService.Models;
 
 namespace Services.Services.TeamService
 {
@@ -82,6 +83,7 @@ namespace Services.Services.TeamService
         {
             return new TeamDomainModel()
             {
+                Id = entity.Id,
                 Name = entity.Name,
                 City = entity.City,
                 Players = entity.Players?.Select(x => new PlayerDomainModel()

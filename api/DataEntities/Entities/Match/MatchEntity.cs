@@ -20,16 +20,16 @@ namespace DataEntities.Entities.Match
         
         [ForeignKey("SecretaryEntity")]
         public int SecretaryId { get; set; }
-        public UserEntity SecretaryEntity { get; set; } 
+        public virtual UserEntity SecretaryEntity { get; set; } 
         
         [ForeignKey("TeamAEntity")]
         public int TeamAId { get; set; }
 
-        public TeamEntity TeamAEntity { get; set; } 
+        public virtual TeamEntity TeamAEntity { get; set; } 
         
         [ForeignKey("TeamBEntity")]
         public int TeamBId { get; set; }
-        public TeamEntity TeamBEntity { get; set; }
+        public virtual TeamEntity TeamBEntity { get; set; }
         
         public virtual ICollection<MatchPointEntity> Points { get; set; }
     }

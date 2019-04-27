@@ -3,6 +3,7 @@ using DataEntities.Base;
 using DataEntities.Entities;
 using DataEntities.Entities.Match;
 using ServiceContracts.Models.Product;
+using ServiceContracts.Services.MatchServices.MatchPointService.Models;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService.Models;
@@ -43,6 +44,13 @@ namespace Services.Mappings
                 .ForMember(x => x.TeamA, c => c.MapFrom(x => TeamService.FormModel(x.TeamAEntity)))
                 .ForMember(x => x.TeamB, c => c.MapFrom(x => TeamService.FormModel(x.TeamBEntity)))
                 .ForMember(x => x.Secretary, c => c.MapFrom(x => UserService.FormModel(x.SecretaryEntity)));
+            
+            CreateMap<MatchPointEntity, IMatchPointCreateDomainModel>();
+            CreateMap<IMatchPointCreateDomainModel, MatchPointEntity>()
+                .ForMember(x => x.MatchEntity, c => c.Ignore())
+                .IgnoreAudit();
+            
+            CreateMap<MatchPointEntity, IMatchPointDomainModel>();
          }  
      }
 

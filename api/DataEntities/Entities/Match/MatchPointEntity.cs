@@ -18,7 +18,7 @@ namespace DataEntities.Entities.Match
         public bool IsMatchPoint { get; set; }
         
         public int MatchId { get; set; }
-        public MatchEntity MatchEntity{ get; set; }
+        public virtual MatchEntity MatchEntity{ get; set; }
         
         public virtual ICollection<PlayerPointEntity> Players { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using DataEntities.Entities;
+using DataEntities.Entities.Match;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
@@ -10,7 +11,11 @@ namespace DataAccess
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<TeamEntity> Teams { get; set; }
         public DbSet<PlayerEntity> Players { get; set; }
-
+        public DbSet<MatchEntity> Matches { get; set; }
+        public DbSet<MatchPointEntity> MatchPoints { get; set; }
+        
+        public DbSet<PlayerPointEntity> PlayerPoints { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ProductEntity>()

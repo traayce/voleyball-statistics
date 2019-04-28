@@ -12,11 +12,11 @@ namespace Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class PlayerController: ControllerBaseCommand
+    public class PlayersController: ControllerBaseCommand
     {
         private readonly IPlayerService _playerService;
 
-        public PlayerController(IPlayerService playerService, ITransactedCaller executor): base(executor)
+        public PlayersController(IPlayerService playerService, ITransactedCaller executor): base(executor)
         {
             _playerService = playerService;
         }

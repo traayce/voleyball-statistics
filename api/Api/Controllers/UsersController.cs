@@ -12,12 +12,12 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
 
-        public UserController(IAuthenticationService authenticationService, IUserService userService)
+        public UsersController(IAuthenticationService authenticationService, IUserService userService)
         {
             _authenticationService = authenticationService;
             _userService = userService;

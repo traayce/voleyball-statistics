@@ -11,12 +11,12 @@ using Services.Services.Base;
 namespace Api.Controllers.MatchControllers
 {
     [Authorize]
-    [Route("api/match/[controller]")]
-    public class MatchPointController: ControllerBaseCommand
+    [Route("api/matches/[controller]")]
+    public class MatchPointsController: ControllerBaseCommand
     {
         private readonly IMatchPointService _matchPointService;
 
-        public MatchPointController(IMatchPointService matchPointService, ITransactedCaller executor) : base(executor)
+        public MatchPointsController(IMatchPointService matchPointService, ITransactedCaller executor) : base(executor)
         {
             _matchPointService = matchPointService;
         }

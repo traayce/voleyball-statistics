@@ -10,12 +10,12 @@ using Services.Services.Base;
 namespace Api.Controllers.MatchControllers
 {
     [Authorize]
-    [Route("api/match/")]
-    public class MatchController: ControllerBaseCommand
+    [Route("api/matches/")]
+    public class MatchesController: ControllerBaseCommand
     {
         private readonly IMatchService _matchService;
 
-        public MatchController(IMatchService matchService, ITransactedCaller executor) : base(executor)
+        public MatchesController(IMatchService matchService, ITransactedCaller executor) : base(executor)
         {
             _matchService = matchService;
         }

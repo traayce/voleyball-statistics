@@ -10,12 +10,12 @@ using Services.Services.Base;
 namespace Api.Controllers.MatchControllers
 {
     [Authorize]
-    [Route("api/match/[controller]")]
-    public class PlayerPointController : ControllerBaseCommand
+    [Route("api/matches/[controller]")]
+    public class PlayerPointsController : ControllerBaseCommand
     {
         private readonly IPlayerPointService _playerPointService;
 
-        public PlayerPointController(IPlayerPointService playerPointService, ITransactedCaller executor) :
+        public PlayerPointsController(IPlayerPointService playerPointService, ITransactedCaller executor) :
             base(executor)
         {
             _playerPointService = playerPointService;

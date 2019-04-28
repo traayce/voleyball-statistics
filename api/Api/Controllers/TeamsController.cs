@@ -13,11 +13,11 @@ namespace Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class TeamController: ControllerBaseCommand
+    public class TeamsController: ControllerBaseCommand
     {
         private readonly ITeamService _teamService;
 
-        public TeamController(ITeamService teamService, ITransactedCaller executor) : base(executor)
+        public TeamsController(ITeamService teamService, ITransactedCaller executor) : base(executor)
         {
             _teamService = teamService;
         }

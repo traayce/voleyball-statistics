@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ServiceContracts;
 using ServiceContracts.Services.AuthenticationService;
+using ServiceContracts.Services.MatchServices.MatchPlayerService;
 using ServiceContracts.Services.MatchServices.MatchPointService;
 using ServiceContracts.Services.MatchServices.MatchService;
 using ServiceContracts.Services.MatchServices.PlayerPointService;
@@ -11,6 +12,7 @@ using ServiceContracts.Services.TeamService;
 using ServiceContracts.Services.UserService;
 using Services;
 using Services.Services.AuthenticationService;
+using Services.Services.MatchServices.MatchPlayerService;
 using Services.Services.MatchServices.MatchPointService;
 using Services.Services.MatchServices.MatchService;
 using Services.Services.MatchServices.PlayerPointService;
@@ -33,6 +35,7 @@ namespace Api.Configurations.Common
             services.TryAddTransient<IMatchService, MatchService>();
             services.TryAddTransient<IMatchPointService, MatchPointService>();
             services.TryAddTransient<IPlayerPointService, PlayerPointService>();
+            services.TryAddTransient<IMatchPlayerService, MatchPlayerService>();
         }
     }
 }

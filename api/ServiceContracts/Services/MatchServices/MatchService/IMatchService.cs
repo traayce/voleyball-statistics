@@ -9,5 +9,6 @@ namespace ServiceContracts.Services.MatchServices.MatchService
         Task<T> Get<T>(int matchId) where T : IMatchDomainModel, new();
         IEnumerable<T> GetByIds<T>(int[] matchIds) where T : IMatchDomainModel, new();
         Task<T> Save<T>(IMatchCreateDomainModel model) where T : IMatchDomainModel, new();
+        IEnumerable<T> GetList<T>() where T : IMatchDomainModel, new();
     }
 }

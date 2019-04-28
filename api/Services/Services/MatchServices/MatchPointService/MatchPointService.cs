@@ -53,7 +53,7 @@ namespace Services.Services.MatchServices.MatchPointService
             if (model.Id != 0)
                 entity = await _matchPointRepository.GetByIdAsync(model.Id);
 
-            Mapper.Map(model, entity);
+            _mapper.Map(model, entity);
             _matchPointRepository.Add(entity);
             _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);

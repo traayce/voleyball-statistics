@@ -28,6 +28,7 @@ namespace Services
             services.AddTransient<IMatchRepository, MatchRepository>();
             services.AddTransient<IMatchPointRepository, MatchPointRepository>();
             services.AddTransient<IPlayerPointRepository, PlayerPointRepository>();
+            services.AddTransient<IMatchPlayerRepository, MatchPlayerRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));

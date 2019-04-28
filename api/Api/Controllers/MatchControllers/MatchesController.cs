@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Api.Models.MatchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.MatchServices.MatchService;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
@@ -23,7 +24,7 @@ namespace Api.Controllers.MatchControllers
         [HttpGet]
         public ActionResult<IEnumerable<MatchDomainModel>> Get(int[] matchIds)
         {
-            return Ok(_matchService.GetByIds<MatchDomainModel>(matchIds));
+            return Ok(matchIds.Any() ? _matchService.GetByIds<MatchDomainModel>(matchIds) : _matchService.GetList<MatchDomainModel>());
         }
 
         [HttpPost]

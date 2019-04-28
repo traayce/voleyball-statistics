@@ -59,5 +59,12 @@ namespace Services.Services.MatchServices.MatchService
             var response = await Get<T>(entity.Id);
             return response;
         }
+        
+        public IEnumerable<T> GetList<T>() where T: IMatchDomainModel, new()
+        {
+            var matches = matchRepository.GetAllAsync().Result.Select(match => _mapper.Map(match, new T()));
+
+            return matches;
+        }
     }
 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.MatchServices.PlayerPointService;
 using ServiceContracts.Services.MatchServices.PlayerPointService.Models;
-using ServiceContracts.Services.PlayerService.Models;
 using Services.Services.Base;
 
 namespace Api.Controllers.MatchControllers

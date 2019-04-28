@@ -10,8 +10,10 @@ namespace Api.Models.PlayerPointModels
         [Required]
         public ClsfPlayerPointType PointType { get; set; }
 
-        
         [Required]
         public int MatchPointId { get; set; }
+        
+        [Required]
+        public int PlayerId { get; set; }
     }
 }

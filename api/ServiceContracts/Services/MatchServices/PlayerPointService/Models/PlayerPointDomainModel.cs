@@ -1,5 +1,3 @@
-using DataEntities.Entities.Match;
-
 namespace ServiceContracts.Services.MatchServices.PlayerPointService.Models
 {
     public interface IPlayerPointDomainModel
@@ -9,6 +7,7 @@ namespace ServiceContracts.Services.MatchServices.PlayerPointService.Models
         ClsfPlayerPointType PointType { get; set; }
 
         int MatchPointId { get; set; }
+        int PlayerId { get; set; }
     }
 
     public class PlayerPointDomainModel : IPlayerPointDomainModel
@@ -18,5 +17,6 @@ namespace ServiceContracts.Services.MatchServices.PlayerPointService.Models
         public ClsfPlayerPointType PointType { get; set; }
 
         public int MatchPointId { get; set; }
+        public int PlayerId { get; set; }
     }
 }

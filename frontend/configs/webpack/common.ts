@@ -10,7 +10,9 @@ export const common = {
       "@reducers": resolve(__dirname, "../../src/store/modules/"),
       "@components": resolve(__dirname, "../../src/components/"),
       "@assets": resolve(__dirname, "../../src/assets/"),
-      "@types": resolve(__dirname, "../../src/types/")
+      "@types": resolve(__dirname, "../../src/types/"),
+      "@utils": resolve(__dirname, "../../src/utils/"),
+      "@store": resolve(__dirname, "../../src/store/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },

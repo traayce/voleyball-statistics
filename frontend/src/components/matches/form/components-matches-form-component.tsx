@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Paper, WithStyles, withStyles, Button, FormControl, InputLabel, Input, FormHelperText } from "@material-ui/core";
-import { ProductsContainerStyles } from "../components-products-styles";
-import { ProductFormModalComponent } from "./components-products-form-modal-component";
+import { MatchesContainerStyles } from "../components-matches-styles";
+import { MatchFormModalComponent } from "./components-matches-form-modal-component";
 import axios from "axios";
 import { ProductDTO } from "../../../store/modules/product";
 
@@ -9,7 +9,7 @@ interface OuterProps {
     editingObject?: ProductDTO;
     onFinished?(): void;
 }
-type Props = WithStyles<typeof ProductsContainerStyles> & OuterProps;
+type Props = WithStyles<typeof MatchesContainerStyles> & OuterProps;
 
 interface State {
     id: number;
@@ -25,7 +25,7 @@ interface State {
     error: string;
 }
 
-class ProductFormComponentClass extends React.PureComponent<Props> {
+class MatchFormComponentClass extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
         if (props.editingObject !== undefined) {
@@ -58,7 +58,7 @@ class ProductFormComponentClass extends React.PureComponent<Props> {
         const { classes, editingObject } = this.props;
         const { name, code, price, photo, isSubmiting, isConfirmationOpen, error, priceError, codeError, nameError } = this.state;
         return <Paper className={classes.Container}>
-            <ProductFormModalComponent
+            <MatchFormModalComponent
                 isOpen={isConfirmationOpen}
                 handleClose={this.onModalResponse} />
             <form onSubmit={this.onFormSubmit} className={classes.Center}>
@@ -113,8 +113,8 @@ class ProductFormComponentClass extends React.PureComponent<Props> {
                     type="submit"
                     variant="contained"
                     disabled={isSubmiting || (priceError !== "" || nameError !== "" || codeError !== "" || price === 0 || name === "" || code === "")}>Submit</Button>
-                    <br/>
-                    {editingObject !== undefined ? `Last Edited: ${editingObject.lastUpdated}` : null}
+                <br />
+                {editingObject !== undefined ? `Last Edited: ${editingObject.lastUpdated}` : null}
             </form>
         </Paper>;
     }
@@ -220,4 +220,4 @@ class ProductFormComponentClass extends React.PureComponent<Props> {
     }
 }
 
-export const ProductFormComponent = withStyles(ProductsContainerStyles)(ProductFormComponentClass);
+export const MatchFormComponent = withStyles(MatchesContainerStyles)(MatchFormComponentClass);

@@ -1,6 +1,6 @@
 import { AuthenticationReducerState } from "@reducers/authentication";
-import { ProductReducerState } from "@reducers/product/state";
+import { MatchReducerState } from "@reducers/match";
 export interface IStore {
-  readonly products: ProductReducerState;
+  readonly matches: MatchReducerState;
   readonly authentication: AuthenticationReducerState;
 }

@@ -54,7 +54,7 @@ interface MenuItem {
     path: string;
 }
 const Paths: MenuItem[] = [
-    { name: "Varžybos", path: "/games" },
+    { name: "Varžybos", path: "/matches" },
     { name: "Komanda", path: "/team" },
     { name: "Naujienos", path: "/news" },
     { name: "Kontaktai", path: "/contacts" }];

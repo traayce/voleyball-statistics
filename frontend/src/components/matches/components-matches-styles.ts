@@ -1,6 +1,6 @@
 import { createStyles, Theme } from "@material-ui/core/styles";
 
-export const ProductsContainerStyles = (theme: Theme) => createStyles({
+export const MatchesContainerStyles = (theme: Theme) => createStyles({
     Container: {
         maxWidth: "1000px",
         margin: "1em auto 0",

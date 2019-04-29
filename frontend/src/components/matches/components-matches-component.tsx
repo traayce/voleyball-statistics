@@ -2,16 +2,16 @@ import * as React from "react";
 import { LinearProgress, Paper, WithStyles, withStyles, Button, Card, CardActionArea, CardContent, Typography, CardActions, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from "@material-ui/core";
 import { MapStateToProps, MapDispatchToProps, connect } from "react-redux";
 import { IStore } from "../../store/state";
-import { ProductDTO } from "../../store/modules/product";
-import { ProductsContainerStyles } from "./components-products-styles";
-import { actions } from "../../store/modules/product";
+import { MatchesContainerStyles } from "./components-matches-styles";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { ProductFormComponent } from "./form/components-products-form-component";
+import { MatchFormComponent } from "./form/components-matches-form-component";
+import { MatchModel, MatchCreateModel } from "src/types";
+import { actions } from "@reducers/match";
 
 interface StateProps {
   isLoading: boolean;
-  products: Array<ProductDTO>;
+  matches: Array<MatchModel>;
   error?: boolean;
   isLoaded: boolean;
 }
@@ -20,26 +20,26 @@ interface DispatchProps {
   dispatch?: ThunkDispatch<object, void, Action<any>>;
 }
 
-type Props = StateProps & DispatchProps & WithStyles<typeof ProductsContainerStyles>;
+type Props = StateProps & DispatchProps & WithStyles<typeof MatchesContainerStyles>;
 
 interface State {
-  editingObject: ProductDTO | undefined;
+  editingObject: MatchCreateModel | undefined;
   isEditorOpen: boolean;
   searchText: string;
 }
 
-class ProductsClass extends React.Component<Props, State> {
+class MatchesClass extends React.Component<Props, State> {
   public initialState: State = {
     editingObject: undefined,
     isEditorOpen: false,
     searchText: ""
   };
   public state: State = this.initialState;
-  public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = storeState => ({
-    products: storeState.products.productsList,
-    isLoading: storeState.products.isLoading,
-    error: storeState.products.error,
-    isLoaded: storeState.products.isLoaded
+  public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = ({ matches }) => ({
+    matches: matches.matchesList,
+    isLoading: matches.isLoading,
+    error: matches.error != null,
+    isLoaded: matches.isLoaded
   })
 
   public static MapDispatchToProps: MapDispatchToProps<DispatchProps, object> = (dispatch: ThunkDispatch<object, void, Action>, props) => ({
@@ -47,9 +47,9 @@ class ProductsClass extends React.Component<Props, State> {
   })
 
   public render(): JSX.Element {
-    const { products, isLoading, error, classes, isLoaded } = this.props;
+    const { matches, isLoading, error, classes, isLoaded } = this.props;
     if (isLoaded === false && isLoading === false && error === undefined) {
-      this.getProducts();
+      this.getMatches();
     }
     if (isLoading) {
       return <Paper className={classes.Container}>
@@ -58,11 +58,11 @@ class ProductsClass extends React.Component<Props, State> {
     }
     return <Paper className={classes.Container}>
       {this.renderEditor()}
-      <div className={classes.Center}>Products ({error})
+      <div className={classes.Center}>Matches ({error})
             <br />
         <TextField
           id="standard-name"
-          label="Enter Product Name"
+          label="Enter Match Name"
           value={this.state.searchText}
           onChange={this.handleSearchTextBoxChange}
           margin="normal"
@@ -73,7 +73,7 @@ class ProductsClass extends React.Component<Props, State> {
           color="primary"
           type="submit"
           variant="contained"
-          onClick={this.getProducts}>Fetch Products</Button>
+          onClick={this.getMatches}>Fetch Matches</Button>
         <Button
           className={classes.Button}
           color="primary"
@@ -82,30 +82,30 @@ class ProductsClass extends React.Component<Props, State> {
           onClick={this.openEditor()}>Create New</Button>
       </div>
       <div>
-        {this.renderProducts(products)}
+        {this.renderMatches(matches)}
       </div>
     </Paper>;
   }
 
-  private renderProducts = (products: ProductDTO[]) => {
+  private renderMatches = (matches: MatchModel[]) => {
     const { classes } = this.props;
-    return products.map((product: ProductDTO) => (
+    return matches.map((match: MatchModel) => (
       <Card className={classes.card}>
-        <CardActionArea onClick={this.openEditor(product)}>
+        <CardActionArea onClick={this.openEditor(match)}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Product
+              Match
           </Typography>
             <Typography component="p">
-              {JSON.stringify(product)}
+              {JSON.stringify(match)}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" onClick={this.onDelete(product.id)}>
+          <Button size="small" color="primary" onClick={this.onDelete(match.id)}>
             Delete
         </Button>
-          <Button size="small" color="primary" onClick={this.openEditor(product)}>
+          <Button size="small" color="primary" onClick={this.openEditor(match)}>
             Edit
         </Button>
         </CardActions>
@@ -117,8 +117,18 @@ class ProductsClass extends React.Component<Props, State> {
     this.setState({ searchText: e.target.value });
   }
 
-  private openEditor = (product?: ProductDTO) => (e: React.MouseEvent<HTMLInputElement>) => {
-    this.setState({ editingObject: product, isEditorOpen: true });
+  private openEditor = (match?: MatchModel) => (e: React.MouseEvent<HTMLInputElement>) => {
+    this.setState({
+      editingObject: match !== undefined ? {
+        id: match.id,
+        startsAt: match.startsAt,
+        location: match.location,
+        isStarted: match.isStarted,
+        secretaryId: match.secretary.id,
+        teamAId: match.teamA.id,
+        teamBId: match.teamB.id
+      } : undefined, isEditorOpen: true
+    });
   }
 
   private renderEditor = () => {
@@ -129,10 +139,10 @@ class ProductsClass extends React.Component<Props, State> {
       open={true}
       onClose={this.onModalClose()}
     >
-      <DialogTitle id="alert-dialog-title">Product Form</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Match Form</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <ProductFormComponent editingObject={editingObject} onFinished={this.onModalClose(true)} />
+          <MatchFormComponent editingObject={editingObject} onFinished={this.onModalClose(true)} />
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -146,24 +156,24 @@ class ProductsClass extends React.Component<Props, State> {
   private onModalClose = (refetch?: boolean) => () => {
     this.setState({ editingObject: undefined, isEditorOpen: false });
     if (refetch) {
-      this.getProducts();
+      this.getMatches();
     }
   }
 
   private onDelete = (id: number) => (e: React.MouseEvent<HTMLInputElement>) => {
     const { dispatch } = this.props;
     if (dispatch != null) {
-      dispatch(actions.deleteProduct(id));
+      dispatch(actions.deleteMatch(id));
     }
-    this.getProducts();
+    this.getMatches();
   }
 
-  private getProducts = () => {
+  private getMatches = () => {
     const { dispatch } = this.props;
     const { searchText } = this.state;
     if (dispatch != null) {
-      dispatch(actions.getProducts(searchText));
+      dispatch(actions.getMatches(searchText));
     }
   }
 }
-export const ProductsListComponent = withStyles(ProductsContainerStyles)(connect(ProductsClass.MapStateToProps, ProductsClass.MapDispatchToProps)(ProductsClass));
+export const MatchesListComponent = withStyles(MatchesContainerStyles)(connect(MatchesClass.MapStateToProps, MatchesClass.MapDispatchToProps)(MatchesClass));

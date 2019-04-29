@@ -7,12 +7,13 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION__: any;
   }
 }
-
+export let ApplicationStore: Store<IStore | {}>;
 export const storeCreator = (initialState?: IStore): Store<IStore | {}> => {
   let storeMiddleware = applyMiddleware(...middleware);
   const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
   if (devTools != null) {
     storeMiddleware = compose(storeMiddleware, devTools);
   }
-  return createStore(reducer, initialState, storeMiddleware);
+  ApplicationStore = createStore(reducer, initialState, storeMiddleware);
+  return ApplicationStore;
 };

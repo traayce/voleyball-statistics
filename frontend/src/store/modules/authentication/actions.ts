@@ -3,7 +3,7 @@ import { authenticationCommands } from "./api";
 import { ThunkDispatch } from "redux-thunk";
 import { AuthenticationReducerState } from "./state";
 import { Action } from "redux";
-import { IAction } from "../../action";
+import { IAction, ResolveAxiosError } from "../../action";
 import { AxiosResponse, AxiosError } from "axios";
 import { ProblemDetails, RegistrationModel } from "src/types";
 
@@ -25,7 +25,7 @@ export const authenticate = (email: string, password: string) => async (
         if (isAxiosError(e)) {
             if (e.response == null) return;
             if (isAxiosReponse(e.response)) {
-                dispatch(authenticateFail(e.response.data.Errors[""][0]));
+                dispatch(authenticateFail(ResolveAxiosError(e)));
             }
         }
     }

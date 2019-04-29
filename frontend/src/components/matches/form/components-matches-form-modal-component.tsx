@@ -6,7 +6,7 @@ interface Props {
     handleClose(isConfirm: boolean): () => void;
 }
 
-export class ProductFormModalComponent extends React.PureComponent<Props> {
+export class MatchFormModalComponent extends React.PureComponent<Props> {
     public render(): JSX.Element {
         const { isOpen, handleClose } = this.props;
         return <Dialog

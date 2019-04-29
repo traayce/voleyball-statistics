@@ -51,7 +51,7 @@ class LoginComponentClass extends React.Component<Props, IState> {
     const stateError = this.state.error;
     const { isLoggedIn, error } = this.props;
     if (isLoggedIn) {
-      // return <Redirect to="/contacts" />;
+      return <Redirect to="/contacts" />;
     }
 
     return (

@@ -4,6 +4,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { NavigationComponent } from "./app-menu";
+import { withRouter, RouteComponentProps } from "react-router";
 const styles = () => createStyles({
     root: {
         flexGrow: 1,
@@ -21,7 +22,7 @@ interface OwnProps {
     isAuthenticated: boolean;
 }
 
-type Props = OwnProps & WithStyles<typeof styles>;
+type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 
 interface State {
     anchorEl: HTMLElement | null;
@@ -46,9 +47,13 @@ class HeaderComponentClass extends React.Component<Props, State> {
         this.setState(state => ({ isNavigationMenuOpen: !state.isNavigationMenuOpen }));
     }
 
-    public render(): JSX.Element {
+    public render(): JSX.Element | null {
         const { classes, isAuthenticated } = this.props;
         const { anchorEl, isNavigationMenuOpen } = this.state;
+        console.log(this.props.location.pathname);
+        if (this.props.location.pathname.includes("/matches/")) {
+            return null;
+        }
         const open = Boolean(anchorEl);
         return <Grid>
             <CssBaseline />
@@ -99,4 +104,4 @@ class HeaderComponentClass extends React.Component<Props, State> {
     }
 }
 
-export const HeaderComponent = withStyles(styles)(HeaderComponentClass);
+export const HeaderComponent = withRouter(withStyles(styles)(HeaderComponentClass));

@@ -84,7 +84,7 @@
     "raven-js": "^3.27.0",
     "react-redux": "^6.0.0",
     "react-router": "^5.0.0",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "typescript-tslint-plugin": "^0.2.1"

@@ -17,15 +17,15 @@ export const matchesReducer: Reducer<MatchReducerState, IAction<MatchReducerStat
                 ...state,
                 ...action.payload,
                 isLoading: false,
-                error: undefined,
+                error: "",
                 isLoaded: true
             };
         case MATCH_LIST_FETCH_ERROR:
             return {
                 ...state,
+                ...action.payload,
                 isLoading: false,
                 matchesList: [],
-                error: action.error,
                 isLoaded: true
             };
         case MATCH_LIST_FETCH_START:

@@ -8,7 +8,7 @@ import { ContactsComponent } from "@components/about/components-about";
 import { PrivateRoute } from "./app-private-route";
 import { MapStateToProps, connect } from "react-redux";
 import { IStore } from "src/store/state";
-import { MatchContainer } from "@components/matches/components-matches-container";
+import { MatchListContainer, MatchContainer } from "@components/matches";
 interface ReduxProps {
     isLoggedIn: boolean;
 }
@@ -19,10 +19,11 @@ class AppComponentClass extends React.PureComponent<ReduxProps> {
     public render(): JSX.Element {
         const { isLoggedIn } = this.props;
         return <Router>
-            <Grid container style={{ margin: "4em auto 0" }} >
+            <Grid container style={{ height: "100%" }}>
                 <HeaderComponent isAuthenticated={isLoggedIn} />
                 <Route exact path="/" component={AuthenticationContainer} />
-                <Route exact path="/matches" component={MatchContainer} />
+                <Route path={`/matches/:id`} component={MatchContainer} />
+                <Route exact path="/matches" component={MatchListContainer} />
                 <PrivateRoute path="/contacts" component={ContactsComponent} isLoggedIn={isLoggedIn} />
             </Grid>
         </Router>;

@@ -3,10 +3,10 @@ import { Paper, WithStyles, withStyles, Button, FormControl, InputLabel, Input, 
 import { MatchesContainerStyles } from "../components-matches-styles";
 import { MatchFormModalComponent } from "./components-matches-form-modal-component";
 import axios from "axios";
-import { ProductDTO } from "../../../store/modules/product";
+import { MatchCreateModel } from "src/types";
 
 interface OuterProps {
-    editingObject?: ProductDTO;
+    editingObject?: MatchCreateModel;
     onFinished?(): void;
 }
 type Props = WithStyles<typeof MatchesContainerStyles> & OuterProps;
@@ -29,13 +29,13 @@ class MatchFormComponentClass extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
         if (props.editingObject !== undefined) {
-            const { name, code, price, id } = props.editingObject;
+            const { location, id, secretaryId } = props.editingObject;
             this.state = {
                 ...this.state,
                 id: id,
-                name: name,
-                code: code,
-                price: price
+                name: location,
+                code: location,
+                price: secretaryId
             };
         }
     }
@@ -114,7 +114,7 @@ class MatchFormComponentClass extends React.PureComponent<Props> {
                     variant="contained"
                     disabled={isSubmiting || (priceError !== "" || nameError !== "" || codeError !== "" || price === 0 || name === "" || code === "")}>Submit</Button>
                 <br />
-                {editingObject !== undefined ? `Last Edited: ${editingObject.lastUpdated}` : null}
+                {editingObject !== undefined ? `Last Edited: ${editingObject.startsAt}` : null}
             </form>
         </Paper>;
     }

@@ -11,4 +11,4 @@ class MatchContainerClass extends React.PureComponent<WithStyles<typeof MatchesC
         </Paper>;
     }
 }
-export const MatchContainer = withStyles(MatchesContainerStyles)(MatchContainerClass);
+export const MatchListContainer = withStyles(MatchesContainerStyles)(MatchContainerClass);

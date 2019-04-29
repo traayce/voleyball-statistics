@@ -1,7 +1,7 @@
 import * as React from "react";
 import { LinearProgress, Paper, WithStyles, withStyles, Button, Card, CardActionArea, CardContent, Typography, CardActions, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from "@material-ui/core";
 import { MapStateToProps, MapDispatchToProps, connect } from "react-redux";
-import { IStore } from "../../store/state";
+import { IStore } from "../../../store/state";
 import { MatchesContainerStyles } from "./components-matches-styles";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";

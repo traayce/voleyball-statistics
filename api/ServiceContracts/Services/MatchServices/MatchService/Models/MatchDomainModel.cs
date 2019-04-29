@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ServiceContracts.Services.MatchServices.MatchPlayerService.Models;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService.Models;
 using ServiceContracts.Services.UserService.Models;
@@ -21,6 +22,8 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         ITeamDomainModel TeamA { get; set; }
         
         ITeamDomainModel TeamB { get; set; }
+        
+        IEnumerable<IMatchPlayerDomainModel> MatchPlayers { get; set; }
     }
     
     public class MatchDomainModel : IMatchDomainModel
@@ -38,5 +41,7 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         public ITeamDomainModel TeamA { get; set; }
         
         public ITeamDomainModel TeamB { get; set; }
+
+        public IEnumerable<IMatchPlayerDomainModel> MatchPlayers { get; set; }
     }
 }

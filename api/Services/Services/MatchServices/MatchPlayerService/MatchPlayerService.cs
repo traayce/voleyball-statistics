@@ -59,5 +59,10 @@ namespace Services.Services.MatchServices.MatchPlayerService
             var response = await Get<T>(entity.Id);
             return response;
         }
+        
+        public static IMatchPlayerDomainModel FormModel(MatchPlayerEntity entity)
+        {
+            return Mapper.Map(entity, new MatchPlayerDomainModel());
+        }
     }
 }

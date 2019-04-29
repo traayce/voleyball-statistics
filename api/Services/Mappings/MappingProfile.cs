@@ -1,12 +1,15 @@
+using System.Linq;
 using AutoMapper;
 using DataEntities.Base;
 using DataEntities.Entities;
 using DataEntities.Entities.Match;
 using ServiceContracts.Models.Product;
+using ServiceContracts.Services.MatchServices.MatchPlayerService.Models;
 using ServiceContracts.Services.MatchServices.MatchPointService.Models;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService.Models;
+using Services.Services.MatchServices.MatchPlayerService;
 using Services.Services.TeamService;
 using Services.Services.UserService;
 
@@ -43,7 +46,8 @@ namespace Services.Mappings
             CreateMap<MatchEntity, IMatchDomainModel>()
                 .ForMember(x => x.TeamA, c => c.MapFrom(x => TeamService.FormModel(x.TeamAEntity)))
                 .ForMember(x => x.TeamB, c => c.MapFrom(x => TeamService.FormModel(x.TeamBEntity)))
-                .ForMember(x => x.Secretary, c => c.MapFrom(x => UserService.FormModel(x.SecretaryEntity)));
+                .ForMember(x => x.Secretary, c => c.MapFrom(x => UserService.FormModel(x.SecretaryEntity)))
+                .ForMember(x => x.MatchPlayers, c => c.MapFrom(x => x.MatchPlayers.Select(MatchPlayerService.FormModel)));
             
             CreateMap<MatchPointEntity, IMatchPointCreateDomainModel>();
             CreateMap<IMatchPointCreateDomainModel, MatchPointEntity>()
@@ -51,6 +55,14 @@ namespace Services.Mappings
                 .IgnoreAudit();
             
             CreateMap<MatchPointEntity, IMatchPointDomainModel>();
+            
+            CreateMap<MatchPlayerEntity, IMatchPlayerCreateDomainModel>();
+            CreateMap<IMatchPlayerCreateDomainModel, MatchPlayerEntity>()
+                .ForMember(x => x.MatchEntity, c => c.Ignore())
+                .ForMember(x => x.PlayerEntity, c => c.Ignore())
+                .IgnoreAudit();
+            
+            CreateMap<MatchPlayerEntity, IMatchPlayerDomainModel>();
          }  
      }
 

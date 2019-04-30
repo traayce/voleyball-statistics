@@ -1,12 +1,12 @@
 
 import * as React from "react";
 import { Grid, Typography, createStyles, WithStyles, withStyles } from "@material-ui/core";
-
+import Person from "@material-ui/icons/Person";
 const styles = () => createStyles({
     Player: {
         width: "85px",
         height: "85px",
-        backgroundColor: "red",
+        backgroundColor: "white",
         border: "5px solid black"
     },
     PlayerNumber: {
@@ -15,7 +15,9 @@ const styles = () => createStyles({
         flexDirection: "column",
         textAlign: "center",
         width: "100%",
-        fontSize: "3em"
+    },
+    Number: {
+        fontSize: "2em"
     }
 });
 interface OwnProps {
@@ -27,7 +29,13 @@ class MatchPlayerClass extends React.PureComponent<Props> {
     public render(): JSX.Element {
         const { classes, playerNumber } = this.props;
         return <Grid container className={classes.Player}>
-            <Typography className={classes.PlayerNumber}>{playerNumber}</Typography>
+            <Grid className={classes.PlayerNumber}
+                direction="column"
+                justify="center"
+                alignItems="center">
+                <Person fontSize="large" />
+                <Typography className={classes.Number}>{playerNumber}</Typography>
+            </Grid>
         </Grid>;
     }
 }

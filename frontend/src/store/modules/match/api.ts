@@ -8,10 +8,14 @@ const request = axios.create({
         Accept: "application/json"
     }
 });
+
 export namespace matchCommands {
-    export const getMatches = (): Promise<AxiosResponse<MatchModel[]>> => {
+    export const get = (ids: string[]): Promise<AxiosResponse<MatchModel[]>> => {
         return request
-            .get<MatchModel[]>(``, GetRequestHeader())
+            .get<MatchModel[]>(``, {
+                ...GetRequestHeader(),
+                params: { matchIds: ids }
+            })
             .then(res => res)
             .catch(err => err);
     };

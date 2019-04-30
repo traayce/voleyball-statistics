@@ -6,11 +6,11 @@ import { MatchReducerState } from "./state";
 import { IAction } from "@store/action";
 import { MatchModel } from "src/types";
 
-export const getMatches = (searchText: string) => {
+export const getMatches = (ids: string[] = []) => {
     return async (dispatch: ThunkDispatch<MatchReducerState, void, Action>) => {
         dispatch(getMatchesStart());
         try {
-            const response = await matchCommands.getMatches();
+            const response = await matchCommands.get(ids);
             dispatch(getMatchesSuccess(response.data));
         }
         catch (e) {
@@ -43,6 +43,6 @@ const getMatchesStart = (): IAction<MatchReducerState> => ({
 
 export const deleteMatch = (id: number) => {
     return async () => {
-        matchCommands.deleteMatch(id);
+        matchCommands.delete(id);
     };
 };

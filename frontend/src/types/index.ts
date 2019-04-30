@@ -50,6 +50,7 @@ export interface MatchPlayerModel {
     isOnCourt: boolean;
     player: PlayerModel;
     matchId: number;
+    teamId: number;
 }
 
 export interface MatchPlayerCreateModel {
@@ -57,6 +58,7 @@ export interface MatchPlayerCreateModel {
     isOnCourt: boolean;
     playerId: number;
     matchId: number;
+    teamId: number;
 }
 
 export interface MatchPointModel {

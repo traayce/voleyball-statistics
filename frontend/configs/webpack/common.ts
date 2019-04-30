@@ -12,7 +12,8 @@ export const common = {
       "@assets": resolve(__dirname, "../../src/assets/"),
       "@types": resolve(__dirname, "../../src/types/"),
       "@utils": resolve(__dirname, "../../src/utils/"),
-      "@store": resolve(__dirname, "../../src/store/")
+      "@store": resolve(__dirname, "../../src/store/"),
+      "@api": resolve(__dirname, "../../src/api/")
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },

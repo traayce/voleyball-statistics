@@ -170,9 +170,8 @@ class MatchesClass extends React.Component<Props, State> {
 
   private getMatches = () => {
     const { dispatch } = this.props;
-    const { searchText } = this.state;
     if (dispatch != null) {
-      dispatch(actions.getMatches(searchText));
+      dispatch(actions.getMatches());
     }
   }
 }

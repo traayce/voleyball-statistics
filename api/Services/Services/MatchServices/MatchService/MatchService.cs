@@ -54,7 +54,15 @@ namespace Services.Services.MatchServices.MatchService
                 entity = await matchRepository.GetByIdAsync(model.Id);
 
             Mapper.Map(model, entity);
-            matchRepository.Add(entity);
+            if (entity.Id != 0)
+            {
+                matchRepository.Edit(entity);
+            }
+            else
+            {
+                matchRepository.Add(entity);
+            }
+
             _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
@@ -65,6 +73,16 @@ namespace Services.Services.MatchServices.MatchService
             var matches = matchRepository.GetAllAsync().Result.Select(match => _mapper.Map(match, new T()));
 
             return matches;
+        }
+        
+        public async Task<T> GetCreateModel<T>(int id) where T: IMatchCreateDomainModel, new()
+        {
+            var match = await matchRepository.GetByIdAsync(id);
+
+            if (match == null)
+                throw new RulesException("Komanda tokiu Id neegzistuoja");
+            var model = _mapper.Map(match, new T());
+            return model;
         }
     }
 }

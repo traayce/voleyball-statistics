@@ -18,6 +18,8 @@ namespace DataEntities.Entities.Match
         
         public bool IsStarted { get; set; }
         
+        public bool IsFinished { get; set; }
+        
         [ForeignKey("SecretaryEntity")]
         public int SecretaryId { get; set; }
         public virtual UserEntity SecretaryEntity { get; set; } 

@@ -9,6 +9,8 @@ namespace ServiceContracts.Services.MatchServices.MatchPlayerService.Models
         int PlayerId { get; set; }
 
         int MatchId { get; set; }
+        
+        int TeamId { get; set; }
     }
 
     public class MatchPlayerCreateDomainModel : IMatchPlayerCreateDomainModel

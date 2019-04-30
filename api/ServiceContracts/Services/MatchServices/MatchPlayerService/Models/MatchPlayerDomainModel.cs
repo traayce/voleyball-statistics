@@ -11,6 +11,8 @@ namespace ServiceContracts.Services.MatchServices.MatchPlayerService.Models
          IPlayerDomainModel PlayerEntity { get; set; }
 
          int MatchId { get; set; }
+         
+         int TeamId { get; set; }
     }
 
     public class MatchPlayerDomainModel : IMatchPlayerDomainModel

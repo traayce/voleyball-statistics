@@ -17,6 +17,8 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         
         bool IsStarted { get; set; }
         
+        bool IsFinished { get; set; }
+        
         IUserInfoDomainModel Secretary { get; set; }
         
         ITeamDomainModel TeamA { get; set; }
@@ -35,6 +37,8 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         public string Location { get; set; }
         
         public bool IsStarted { get; set; }
+        
+        public bool IsFinished { get; set; }
         
         public IUserInfoDomainModel Secretary { get; set; }
         

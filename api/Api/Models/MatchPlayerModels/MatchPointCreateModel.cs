@@ -14,5 +14,8 @@ namespace Api.Models.MatchPlayerModels
 
         [Required]
         public int MatchId { get; set; }
+        
+        [Required]
+        public int TeamId { get; set; }
     }
 }

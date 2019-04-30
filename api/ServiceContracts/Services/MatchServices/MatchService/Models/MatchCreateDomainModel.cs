@@ -17,6 +17,8 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
          int TeamAId { get; set; }
         
          int TeamBId { get; set; }
+         
+         bool IsFinished { get; set; }
     }
     
     public class MatchCreateDomainModel : IMatchCreateDomainModel
@@ -28,6 +30,8 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         public string Location { get; set; }
         
         public bool IsStarted { get; set; }
+        
+        public bool IsFinished { get; set; }
         
         public int SecretaryId { get; set; }
         

@@ -22,5 +22,7 @@ namespace ServiceContracts.Services.MatchServices.MatchPlayerService.Models
         public IPlayerDomainModel PlayerEntity { get; set; }
 
         public int MatchId { get; set; }
+        
+        public int TeamId { get; set; }
     }
 }

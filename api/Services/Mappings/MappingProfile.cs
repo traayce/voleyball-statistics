@@ -60,6 +60,7 @@ namespace Services.Mappings
             CreateMap<IMatchPlayerCreateDomainModel, MatchPlayerEntity>()
                 .ForMember(x => x.MatchEntity, c => c.Ignore())
                 .ForMember(x => x.PlayerEntity, c => c.Ignore())
+                .ForMember(x => x.TeamEntity, c => c.Ignore())
                 .IgnoreAudit();
             
             CreateMap<MatchPlayerEntity, IMatchPlayerDomainModel>();

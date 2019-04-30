@@ -19,5 +19,9 @@ namespace DataEntities.Entities.Match
         public int MatchId { get; set; }
 
         public virtual MatchEntity MatchEntity { get; set; }
+        
+        public int TeamId { get; set; }
+        
+        public virtual TeamEntity TeamEntity { get; set; }
     }
 }

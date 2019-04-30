@@ -1,11 +1,15 @@
 
-import { IStore } from "src/store/state";
-import { ApplicationStore } from "@store/createStore";
 export const GetRequestHeader = () => {
-    const { authentication } = ApplicationStore.getState() as IStore;
+    // const { authentication } = ApplicationStore.getState() as IStore;
+
+    const auth = localStorage.getItem("auth");
+    let preloadedAuth;
+    if (auth !== null) {
+        preloadedAuth = JSON.parse(auth);
+    }
     return ({
         headers: {
-            "Authorization": `Bearer ${authentication.token}`
+            "Authorization": `Bearer ${preloadedAuth.token}`
         }
     });
 };

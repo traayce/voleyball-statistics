@@ -44,7 +44,7 @@ class MatchComponentClass extends React.PureComponent<Props> {
     public render(): JSX.Element {
         const { classes } = this.props;
         console.log(this.props);
-        const { id, isLoading, error, isLoaded, match } = this.props;
+        const { id, isLoading, error, isLoaded } = this.props;
 
         if (isLoaded === false && isLoading === false && error === undefined) {
             this.getMatches(id);

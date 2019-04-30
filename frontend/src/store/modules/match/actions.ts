@@ -43,6 +43,6 @@ const getMatchesStart = (): IAction<MatchReducerState> => ({
 
 export const deleteMatch = (id: number) => {
     return async () => {
-        matchCommands.delete(id);
+        matchCommands.deleteMatch(id);
     };
 };

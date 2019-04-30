@@ -2,7 +2,7 @@ import { createStyles, Theme } from "@material-ui/core/styles";
 
 export const MatchesContainerStyles = (theme: Theme) => createStyles({
     Container: {
-        maxWidth: "1000px",
+        width: "95%",
         margin: "1em auto 0",
         padding: "1em",
         flexGgrow: 1,

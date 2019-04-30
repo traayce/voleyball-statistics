@@ -6,7 +6,7 @@ import axios from "axios";
 import { MatchCreateModel } from "src/types";
 
 interface OuterProps {
-    editingObject?: MatchCreateModel;
+    model?: MatchCreateModel;
     onFinished?(): void;
 }
 type Props = WithStyles<typeof MatchesContainerStyles> & OuterProps;
@@ -28,8 +28,8 @@ interface State {
 class MatchFormComponentClass extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
-        if (props.editingObject !== undefined) {
-            const { location, id, secretaryId } = props.editingObject;
+        if (props.model !== undefined) {
+            const { location, id, secretaryId } = props.model;
             this.state = {
                 ...this.state,
                 id: id,
@@ -55,8 +55,9 @@ class MatchFormComponentClass extends React.PureComponent<Props> {
     public state: State = this.initialState;
 
     public render(): JSX.Element {
-        const { classes, editingObject } = this.props;
+        const { classes, model } = this.props;
         const { name, code, price, photo, isSubmiting, isConfirmationOpen, error, priceError, codeError, nameError } = this.state;
+        console.log(model);
         return <Paper className={classes.Container}>
             <MatchFormModalComponent
                 isOpen={isConfirmationOpen}
@@ -95,26 +96,22 @@ class MatchFormComponentClass extends React.PureComponent<Props> {
                 <div>
                     {photo != null ? photo.name : null}
                 </div>
-                <Button
+                {!model.isStarted && <Button
                     className={classes.Button}
                     variant="contained"
                     color="primary"
                     component="label"
-                >Upload File
-                        <input
-                        type="file"
-                        style={{ display: "none" }}
-                        onChange={this.onChange} />
-                </Button>
+                >Pradėti rungtynes
+                </Button>}
                 <br />
                 <Button
                     className={classes.Button}
                     color="primary"
                     type="submit"
                     variant="contained"
-                    disabled={isSubmiting || (priceError !== "" || nameError !== "" || codeError !== "" || price === 0 || name === "" || code === "")}>Submit</Button>
+                    disabled={isSubmiting || (priceError !== "" || nameError !== "" || codeError !== "" || price === 0 || name === "" || code === "")}>Išsaugoti</Button>
                 <br />
-                {editingObject !== undefined ? `Last Edited: ${editingObject.startsAt}` : null}
+                {model !== undefined ? `Varžybos prasideda: ${model.startsAt}` : null}
             </form>
         </Paper>;
     }
@@ -209,15 +206,6 @@ class MatchFormComponentClass extends React.PureComponent<Props> {
                 [name]: event.target.value,
             });
         }
-
-    private onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files == null || e.target.files.length === 0)
-            return;
-        const files = Array.from(e.target.files);
-        this.setState({
-            photo: files[0]
-        });
-    }
 }
 
 export const MatchFormComponent = withStyles(MatchesContainerStyles)(MatchFormComponentClass);

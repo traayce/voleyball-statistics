@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LinearProgress, Paper, WithStyles, withStyles, Button, Card, CardActionArea, CardContent, Typography, CardActions, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from "@material-ui/core";
+import { LinearProgress, WithStyles, withStyles, Button, Card, CardActionArea, CardContent, Typography, CardActions, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Grid } from "@material-ui/core";
 import { MapStateToProps, MapDispatchToProps, connect } from "react-redux";
 import { IStore } from "../../../store/state";
 import { MatchesContainerStyles } from "./components-matches-styles";
@@ -52,11 +52,11 @@ class MatchesClass extends React.Component<Props, State> {
       this.getMatches();
     }
     if (isLoading) {
-      return <Paper className={classes.Container}>
+      return <Grid className={classes.Container}>
         <LinearProgress />
-      </Paper>;
+      </Grid>;
     }
-    return <Paper className={classes.Container}>
+    return <Grid className={classes.Container}>
       {this.renderEditor()}
       <div className={classes.Center}>Matches ({error})
             <br />
@@ -84,7 +84,7 @@ class MatchesClass extends React.Component<Props, State> {
       <div>
         {this.renderMatches(matches)}
       </div>
-    </Paper>;
+    </Grid>;
   }
 
   private renderMatches = (matches: MatchModel[]) => {
@@ -142,7 +142,7 @@ class MatchesClass extends React.Component<Props, State> {
       <DialogTitle id="alert-dialog-title">Match Form</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <MatchFormComponent editingObject={editingObject} onFinished={this.onModalClose(true)} />
+          <MatchFormComponent model={editingObject} onFinished={this.onModalClose(true)} />
         </DialogContentText>
       </DialogContent>
       <DialogActions>

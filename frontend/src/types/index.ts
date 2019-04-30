@@ -95,6 +95,7 @@ export interface MatchModel {
     startsAt: Date;
     location: string;
     isStarted: boolean;
+    isFinished: boolean;
     secretary: UserInfoModel;
     teamA: TeamModel;
     teamB: TeamModel;
@@ -106,6 +107,7 @@ export interface MatchCreateModel {
     startsAt: Date;
     location: string;
     isStarted: boolean;
+    isFinished: boolean;
     secretaryId: number;
     teamAId: number;
     teamBId: number;

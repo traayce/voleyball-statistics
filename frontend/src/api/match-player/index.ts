@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { request } from "../base";
 import { MatchPlayerModel, MatchPlayerCreateModel } from "src/types";
 
-export namespace matchPlayerCommands {
+export namespace matchPlayerApiCommands {
     export const get = (ids: string[]): Promise<AxiosResponse<MatchPlayerModel[]>> => {
         return request
             .get<MatchPlayerModel[]>(`/matches/MatchPlayers`,

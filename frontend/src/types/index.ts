@@ -63,7 +63,7 @@ export interface MatchPlayerCreateModel {
 
 export interface MatchPointModel {
     id: number;
-    pointNumber: number;
+    setNumber: number;
     isSetPoint: boolean;
     isMatchPoint: boolean;
     matchId: number;
@@ -101,7 +101,7 @@ export interface MatchModel {
     teamA: TeamModel;
     teamB: TeamModel;
     matchPlayers: MatchPlayerModel[];
-    points: MatchPointsSummaryModel;
+    pointsSummary: MatchPointsSummaryModel;
 }
 
 export interface MatchCreateModel {
@@ -119,7 +119,9 @@ export interface MatchPointsSummaryModel {
     setNumber: number;
     teamAPoints: number;
     teamBPoints: number;
-    points: MatchPointModel;
+    teamASetPoints: number;
+    teamBSetPoints: number;
+    points: MatchPointModel[];
 }
 
 // match end

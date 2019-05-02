@@ -82,6 +82,7 @@
     "http-proxy-middleware": "^0.19.1",
     "module-alias": "^2.2.0",
     "raven-js": "^3.27.0",
+    "react-notifications": "^1.4.3",
     "react-redux": "^6.0.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",

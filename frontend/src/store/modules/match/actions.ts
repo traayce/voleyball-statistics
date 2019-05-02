@@ -14,8 +14,7 @@ export const getMatches = (ids: string[] = []) => {
             dispatch(getMatchesSuccess(response.data));
         }
         catch (e) {
-            console.log(e)
-            debugger;
+            console.log(e);
             dispatch(getMatchesFail("error occured while gettind matches list"));
         }
     };

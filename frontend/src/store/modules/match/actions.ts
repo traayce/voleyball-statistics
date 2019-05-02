@@ -1,4 +1,4 @@
-import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_ERROR } from "./constants";
+import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_INVALIDATE } from "./constants";
 import { matchCommands } from "./api";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -14,9 +14,17 @@ export const getMatches = (ids: string[] = []) => {
             dispatch(getMatchesSuccess(response.data));
         }
         catch (e) {
+            console.log(e)
+            debugger;
             dispatch(getMatchesFail("error occured while gettind matches list"));
         }
     };
+};
+
+export const invalidateData = (): IAction<MatchReducerState> => {
+    return ({
+        type: MATCH_LIST_FETCH_INVALIDATE
+    });
 };
 
 const getMatchesSuccess = (res: Array<MatchModel>): IAction<MatchReducerState> => {

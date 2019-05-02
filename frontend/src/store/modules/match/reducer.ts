@@ -1,4 +1,4 @@
-import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_START } from "./constants";
+import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_INVALIDATE } from "./constants";
 import { MatchReducerState } from "./state";
 import { IAction } from "src/store/action";
 import { Reducer } from "redux";
@@ -34,6 +34,13 @@ export const matchesReducer: Reducer<MatchReducerState, IAction<MatchReducerStat
                 isLoading: true,
                 error: undefined,
                 isLoaded: false
+            };
+        case MATCH_LIST_FETCH_INVALIDATE:
+            return {
+                ...state,
+                isLoading: false,
+                isLoaded: false,
+                error: undefined
             };
         default:
             return state;

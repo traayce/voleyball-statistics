@@ -28,7 +28,7 @@ export const MatchesContainerStyles = (theme: Theme) => createStyles({
     backgroundRepeat: "no-repeat",
     backgroundSize: "100% 100%",
     width: "100%",
-    height: "80%",
+    height: "75%",
     minHeight: "350px"
   },
   TextField: {

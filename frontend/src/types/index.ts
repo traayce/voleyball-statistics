@@ -65,13 +65,14 @@ export interface MatchPointModel {
     id: number;
     pointNumber: number;
     isSetPoint: boolean;
-    isMatchPoint: number;
+    isMatchPoint: boolean;
     matchId: number;
+    teamId: number;
 }
 
 export type MatchPointCreateModel = MatchPointModel;
 
-export enum ClsfPlayerPointType {
+export declare enum ClsfPlayerPointType {
     Point = 1,
     Block = 2,
     Assist = 3,
@@ -100,6 +101,7 @@ export interface MatchModel {
     teamA: TeamModel;
     teamB: TeamModel;
     matchPlayers: MatchPlayerModel[];
+    points: MatchPointsSummaryModel;
 }
 
 export interface MatchCreateModel {
@@ -111,6 +113,13 @@ export interface MatchCreateModel {
     secretaryId: number;
     teamAId: number;
     teamBId: number;
+}
+
+export interface MatchPointsSummaryModel {
+    setNumber: number;
+    teamAPoints: number;
+    teamBPoints: number;
+    points: MatchPointModel;
 }
 
 // match end

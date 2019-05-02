@@ -92,7 +92,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
 
     private onSubmit: React.MouseEventHandler = () => {
         const { teamAIds, teamBIds } = this.state;
-        const { matchModel, id, history } = this.props;
+        const { matchModel, id, history, dispatch } = this.props;
         if (teamAIds.length !== 6 || teamBIds.length !== 6) {
             this.setState({ error: "Abiejoms komandoms parinkite 6 žaidėjus" });
             return;
@@ -128,6 +128,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
             this.setState({ error: "Sistemos klaida. Pabandykite vėliau." });
             return;
         }
+        dispatch(actions.invalidateData);
         history.push(`/matches/${matchId}`);
 
     }

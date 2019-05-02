@@ -1,8 +1,9 @@
 
 import * as React from "react";
 import { Grid, Typography, createStyles, WithStyles, withStyles } from "@material-ui/core";
-import Person from "@material-ui/icons/Person";
+import Add from "@material-ui/icons/Add";
 import classNames = require("classnames");
+import { ClsfPlayerPointType } from "src/types";
 const styles = () => createStyles({
     Player: {
         width: "85px",
@@ -18,32 +19,34 @@ const styles = () => createStyles({
         width: "100%",
     },
     Number: {
-        fontSize: "2em"
+        fontSize: "1em"
     },
     Green: {
         backgroundColor: "green"
     }
 });
+
 interface OwnProps {
-    playerNumber: number;
-    isSelected: boolean;
-    onClick: React.MouseEventHandler;
+    actionName: string;
+    isSelected?: boolean;
+    onClick?: React.MouseEventHandler;
+    type: ClsfPlayerPointType;
 }
 
 type Props = OwnProps & WithStyles<typeof styles>;
-class MatchPlayerClass extends React.PureComponent<Props> {
+class MatchControlClass extends React.PureComponent<Props> {
     public render(): JSX.Element {
-        const { classes, playerNumber, isSelected, onClick } = this.props;
+        const { classes, actionName, isSelected, onClick } = this.props;
         return <Grid container className={classNames(classes.Player, { [classes.Green]: isSelected })} onClick={onClick}>
             <Grid className={classes.PlayerNumber}
                 direction="column"
                 justify="center"
                 alignItems="center">
-                <Person fontSize="large" />
-                <Typography className={classes.Number}>{playerNumber}</Typography>
+                <Add fontSize="large" />
+                <Typography className={classes.Number}>{actionName}</Typography>
             </Grid>
         </Grid>;
     }
 }
 
-export const MatchPlayer = withStyles(styles)(MatchPlayerClass);
+export const MatchControl = withStyles(styles)(MatchControlClass);

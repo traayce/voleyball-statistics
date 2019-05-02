@@ -7,6 +7,7 @@ using ServiceContracts.Models.Product;
 using ServiceContracts.Services.MatchServices.MatchPlayerService.Models;
 using ServiceContracts.Services.MatchServices.MatchPointService.Models;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
+using ServiceContracts.Services.MatchServices.PlayerPointService.Models;
 using ServiceContracts.Services.PlayerService.Models;
 using ServiceContracts.Services.TeamService.Models;
 using Services.Services.MatchServices.MatchPlayerService;
@@ -70,6 +71,14 @@ namespace Services.Mappings
 
             CreateMap<MatchPlayerEntity, IMatchPlayerDomainModel>()
                 .ForMember(x => x.Player, c => c.MapFrom(x => x.PlayerEntity));
+            
+            CreateMap<PlayerPointEntity, IPlayerPointCreateDomainModel>();
+            CreateMap<IPlayerPointCreateDomainModel, PlayerPointEntity>()
+                .ForMember(x => x.PlayerEntity, c => c.Ignore())
+                .ForMember(x => x.MatchPointEntity, c => c.Ignore())
+                .IgnoreAudit();
+            
+            CreateMap<PlayerPointEntity, IPlayerPointDomainModel>();
         }
     }
 

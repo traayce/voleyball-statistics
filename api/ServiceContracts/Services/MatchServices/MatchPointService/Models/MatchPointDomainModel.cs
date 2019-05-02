@@ -3,8 +3,6 @@ namespace ServiceContracts.Services.MatchServices.MatchPointService.Models
     public interface IMatchPointDomainModel
     {
         int Id { get; set; }
-
-        int PointNumber { get; set; }
         
         int SetNumber { get; set; }
 
@@ -22,8 +20,6 @@ namespace ServiceContracts.Services.MatchServices.MatchPointService.Models
         public int Id { get; set; }
         
         public int SetNumber { get; set; }
-
-        public int PointNumber { get; set; }
 
         public bool IsSetPoint { get; set; }
 

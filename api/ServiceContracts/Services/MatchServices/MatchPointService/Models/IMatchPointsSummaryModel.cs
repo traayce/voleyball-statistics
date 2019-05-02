@@ -5,6 +5,8 @@ namespace ServiceContracts.Services.MatchServices.MatchPointService.Models
     public interface IMatchPointsSummaryDomainModel
     {
         int SetNumber { get; set; }
+        int TeamASetPoints { get; set; }
+        int TeamBSetPoints { get; set; }
         int TeamAPoints { get; set; }
         int TeamBPoints { get; set; }
         IEnumerable<IMatchPointDomainModel> Points { get; set; }
@@ -13,6 +15,8 @@ namespace ServiceContracts.Services.MatchServices.MatchPointService.Models
     public class MatchPointsSummaryDomainModel : IMatchPointsSummaryDomainModel
     {
         public int SetNumber { get; set; }
+        public int TeamASetPoints { get; set; }
+        public int TeamBSetPoints { get; set; }
         public int TeamAPoints { get; set; }
         public int TeamBPoints { get; set; }
         public IEnumerable<IMatchPointDomainModel> Points { get; set; }

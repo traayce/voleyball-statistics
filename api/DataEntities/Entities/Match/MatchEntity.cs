@@ -36,5 +36,6 @@ namespace DataEntities.Entities.Match
         public virtual ICollection<MatchPointEntity> Points { get; set; }
         
         public virtual ICollection<MatchPlayerEntity> MatchPlayers { get; set; }
+       
     }
 }

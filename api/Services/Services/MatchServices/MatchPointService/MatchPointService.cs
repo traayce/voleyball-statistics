@@ -59,5 +59,17 @@ namespace Services.Services.MatchServices.MatchPointService
             var response = await Get<T>(entity.Id);
             return response;
         }
+        
+        public static IMatchPointsSummaryDomainModel FormModel(ICollection<MatchPointEntity> entities, int teamAId, int teamBId)
+        {
+            var setNumber = entities.Count(x => x.IsSetPoint) + 1;
+            return new MatchPointsSummaryDomainModel
+            {
+                SetNumber = setNumber,
+                TeamAPoints = entities.Count(x => x.TeamId == teamAId && x.SetNumber == setNumber),
+                TeamBPoints = entities.Count(x => x.TeamId == teamBId && x.SetNumber == setNumber),
+                Points = entities.Select(x => Mapper.Map(x, new MatchPointDomainModel()))
+            };
+        }
     }
 }

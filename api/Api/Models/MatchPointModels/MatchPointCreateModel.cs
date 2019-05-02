@@ -7,11 +7,15 @@ namespace Api.Models.MatchPointModels
         public int Id { get; set; }
 
         public int PointNumber { get; set; }
+        
+        public int SetNumber { get; set; }
 
         public bool IsSetPoint { get; set; }
 
         public bool IsMatchPoint { get; set; }
 
         public int MatchId { get; set; }
+        
+        public int TeamId { get; set; }
     }
 }

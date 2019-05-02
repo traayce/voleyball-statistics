@@ -60,9 +60,9 @@ namespace Services.Services.MatchServices.MatchPlayerService
             return response;
         }
         
-        public static IMatchPlayerDomainModel FormModel(MatchPlayerEntity entity)
+        public static IEnumerable<IMatchPlayerDomainModel> FormModel(ICollection<MatchPlayerEntity> entity)
         {
-            return Mapper.Map(entity, new MatchPlayerDomainModel());
+            return entity.Select(x => Mapper.Map(x, new MatchPlayerDomainModel()));
         }
     }
 }

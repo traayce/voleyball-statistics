@@ -8,7 +8,7 @@ namespace ServiceContracts.Services.MatchServices.MatchPlayerService.Models
 
          bool IsOnCourt { get; set; }
 
-         IPlayerDomainModel PlayerEntity { get; set; }
+         IPlayerDomainModel Player { get; set; }
 
          int MatchId { get; set; }
          
@@ -21,7 +21,7 @@ namespace ServiceContracts.Services.MatchServices.MatchPlayerService.Models
 
         public bool IsOnCourt { get; set; }
 
-        public IPlayerDomainModel PlayerEntity { get; set; }
+        public IPlayerDomainModel Player { get; set; }
 
         public int MatchId { get; set; }
         

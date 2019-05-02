@@ -4,14 +4,16 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190430233749_fixing-foreign-keys")]
+    partial class fixingforeignkeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,10 +111,6 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("PointNumber");
 
-                    b.Property<int>("SetNumber");
-
-                    b.Property<int>("TeamId");
-
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<int>("UpdatedBy");
@@ -120,8 +118,6 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MatchId");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("MatchPoints");
                 });
@@ -313,11 +309,6 @@ namespace DataAccess.Migrations
                     b.HasOne("DataEntities.Entities.Match.MatchEntity", "MatchEntity")
                         .WithMany("Points")
                         .HasForeignKey("MatchId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataEntities.Entities.TeamEntity", "TeamEntity")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

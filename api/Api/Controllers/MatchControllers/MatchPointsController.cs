@@ -22,9 +22,9 @@ namespace Api.Controllers.MatchControllers
         }
         
         [HttpGet]
-        public ActionResult<IEnumerable<MatchPointDomainModel>> Get(int[] matchIds)
+        public ActionResult<IEnumerable<MatchPointDomainModel>> Get(int[] ids)
         {
-            return Ok(_matchPointService.GetByIds<MatchPointDomainModel>(matchIds));
+            return Ok(_matchPointService.GetByIds<MatchPointDomainModel>(ids));
         }
 
         [HttpPost]

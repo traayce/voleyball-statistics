@@ -21,12 +21,6 @@ export namespace authenticationCommands {
             .then(res => res.data);
     };
 
-    export const logout = (token: string) => {
-        return request
-            .delete("", { params: { token } })
-            .then(res => res.data);
-    };
-
     export const getInfo = (token: string) => {
         return request
             .get(``, {

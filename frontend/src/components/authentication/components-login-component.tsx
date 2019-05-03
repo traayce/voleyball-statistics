@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
-import { actions } from "@reducers/authentication";
+import { authenticationReducerActions } from "@reducers/authentication";
 import { LoginComponentForm } from "./components-login-form";
 import { Redirect } from "react-router";
 import { IStore } from "src/store/state";
@@ -35,7 +35,7 @@ class LoginComponentClass extends React.Component<Props, IState> {
 
   public static MapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: ThunkDispatch<object, void, Action>, props) => {
     return ({
-      authenticate: (email, password) => dispatch(actions.authenticate(email, password))
+      authenticate: (email, password) => dispatch(authenticationReducerActions.authenticate(email, password))
     });
   }
 
@@ -51,7 +51,7 @@ class LoginComponentClass extends React.Component<Props, IState> {
     const stateError = this.state.error;
     const { isLoggedIn, error } = this.props;
     if (isLoggedIn) {
-      return <Redirect to="/contacts" />;
+      return <Redirect to="/matches" />;
     }
 
     return (

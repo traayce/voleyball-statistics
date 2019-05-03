@@ -1,10 +1,10 @@
-import * as actions from "./actions";
+import { authenticationReducerActions } from "./actions";
 import * as constants from "./constants";
 import { authenticationReducer } from "./reducer";
 import { AuthenticationReducerState } from "./state";
 
 export {
-    actions,
+    authenticationReducerActions,
     constants,
     AuthenticationReducerState,
     authenticationReducer

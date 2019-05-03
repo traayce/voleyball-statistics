@@ -13,87 +13,81 @@ function isAxiosReponse(item: AxiosResponse<ProblemDetails>): item is AxiosRespo
     return (<ProblemDetails>item.data) !== undefined;
 }
 
-
-export const authenticate = (email: string, password: string) => async (
-    dispatch: dispatchType,
-) => {
-    dispatch(authenticateStart());
-    try {
-        const response = await authenticationCommands.authenticate(email, password);
-        dispatch(authenticateSuccess(response._id, response.login, response.token));
-    } catch (e) {
-        if (isAxiosError(e)) {
-            if (e.response == null) return;
-            if (isAxiosReponse(e.response)) {
-                dispatch(authenticateFail(ResolveAxiosError(e)));
+export namespace authenticationReducerActions {
+    export const authenticate = (email: string, password: string) => async (
+        dispatch: dispatchType,
+    ) => {
+        dispatch(authenticateStart());
+        try {
+            const response = await authenticationCommands.authenticate(email, password);
+            dispatch(authenticateSuccess(response._id, response.login, response.token));
+        } catch (e) {
+            if (isAxiosError(e)) {
+                if (e.response == null) return;
+                if (isAxiosReponse(e.response)) {
+                    dispatch(authenticateFail(ResolveAxiosError(e)));
+                }
             }
         }
-    }
-};
+    };
 
-function isAxiosError(instance: AxiosError): instance is AxiosError {
-    return (<AxiosError>instance) !== undefined;
+    function isAxiosError(instance: AxiosError): instance is AxiosError {
+        return (<AxiosError>instance) !== undefined;
+    }
+    const authenticateStart = (): IAction<AuthenticationReducerState> => ({
+        type: AUTH_LOGIN_START
+    });
+
+    const authenticateSuccess = (id: number, name: string, token: string): IAction<AuthenticationReducerState> => ({
+        type: AUTH_LOGIN_SUCCESS,
+        payload: {
+            id,
+            name,
+            token
+        }
+    });
+
+    const authenticateFail = (err: string): IAction<AuthenticationReducerState> => ({
+        type: AUTH_lOGIN_ERROR,
+        error: true,
+        payload: {
+            errorMessage: err
+        }
+    });
+
+    // register
+    export const register = (model: RegistrationModel) => (
+        dispatch: dispatchType,
+    ) => {
+        dispatch(registerStart());
+        authenticationCommands
+            .register(model)
+            .then(res => dispatch(res.success ? registerteSuccess(res.id, res.name, res.token) : registerFail(res)))
+            .catch(err => dispatch(registerFail(err)));
+    };
+
+    const registerStart = (): IAction<AuthenticationReducerState> => ({
+        type: AUTH_REGISTER_START
+    });
+
+    const registerteSuccess = (id: number, name: string, token: string): IAction<AuthenticationReducerState> => ({
+        type: AUTH_REGISTER_SUCCESS,
+        payload: {
+            id,
+            name,
+            token
+        }
+    });
+
+    const registerFail = (err: string): IAction<AuthenticationReducerState> => ({
+        type: AUTH_REGISTER_ERROR,
+        error: true,
+        payload: {
+            errorMessage: err
+        }
+    });
+
+    export const logoutSuccess = (): IAction<AuthenticationReducerState> => ({
+        type: AUTH_LOGOUT_SUCCESS
+    });
 }
-const authenticateStart = (): IAction<AuthenticationReducerState> => ({
-    type: AUTH_LOGIN_START
-});
-
-const authenticateSuccess = (id: number, name: string, token: string): IAction<AuthenticationReducerState> => ({
-    type: AUTH_LOGIN_SUCCESS,
-    payload: {
-        id,
-        name,
-        token
-    }
-});
-
-const authenticateFail = (err: string): IAction<AuthenticationReducerState> => ({
-    type: AUTH_lOGIN_ERROR,
-    error: true,
-    payload: {
-        errorMessage: err
-    }
-});
-
-// register
-export const register = (model: RegistrationModel) => (
-    dispatch: dispatchType,
-) => {
-    dispatch(registerStart());
-    authenticationCommands
-        .register(model)
-        .then(res => dispatch(res.success ? registerteSuccess(res.id, res.name, res.token) : registerFail(res)))
-        .catch(err => dispatch(registerFail(err)));
-};
-
-const registerStart = (): IAction<AuthenticationReducerState> => ({
-    type: AUTH_REGISTER_START
-});
-
-const registerteSuccess = (id: number, name: string, token: string): IAction<AuthenticationReducerState> => ({
-    type: AUTH_REGISTER_SUCCESS,
-    payload: {
-        id,
-        name,
-        token
-    }
-});
-
-const registerFail = (err: string): IAction<AuthenticationReducerState> => ({
-    type: AUTH_REGISTER_ERROR,
-    error: true,
-    payload: {
-        errorMessage: err
-    }
-});
-
-export const logout = (token: any) => (
-    dispatch: dispatchType
-) => {
-    authenticationCommands.logout(token);
-    dispatch(logoutSuccess());
-};
-
-const logoutSuccess = (): IAction<AuthenticationReducerState> => ({
-    type: AUTH_LOGOUT_SUCCESS
-});

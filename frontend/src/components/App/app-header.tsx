@@ -5,6 +5,10 @@ import { createStyles, WithStyles, withStyles, Theme } from "@material-ui/core/s
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { NavigationComponent } from "./app-menu";
 import { withRouter, RouteComponentProps } from "react-router";
+import { MapDispatchToProps, connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
+import { authenticationReducerActions } from "@reducers/authentication";
 const styles = (theme: Theme) => createStyles({
     root: {
         flexGrow: 1,
@@ -21,8 +25,10 @@ const styles = (theme: Theme) => createStyles({
 interface OwnProps {
     isAuthenticated: boolean;
 }
-
-type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
+interface DispatchProps {
+    dispatch: ThunkDispatch<object, void, Action>;
+}
+type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps & DispatchProps;
 
 interface State {
     anchorEl: HTMLElement | null;
@@ -30,6 +36,12 @@ interface State {
 }
 
 class HeaderComponentClass extends React.Component<Props, State> {
+    public static MapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: ThunkDispatch<object, void, Action>, props) => {
+        return ({
+            dispatch
+        });
+    }
+
     public state: State = {
         anchorEl: null,
         isNavigationMenuOpen: false
@@ -89,8 +101,7 @@ class HeaderComponentClass extends React.Component<Props, State> {
                                 open={open}
                                 onClose={this.handleUserMenuClose}
                             >
-                                <MenuItem onClick={this.handleUserMenuClose}>Profilis</MenuItem>
-                                <MenuItem onClick={this.handleUserMenuClose}>Atsijungti</MenuItem>
+                                <MenuItem onClick={this.handleLogout}>Atsijungti</MenuItem>
                             </Menu>
                         </Grid>
                     )}
@@ -102,6 +113,11 @@ class HeaderComponentClass extends React.Component<Props, State> {
             </AppBar>
         </Grid>;
     }
+
+    private handleLogout: React.MouseEventHandler = () => {
+        const { dispatch } = this.props;
+        dispatch(authenticationReducerActions.logoutSuccess());
+    }
 }
 
-export const HeaderComponent = withRouter(withStyles(styles)(HeaderComponentClass));
+export const HeaderComponent = connect(null, HeaderComponentClass.MapDispatchToProps)(withRouter(withStyles(styles)(HeaderComponentClass)));

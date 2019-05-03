@@ -13,6 +13,9 @@ import { matchPointApiCommands } from "@api/match-point";
 import { playerPointApiCommands } from "@api/player-point";
 import { MatchTeamPointComponent } from "./components-match-team-point-component";
 import { NotificationContainer, NotificationManager } from "react-notifications";
+import { MatchPrompt } from "./components-match-prompt";
+import { matchApiCommands } from "@api/match";
+import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
 interface StateProps {
     match?: MatchModel;
     isLoading: boolean;
@@ -39,9 +42,10 @@ interface Params {
 interface State {
     selected: number;
     anchor: HTMLElement | null;
+    isPromptOpen: boolean;
 }
 
-type Props = WithStyles<typeof MatchesContainerStyles> & Params & StateProps & DispatchProps;
+type Props = WithStyles<typeof MatchesContainerStyles> & Params & StateProps & DispatchProps & RouteComponentProps;
 class MatchComponentClass extends React.PureComponent<Props, State> {
 
     public static MapStateToProps: MapStateToProps<StateProps, Params, IStore> = ({ matches }, { id }) => ({
@@ -57,7 +61,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
 
     public state: State = {
         selected: 0,
-        anchor: null
+        anchor: null,
+        isPromptOpen: false
     };
 
     private getMatches = (id: string) => {
@@ -73,7 +78,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         const { classes, match } = this.props;
         console.log(this.props);
         const { id, isLoading, error, isLoaded } = this.props;
-        const { selected, anchor } = this.state;
+        const { selected, anchor, isPromptOpen } = this.state;
 
         if (isLoaded === false && isLoading === false && error === undefined) {
             this.getMatches(id);
@@ -81,10 +86,18 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         if (match == null) {
             return null;
         }
+        if (match.isFinished) {
+            return <Redirect to="/" />;
+        }
         const { matchPlayers } = match;
         const teamAPlayers = matchPlayers.filter(x => x.teamId === match.teamA.id);
         const teamBPlayers = matchPlayers.filter(x => x.teamId === match.teamB.id);
         return <Grid container>
+            <MatchPrompt
+                isOpen={isPromptOpen}
+                onClose={this.onPromptAction(false)}
+                onSuccess={this.onPromptAction(true)}
+            />
             <Grid className={classes.Map}
                 container
                 direction="row">
@@ -173,12 +186,13 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     open={Boolean(anchor)}
                     onClose={this.onHandleMoreMenu(true)}
                 >
+                    <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardYellow)}>Geltona kortelė</MenuItem>
                     <MenuItem onClick={this.onHandleMoreMenu(true)}>Keitimas</MenuItem>
                 </Menu>
             </Grid>
-            <NotificationContainer/>
+            <NotificationContainer />
         </Grid>;
     }
 
@@ -208,12 +222,18 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
             });
 
             this.setState({ selected: 0 });
-
+            NotificationManager.success("Žaidėjo statistikos vienetas sėkmingai išsaugotas", "Pranešimas", 1500);
             dispatch(actions.invalidateData());
         }
         catch (e) {
 
         }
+    }
+
+    private getSetEnd = (set: number) => {
+        if (set < 5)
+            return 24;
+        else return 14;
     }
 
     private onTeamPointActionClick = (teamId: number): React.MouseEventHandler => async () => {
@@ -224,17 +244,21 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         const { setNumber, teamAPoints, teamBPoints, points } = pointsSummary;
         let newSetNumber: number = setNumber;
         let isSetPoint = false;
-        if (teamA.id === teamId) {
-            if (teamAPoints >= 24 && (teamAPoints - teamBPoints) >= 2) {
-                isSetPoint = true;
-            }
-        } else {
-            if (teamBPoints >= 24 && (teamBPoints - teamAPoints) >= 2) {
-                isSetPoint = true;
+        const lastPoint = points.pop();
+        const lastPointIsSetPoint = lastPoint != null && lastPoint.isSetPoint;
+        const setEnd = this.getSetEnd(setNumber);
+        if (!lastPointIsSetPoint) {
+            if (teamA.id === teamId) {
+                if (teamAPoints >= setEnd && (teamAPoints - teamBPoints) >= 1) {
+                    isSetPoint = true;
+                }
+            } else {
+                if (teamBPoints >= setEnd && (teamBPoints - teamAPoints) >= 1) {
+                    isSetPoint = true;
+                }
             }
         }
-        if (isSetPoint)
-            newSetNumber = setNumber + 1;
+
         try {
             const response = await matchPointApiCommands.post({
                 id: 0,
@@ -244,13 +268,28 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 matchId: id,
                 teamId
             });
-
             dispatch(actions.invalidateData());
         }
         catch (e) {
 
         }
     }
+
+    private openPrompt: React.MouseEventHandler = () => {
+        this.setState({ isPromptOpen: true });
+    }
+
+    private onPromptAction = (success: boolean): React.MouseEventHandler => () => {
+        if (!success) {
+            this.setState({ isPromptOpen: false });
+        } else {
+            const { match, history } = this.props;
+            matchApiCommands.patch(match.id, {
+                isFinished: true
+            });
+            history.push("/matches");
+        }
+    }
 }
 
-export const MatchComponent = connect(MatchComponentClass.MapStateToProps)(withStyles(MatchesContainerStyles)(MatchComponentClass));
+export const MatchComponent = withRouter(connect(MatchComponentClass.MapStateToProps)(withStyles(MatchesContainerStyles)(MatchComponentClass)));

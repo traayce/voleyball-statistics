@@ -64,7 +64,7 @@ namespace Services.Services.MatchServices.MatchPointService
         public static IMatchPointsSummaryDomainModel FormModel(ICollection<MatchPointEntity> entities, int teamAId,
             int teamBId)
         {
-            var setNumber = entities.Count(x => x.IsSetPoint);
+            var setNumber = entities.Count(x => x.IsSetPoint) + 1;
             return new MatchPointsSummaryDomainModel
             {
                 SetNumber = setNumber,

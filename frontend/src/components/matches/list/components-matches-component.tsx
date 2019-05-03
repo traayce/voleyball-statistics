@@ -1,13 +1,14 @@
 import * as React from "react";
-import { LinearProgress, WithStyles, withStyles, Button, Card, CardActionArea, CardContent, Typography, CardActions, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Grid } from "@material-ui/core";
-import { MapStateToProps, MapDispatchToProps, connect } from "react-redux";
+import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Grid } from "@material-ui/core";
+import { MapStateToProps, connect } from "react-redux";
 import { IStore } from "../../../store/state";
 import { MatchesContainerStyles } from "./components-matches-styles";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { MatchFormComponent } from "./form/components-matches-form-component";
 import { MatchModel, MatchCreateModel } from "src/types";
 import { actions } from "@reducers/match";
+import { MatchCardComponent } from "./components-match-card";
+import { MatchFormComponent } from "./form/components-matches-form-component";
 
 interface StateProps {
   isLoading: boolean;
@@ -17,7 +18,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  dispatch?: ThunkDispatch<object, void, Action<any>>;
+  dispatch: ThunkDispatch<object, void, Action<any>>;
 }
 
 type Props = StateProps & DispatchProps & WithStyles<typeof MatchesContainerStyles>;
@@ -25,14 +26,12 @@ type Props = StateProps & DispatchProps & WithStyles<typeof MatchesContainerStyl
 interface State {
   editingObject: MatchCreateModel | undefined;
   isEditorOpen: boolean;
-  searchText: string;
 }
 
 class MatchesClass extends React.Component<Props, State> {
   public initialState: State = {
     editingObject: undefined,
-    isEditorOpen: false,
-    searchText: ""
+    isEditorOpen: false
   };
   public state: State = this.initialState;
   public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = ({ matches }) => ({
@@ -42,13 +41,9 @@ class MatchesClass extends React.Component<Props, State> {
     isLoaded: matches.isLoaded
   })
 
-  public static MapDispatchToProps: MapDispatchToProps<DispatchProps, object> = (dispatch: ThunkDispatch<object, void, Action>, props) => ({
-    dispatch: dispatch
-  })
-
   public render(): JSX.Element {
     const { matches, isLoading, error, classes, isLoaded } = this.props;
-    if (isLoaded === false && isLoading === false && error === undefined) {
+    if (!isLoaded && !isLoading && error != null) {
       this.getMatches();
     }
     if (isLoading) {
@@ -58,66 +53,28 @@ class MatchesClass extends React.Component<Props, State> {
     }
     return <Grid className={classes.Container}>
       {this.renderEditor()}
-      <div className={classes.Center}>Matches ({error})
-            <br />
-        <TextField
-          id="standard-name"
-          label="Enter Match Name"
-          value={this.state.searchText}
-          onChange={this.handleSearchTextBoxChange}
-          margin="normal"
-        />
+      <div className={classes.Center}>Varžybos {error}
         <br />
         <Button
           className={classes.Button}
           color="primary"
           type="submit"
           variant="contained"
-          onClick={this.getMatches}>Fetch Matches</Button>
+          onClick={this.getMatches}>Perkrauti</Button>
         <Button
           className={classes.Button}
           color="primary"
           type="submit"
           variant="contained"
-          onClick={this.openEditor()}>Create New</Button>
+          onClick={this.openEditor()}>Sukurti naują</Button>
       </div>
       <div>
-        {this.renderMatches(matches)}
+        {matches.map((match: MatchModel) => <MatchCardComponent match={match} openEditor={this.openEditor} />)}
       </div>
     </Grid>;
   }
 
-  private renderMatches = (matches: MatchModel[]) => {
-    const { classes } = this.props;
-    return matches.map((match: MatchModel) => (
-      <Card className={classes.card}>
-        <CardActionArea onClick={this.openEditor(match)}>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Match
-          </Typography>
-            <Typography component="p">
-              {JSON.stringify(match)}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary" onClick={this.onDelete(match.id)}>
-            Delete
-        </Button>
-          <Button size="small" color="primary" onClick={this.openEditor(match)}>
-            Edit
-        </Button>
-        </CardActions>
-      </Card>
-    ));
-  }
-
-  private handleSearchTextBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchText: e.target.value });
-  }
-
-  private openEditor = (match?: MatchModel) => (e: React.MouseEvent<HTMLInputElement>) => {
+  private openEditor = (match?: MatchModel) => () => {
     this.setState({
       editingObject: match !== undefined ? {
         id: match.id,
@@ -126,7 +83,8 @@ class MatchesClass extends React.Component<Props, State> {
         isStarted: match.isStarted,
         secretaryId: match.secretary.id,
         teamAId: match.teamA.id,
-        teamBId: match.teamB.id
+        teamBId: match.teamB.id,
+        isFinished: match.isFinished
       } : undefined, isEditorOpen: true
     });
   }
@@ -139,10 +97,10 @@ class MatchesClass extends React.Component<Props, State> {
       open={true}
       onClose={this.onModalClose()}
     >
-      <DialogTitle id="alert-dialog-title">Match Form</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Varžybų forma</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <MatchFormComponent model={editingObject} onFinished={this.onModalClose(true)} />
+          <MatchFormComponent model={editingObject} onSubmit={this.onModalClose(true)} />
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -160,19 +118,9 @@ class MatchesClass extends React.Component<Props, State> {
     }
   }
 
-  private onDelete = (id: number) => (e: React.MouseEvent<HTMLInputElement>) => {
-    const { dispatch } = this.props;
-    if (dispatch != null) {
-      dispatch(actions.deleteMatch(id));
-    }
-    this.getMatches();
-  }
-
   private getMatches = () => {
     const { dispatch } = this.props;
-    if (dispatch != null) {
-      dispatch(actions.getMatches());
-    }
+    dispatch(actions.getMatches());
   }
 }
-export const MatchesListComponent = withStyles(MatchesContainerStyles)(connect(MatchesClass.MapStateToProps, MatchesClass.MapDispatchToProps)(MatchesClass));
+export const MatchesListComponent = withStyles(MatchesContainerStyles)(connect(MatchesClass.MapStateToProps)(MatchesClass));

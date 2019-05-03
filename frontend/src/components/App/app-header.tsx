@@ -7,7 +7,7 @@ import { NavigationComponent } from "./app-menu";
 import { withRouter, RouteComponentProps } from "react-router";
 import { MapDispatchToProps, connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { Action } from "redux";
+import { Action, Dispatch } from "redux";
 import { authenticationReducerActions } from "@reducers/authentication";
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -26,7 +26,7 @@ interface OwnProps {
     isAuthenticated: boolean;
 }
 interface DispatchProps {
-    dispatch: ThunkDispatch<object, void, Action>;
+    dispatch: Dispatch;
 }
 type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps & DispatchProps;
 
@@ -36,12 +36,6 @@ interface State {
 }
 
 class HeaderComponentClass extends React.Component<Props, State> {
-    public static MapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: ThunkDispatch<object, void, Action>, props) => {
-        return ({
-            dispatch
-        });
-    }
-
     public state: State = {
         anchorEl: null,
         isNavigationMenuOpen: false
@@ -120,4 +114,4 @@ class HeaderComponentClass extends React.Component<Props, State> {
     }
 }
 
-export const HeaderComponent = connect(null, HeaderComponentClass.MapDispatchToProps)(withRouter(withStyles(styles)(HeaderComponentClass)));
+export const HeaderComponent = connect()(withRouter(withStyles(styles)(HeaderComponentClass)));

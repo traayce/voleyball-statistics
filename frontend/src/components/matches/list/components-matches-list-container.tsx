@@ -1,14 +1,12 @@
 import * as React from "react";
-import { MatchesContainerStyles } from "./components-matches-styles";
-import { WithStyles, Paper, withStyles } from "@material-ui/core";
 import { MatchesListComponent } from "./components-matches-component";
+import { PaperContainer } from "@components/paper-container";
 
-class MatchContainerClass extends React.PureComponent<WithStyles<typeof MatchesContainerStyles>> {
+class MatchContainerClass extends React.Component {
     public render(): JSX.Element {
-        const { classes } = this.props;
-        return <Paper className={classes.Container}>
+        return <PaperContainer>
             <MatchesListComponent />
-        </Paper>;
+        </PaperContainer>;
     }
 }
-export const MatchListContainer = withStyles(MatchesContainerStyles)(MatchContainerClass);
+export const MatchListContainer = MatchContainerClass;

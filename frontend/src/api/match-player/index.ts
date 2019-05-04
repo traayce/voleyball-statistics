@@ -15,6 +15,18 @@ export namespace matchPlayerApiCommands {
             .catch(err => err);
     };
 
+    export const patch = (playerId: number, model: Partial<MatchPlayerCreateModel>): Promise<AxiosResponse<MatchPlayerModel>> => {
+        const body = Object.keys(model).map(key => ({
+            path: `/${key}`,
+            op: "replace",
+            value: model[key as keyof MatchPlayerCreateModel]
+        }));
+        return request
+            .patch<MatchPlayerModel>(`/matches/MatchPlayers/${playerId}`, body)
+            .then(res => res)
+            .catch(err => err);
+    };
+
     export const post = (model: MatchPlayerCreateModel): Promise<AxiosResponse<MatchPlayerModel>> => {
         return request
             .post<MatchPlayerModel>(`/matches/MatchPlayers`, model)

@@ -76,7 +76,6 @@ class MatchFormComponentClass extends React.Component<Props> {
 
     private onSubmit: FormikConfig<MatchCreateModel>["onSubmit"] = async (values) => {
         const { model } = this.props;
-        debugger;
         if (model == null || model.id === 0) {
             await matchApiCommands.post(values);
         } else {

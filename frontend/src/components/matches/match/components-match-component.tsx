@@ -1,6 +1,6 @@
 import * as React from "react";
 import { MatchesContainerStyles } from "./components-match-styles";
-import { WithStyles, withStyles, Grid, Menu, MenuItem } from "@material-ui/core";
+import { WithStyles, withStyles, Grid, Menu, MenuItem, List, ListItem, ListItemAvatar, Avatar, ListItemText } from "@material-ui/core";
 import { MatchPlayer } from "./components-match-player";
 import { IStore } from "@store/state";
 import { MatchModel } from "src/types";
@@ -16,6 +16,9 @@ import { NotificationContainer, NotificationManager } from "react-notifications"
 import { MatchPrompt } from "./components-match-prompt";
 import { matchApiCommands } from "@api/match";
 import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
+import { ModalComponent } from "@components/modal";
+import { matchPlayerApiCommands } from "@api/match-player";
+import Person from "@material-ui/icons/Person";
 interface StateProps {
     matchModel?: MatchModel;
     isLoading: boolean;
@@ -43,6 +46,7 @@ interface State {
     selected: number;
     anchor: HTMLElement | null;
     isPromptOpen: boolean;
+    isSubstituteOpen: boolean;
 }
 
 type Props = WithStyles<typeof MatchesContainerStyles> & Params & StateProps & DispatchProps & RouteComponentProps;
@@ -62,7 +66,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
     public state: State = {
         selected: 0,
         anchor: null,
-        isPromptOpen: false
+        isPromptOpen: false,
+        isSubstituteOpen: false
     };
 
     private getMatches = (id: string) => {
@@ -85,12 +90,12 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         if (match == null) {
             return null;
         }
-        if (match.isFinished) {
+        if (match.isFinished || !match.isStarted) {
             return <Redirect to="/" />;
         }
         const { matchPlayers } = match;
-        const teamAPlayers = matchPlayers.filter(x => x.teamId === match.teamA.id);
-        const teamBPlayers = matchPlayers.filter(x => x.teamId === match.teamB.id);
+        const teamAPlayers = matchPlayers.filter(x => x.isOnCourt && x.teamId === match.teamA.id);
+        const teamBPlayers = matchPlayers.filter(x => x.isOnCourt && x.teamId === match.teamB.id);
         return <Grid container>
             <MatchPrompt
                 isOpen={isPromptOpen}
@@ -188,10 +193,11 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardYellow)}>Geltona kortelė</MenuItem>
-                    <MenuItem onClick={this.onHandleMoreMenu(true)}>Keitimas</MenuItem>
+                    <MenuItem onClick={this.toggleSubstituteMenu(true)}>Keitimas</MenuItem>
                 </Menu>
             </Grid>
             <NotificationContainer />
+            {this.renderSubsituteModal()}
         </Grid>;
     }
 
@@ -230,6 +236,76 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         catch (e) {
 
         }
+    }
+
+    private toggleSubstituteMenu = (open: boolean): React.MouseEventHandler => () => {
+        if (this.state.selected === 0) {
+            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
+            return;
+        }
+        this.setState({ isSubstituteOpen: open });
+    }
+
+    private renderSubsituteModal = () => {
+        const { matchModel } = this.props;
+        const { selected, isSubstituteOpen } = this.state;
+        if (!isSubstituteOpen || matchModel == null)
+            return;
+        if (selected === 0) {
+            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
+            return;
+        }
+        const selectedPlayer = matchModel.matchPlayers.find(x => x.player.id === selected);
+        if (selectedPlayer == null)
+            return;
+        const players = matchModel.teamA.id === selectedPlayer.teamId ? matchModel.teamA.players : matchModel.teamB.players;
+        return <ModalComponent
+            title="Keitimas"
+            isOpen={true}
+            onClose={this.toggleSubstituteMenu(false)}
+            buttonActions={[]}
+            contextText={"Pasirinkite žaidėją kuriuo norite atlikti keitimą."}
+        >
+            <List>
+                {players.map(player => (
+                    <ListItem button onClick={this.substitutePlayer(player.id, player.teamId)} key={player.id} disabled={matchModel.matchPlayers.some(x => x.isOnCourt && x.player.id === player.id)}>
+                        <ListItemAvatar>
+                            <Avatar>
+                                <Person />
+                            </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={player.name} secondary={`Numeris - ${player.number}`} />
+                    </ListItem>
+                ))}
+            </List>
+        </ModalComponent >;
+    }
+
+    private substitutePlayer = (playerId: number, teamId: number): React.MouseEventHandler => async () => {
+        const { selected } = this.state;
+        const { matchModel, dispatch } = this.props;
+        if (selected == null || matchModel == null)
+            return;
+
+        const matchPlayer = matchModel.matchPlayers.find(x => x.player.id === selected);
+        if (matchPlayer != null) {
+            const wasOnCourt = matchModel.matchPlayers.find(x => x.player.id === playerId);
+            if (wasOnCourt == null) {
+                matchPlayerApiCommands.post({
+                    id: 0,
+                    playerId: playerId,
+                    teamId: teamId,
+                    matchId: matchModel.id,
+                    isOnCourt: true
+                });
+            } else {
+                await matchPlayerApiCommands.patch(wasOnCourt.id, { isOnCourt: true });
+            }
+
+            await matchPlayerApiCommands.patch(matchPlayer.id, { isOnCourt: false });
+        }
+        this.setState({ isSubstituteOpen: false, selected: 0 });
+        dispatch(actions.invalidateData());
     }
 
     private getSetEnd = (set: number) => {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Models.TeamModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.TeamService;
@@ -32,6 +33,16 @@ namespace Api.Controllers
         [HttpPost]
         public ActionResult<TeamDomainModel> Post([FromBody] TeamCreateModel model)
         {
+            return Command( async () => await _teamService.Save<TeamDomainModel>(model));
+        }
+        
+        [HttpPatch("{id}")]
+        [Authorize(Roles = Role.Secretary)]
+        public async Task<ActionResult<TeamDomainModel>> Patch([FromRoute] int id,
+            [FromBody] JsonPatchDocument<TeamCreateModel> personPatch)
+        {
+            var model = await _teamService.GetCreateModel<TeamCreateModel>(id);
+            personPatch.ApplyTo(model);
             return Command( async () => await _teamService.Save<TeamDomainModel>(model));
         }
     }

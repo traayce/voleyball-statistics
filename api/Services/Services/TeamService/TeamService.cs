@@ -57,11 +57,36 @@ namespace Services.Services.TeamService
             };
         }
         
+        public async Task<IEnumerable<T>> GetAll<T>() where T: ITeamDomainModel, new()
+        {
+            var teams = await teamRepository.GetAllAsync();
+            return teams.Select(team => 
+                new T
+                {
+                    Id = team.Id,
+                    Name = team.Name,
+                    City = team.City,
+                    Players = team.Players?.Select(x => new PlayerDomainModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Number = x.Number,
+                        TeamId = team.Id
+                    })
+                });
+        }
+        
         public IEnumerable<T> GetByIds<T>(int[] teamIds) where T: ITeamDomainModel, new()
         {
+            if (teamIds.Length == 0)
+            {
+                return GetAll<T>().Result;
+            }
+            
             var teams = teamRepository.GetAllMatching(x => teamIds.Contains(x.Id)).Select(team => 
                 new T
                 {
+                    Id = team.Id,
                     Name = team.Name,
                     City = team.City,
                     Players = team.Players?.Select(x => new PlayerDomainModel()
@@ -103,10 +128,27 @@ namespace Services.Services.TeamService
                 entity = await teamRepository.GetByIdAsync(model.Id);
 
             Mapper.Map(model, entity);
-            teamRepository.Add(entity);
+            if (entity.Id != 0)
+            {
+                teamRepository.Edit(entity);
+            }
+            else
+            {
+                teamRepository.Add(entity);
+            }
             _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
+        }
+        
+        public async Task<T> GetCreateModel<T>(int id) where T: ITeamCreateDomainModel, new()
+        {
+            var match = await teamRepository.GetByIdAsync(id);
+
+            if (match == null)
+                throw new RulesException("Komanda tokiu Id neegzistuoja");
+            var model = _mapper.Map(match, new T());
+            return model;
         }
     }
 }

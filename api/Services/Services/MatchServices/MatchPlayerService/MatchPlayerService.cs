@@ -54,7 +54,14 @@ namespace Services.Services.MatchServices.MatchPlayerService
                 entity = await _matchPlayerRepository.GetByIdAsync(model.Id);
 
             Mapper.Map(model, entity);
-            _matchPlayerRepository.Add(entity);
+            if (entity.Id != 0)
+            {
+                _matchPlayerRepository.Edit(entity);
+            }
+            else
+            {
+                _matchPlayerRepository.Add(entity);
+            }
             _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
@@ -63,6 +70,16 @@ namespace Services.Services.MatchServices.MatchPlayerService
         public static IEnumerable<IMatchPlayerDomainModel> FormModel(ICollection<MatchPlayerEntity> entity)
         {
             return entity.Select(x => Mapper.Map(x, new MatchPlayerDomainModel()));
+        }
+        
+        public async Task<T> GetCreateModel<T>(int id) where T: IMatchPlayerCreateDomainModel, new()
+        {
+            var matchPlayerEntity = await _matchPlayerRepository.GetByIdAsync(id);
+
+            if (matchPlayerEntity == null)
+                throw new RulesException("Varžybų žaidėjas tokiu Id neegzistuoja");
+            var model = _mapper.Map(matchPlayerEntity, new T());
+            return model;
         }
     }
 }

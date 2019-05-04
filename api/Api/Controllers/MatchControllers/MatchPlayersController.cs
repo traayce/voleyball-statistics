@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Api.Models.MatchPlayerModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.MatchServices.MatchPlayerService;
@@ -32,6 +34,16 @@ namespace Api.Controllers.MatchControllers
         public ActionResult<MatchPlayerDomainModel> Post([FromBody] MatchPlayerCreateModel model)
         {
             return Command(async () => await _matchPlayerService.Save<MatchPlayerDomainModel>(model));
+        }
+        
+        [HttpPatch("{id}")]
+        [Authorize(Roles = Role.Secretary)]
+        public async Task<ActionResult<MatchPlayerDomainModel>> Patch([FromRoute] int id,
+            [FromBody] JsonPatchDocument<MatchPlayerCreateModel> personPatch)
+        {
+            var model = await _matchPlayerService.GetCreateModel<MatchPlayerCreateModel>(id);
+            personPatch.ApplyTo(model);
+            return Command( async () => await _matchPlayerService.Save<MatchPlayerDomainModel>(model));
         }
     }
 }

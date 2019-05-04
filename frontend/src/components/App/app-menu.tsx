@@ -55,8 +55,7 @@ interface MenuItem {
 }
 const Paths: MenuItem[] = [
     { name: "Varžybos", path: "/matches" },
-    { name: "Komanda", path: "/team" },
-    { name: "Naujienos", path: "/news" },
+    { name: "Komandos", path: "/teams" },
     { name: "Kontaktai", path: "/contacts" }];
 
 class NavigationComponentClass extends React.Component<Props, State> {
@@ -81,7 +80,7 @@ class NavigationComponentClass extends React.Component<Props, State> {
                 {["Administravimas"].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                        <Link to={"/administration"}><ListItemText primary={"Administravimas"} /></Link>
                     </ListItem>
                 ))}
             </List>

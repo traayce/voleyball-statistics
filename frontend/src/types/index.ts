@@ -44,6 +44,12 @@ export interface TeamModel {
     players: PlayerModel[];
 }
 
+export interface TeamCreateModel {
+    id: number;
+    name: string;
+    city: string;
+}
+
 // match
 export interface MatchPlayerModel {
     id: number;

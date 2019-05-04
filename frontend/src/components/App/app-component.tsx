@@ -10,6 +10,7 @@ import { MapStateToProps, connect } from "react-redux";
 import { IStore } from "src/store/state";
 import { MatchListContainer, MatchContainer, MatchBeginningContainer } from "@components/matches";
 import { AppContainerStyles } from "./app-styles";
+import { TeamsLisContainerComponent } from "@components/teams/components-teams-container";
 interface ReduxProps {
     isLoggedIn: boolean;
 }
@@ -29,6 +30,7 @@ class AppComponentClass extends React.PureComponent<ReduxProps & WithStyles<type
                 </Switch>
                 <Route exact path="/matches" component={MatchListContainer} />
                 <PrivateRoute path="/contacts" component={ContactsComponent} isLoggedIn={isLoggedIn} />
+                <Route exact path="/teams" component={TeamsLisContainerComponent} />
             </Grid>
         </Router>;
     }

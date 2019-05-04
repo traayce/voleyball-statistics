@@ -25,13 +25,13 @@ class MatchCardClass extends React.Component<Props> {
         return <Card className={classes.card} key={match.id}>
             <CardActionArea onClick={openEditor(match)}>
                 <CardContent>
-                    <Grid container direction="column" justify="center" xs={12}>
-                        <Grid container xs={12} justify="center">
+                    <Grid container direction="column" justify="center">
+                        <Grid container justify="center">
                             <Typography component="h4" variant="caption">
                                 {time}
                             </Typography>
                         </Grid>
-                        <Grid container xs={12} justify="center">
+                        <Grid container justify="center">
                             <Typography component="h4" variant="caption">
                                 {match.location}
                             </Typography>
@@ -40,24 +40,29 @@ class MatchCardClass extends React.Component<Props> {
                     <Grid
                         container
                         justify="center"
-                        xs={12}>
-                        <Grid container xs={6}
-                            justify="center">
-                            <Grid container xs={12} justify="center" >
-                                <People fontSize="large" />
-                            </Grid>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {match.teamA.name}  ({match.pointsSummary.teamASetPoints})
+                        direction="row"
+                    >
+                        <Grid item xs={6}>
+                            <Grid container
+                                justify="center">
+                                <Grid container justify="center" >
+                                    <People fontSize="large" />
+                                </Grid>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {match.teamA.name}  ({match.pointsSummary.teamASetPoints})
                     </Typography>
+                            </Grid>
                         </Grid>
-                        <Grid container xs={6}
-                            justify="center">
-                            <Grid container xs={12} justify="center" >
-                                <People fontSize="large" />
-                            </Grid>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {match.teamB.name}  ({match.pointsSummary.teamBSetPoints})
+                        <Grid item xs={6}>
+                            <Grid container
+                                justify="center">
+                                <Grid container justify="center" >
+                                    <People fontSize="large" />
+                                </Grid>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {match.teamB.name}  ({match.pointsSummary.teamBSetPoints})
                     </Typography>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </CardContent>

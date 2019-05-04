@@ -212,11 +212,14 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         if (!pointsSummary.points == null || !pointsSummary.points.length) {
             return;
         }
+        const last = pointsSummary.points.pop();
+        if (last == null)
+            return;
         try {
-             await playerPointApiCommands.post({
+            await playerPointApiCommands.post({
                 id: 0,
                 playerId: selected,
-                matchPointId: pointsSummary.points.pop().id,
+                matchPointId: last.id,
                 pointType: action
             });
 
@@ -259,7 +262,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         }
 
         try {
-              await matchPointApiCommands.post({
+            await matchPointApiCommands.post({
                 id: 0,
                 isMatchPoint: false,
                 isSetPoint: isSetPoint,
@@ -278,14 +281,15 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         this.setState({ isPromptOpen: true });
     }
 
-    private onPromptAction = (success: boolean): React.MouseEventHandler => () => {
+    private onPromptAction = (success: boolean): React.MouseEventHandler => async () => {
         if (!success) {
             this.setState({ isPromptOpen: false });
         } else {
-            const { matchModel: match, history } = this.props;
-            matchApiCommands.patch(match.id, {
+            const { matchModel: match, history, dispatch } = this.props;
+            await matchApiCommands.patch(match.id, {
                 isFinished: true
             });
+            dispatch(actions.invalidateData());
             history.push("/matches");
         }
     }

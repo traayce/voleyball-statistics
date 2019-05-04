@@ -24,7 +24,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps & WithStyles<typeof MatchesContainerStyles>;
 
 interface State {
-  editingObject: MatchCreateModel | undefined;
+  editingObject?: MatchModel;
   isEditorOpen: boolean;
 }
 
@@ -69,23 +69,14 @@ class MatchesClass extends React.Component<Props, State> {
           onClick={this.openEditor()}>Sukurti naują</Button>
       </div>
       <div>
-        {matches.map((match: MatchModel) => <MatchCardComponent match={match} openEditor={this.openEditor} />)}
+        {matches.map((match: MatchModel) => <MatchCardComponent key={`match-${match.id}`} match={match} openEditor={this.openEditor} />)}
       </div>
     </Grid>;
   }
 
   private openEditor = (match?: MatchModel) => () => {
     this.setState({
-      editingObject: match !== undefined ? {
-        id: match.id,
-        startsAt: match.startsAt,
-        location: match.location,
-        isStarted: match.isStarted,
-        secretaryId: match.secretary.id,
-        teamAId: match.teamA.id,
-        teamBId: match.teamB.id,
-        isFinished: match.isFinished
-      } : undefined, isEditorOpen: true
+      editingObject: match, isEditorOpen: true
     });
   }
 
@@ -99,9 +90,7 @@ class MatchesClass extends React.Component<Props, State> {
     >
       <DialogTitle id="alert-dialog-title">Varžybų forma</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          <MatchFormComponent model={editingObject} onSubmit={this.onModalClose(true)} />
-        </DialogContentText>
+        <MatchFormComponent model={editingObject} onClose={this.onModalClose(true)} />
       </DialogContent>
       <DialogActions>
         <Button onClick={this.onModalClose()} color="primary">

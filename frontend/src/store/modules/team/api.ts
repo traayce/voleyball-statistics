@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { TeamModel } from "src/types";
 import { GetRequestHeader } from "@utils/header";
+import { transformRequestOptions } from "@utils/serializer";
 const baseURL: string = "http://localhost:3000/api/teams";
 const request = axios.create({
     baseURL,
@@ -19,19 +20,6 @@ export namespace teamCommands {
             })
             .then(res => res)
             .catch(err => err);
-    };
-    const transformRequestOptions = (params: Array<any>) => {
-        let options = "";
-        for (const key in params) {
-            if (typeof params[key] !== "object" && params[key]) {
-                options += `${key}=${params[key]}&`;
-            } else if (typeof params[key] === "object" && params[key] && params[key].length) {
-                params[key].forEach((el: string) => {
-                    options += `${key}=${el}&`;
-                });
-            }
-        }
-        return options ? options.slice(0, -1) : options;
     };
     export const deleteTeam = (id: number) => {
         return request

@@ -90,7 +90,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
         });
     }
 
-    private onSubmit: React.MouseEventHandler = () => {
+    private onSubmit: React.MouseEventHandler = async () => {
         const { teamAIds, teamBIds } = this.state;
         const { matchModel, id, history, dispatch } = this.props;
         if (teamAIds.length !== 6 || teamBIds.length !== 6) {
@@ -100,7 +100,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
         if (matchModel == null) return;
         const matchId = (id as unknown) as number;
         try {
-            teamAIds.forEach(x => {
+            await teamAIds.forEach(x => {
                 matchPlayerApiCommands.post({
                     id: 0,
                     playerId: x,
@@ -110,7 +110,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
                 });
             });
 
-            teamBIds.forEach(x => {
+            await teamBIds.forEach(x => {
                 matchPlayerApiCommands.post({
                     id: 0,
                     playerId: x,
@@ -120,7 +120,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
                 });
             });
 
-            matchApiCommands.patch(matchId, {
+            await matchApiCommands.patch(matchId, {
                 isStarted: true
             });
         }

@@ -27,6 +27,13 @@ export namespace matchApiCommands {
             .catch(err => err);
     };
 
+    export const post = (model: MatchCreateModel): Promise<AxiosResponse<MatchModel>> => {
+        return request
+            .post<MatchModel>(`/matches`, model)
+            .then(res => res)
+            .catch(err => err);
+    };
+
     export const deleteMatch = (id: number) => {
         return request
             .delete(`/matches/${id}`)

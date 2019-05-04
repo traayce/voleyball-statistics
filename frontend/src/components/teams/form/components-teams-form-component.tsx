@@ -47,7 +47,7 @@ class TeamFormComponentClass extends React.Component<Props> {
                         type="submit"
                         variant="contained"
                         disabled={formikBag.isSubmitting || Boolean(Object.keys(formikBag.errors).length)} >Išsaugoti</Button>
-                </ Form>
+                </ Form>;
             }
             }
         >

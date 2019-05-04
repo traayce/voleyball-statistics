@@ -135,7 +135,6 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
 
     public render(): JSX.Element | null {
         const { classes } = this.props;
-        console.log(this.props);
         const { id, isLoading, isLoaded, matchModel: match, error, history } = this.props;
         const { teamAIds, teamBIds, error: validationError } = this.state;
 

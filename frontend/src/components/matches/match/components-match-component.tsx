@@ -17,7 +17,7 @@ import { MatchPrompt } from "./components-match-prompt";
 import { matchApiCommands } from "@api/match";
 import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
 interface StateProps {
-    match?: MatchModel;
+    matchModel?: MatchModel;
     isLoading: boolean;
     error?: string;
     isLoaded: boolean;
@@ -49,7 +49,7 @@ type Props = WithStyles<typeof MatchesContainerStyles> & Params & StateProps & D
 class MatchComponentClass extends React.PureComponent<Props, State> {
 
     public static MapStateToProps: MapStateToProps<StateProps, Params, IStore> = ({ matches }, { id }) => ({
-        match: matches.matchesList.find(x => x.id.toString() === id),
+        matchModel: matches.matchesList.find(x => x.id.toString() === id),
         isLoading: matches.isLoading,
         error: matches.error,
         isLoaded: matches.isLoaded
@@ -75,8 +75,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element | null {
-        const { classes, match } = this.props;
-        console.log(this.props);
+        const { classes, matchModel: match } = this.props;
         const { id, isLoading, error, isLoaded } = this.props;
         const { selected, anchor, isPromptOpen } = this.state;
 
@@ -202,7 +201,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
 
     private onControlActionClick = (action: ClsfPlayerPointType): React.MouseEventHandler => async () => {
         const { selected } = this.state;
-        const { match, dispatch } = this.props;
+        const { matchModel: match, dispatch } = this.props;
         if (selected === 0) {
             NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
             return;
@@ -214,7 +213,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
             return;
         }
         try {
-            const response = await playerPointApiCommands.post({
+             await playerPointApiCommands.post({
                 id: 0,
                 playerId: selected,
                 matchPointId: pointsSummary.points.pop().id,
@@ -237,10 +236,10 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
     }
 
     private onTeamPointActionClick = (teamId: number): React.MouseEventHandler => async () => {
-        if (this.props.match == null)
+        if (this.props.matchModel == null)
             return;
         const { dispatch } = this.props;
-        const { pointsSummary, id, teamA, teamB } = this.props.match;
+        const { pointsSummary, id, teamA } = this.props.matchModel;
         const { setNumber, teamAPoints, teamBPoints, points } = pointsSummary;
         let newSetNumber: number = setNumber;
         let isSetPoint = false;
@@ -260,7 +259,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         }
 
         try {
-            const response = await matchPointApiCommands.post({
+              await matchPointApiCommands.post({
                 id: 0,
                 isMatchPoint: false,
                 isSetPoint: isSetPoint,
@@ -283,7 +282,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         if (!success) {
             this.setState({ isPromptOpen: false });
         } else {
-            const { match, history } = this.props;
+            const { matchModel: match, history } = this.props;
             matchApiCommands.patch(match.id, {
                 isFinished: true
             });

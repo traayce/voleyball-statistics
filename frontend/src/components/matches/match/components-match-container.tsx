@@ -10,7 +10,6 @@ interface Params {
 type Props = WithStyles<typeof MatchesContainerStyles> & RouteComponentProps<Params>;
 class MatchContainerClass extends React.PureComponent<Props> {
     public render(): JSX.Element | null {
-        console.log(this.props.match.params.id);
         if (this.props.match.params.id == null) {
             return null;
         }

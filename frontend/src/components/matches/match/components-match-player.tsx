@@ -1,8 +1,7 @@
 
 import * as React from "react";
-import { Grid, Typography, createStyles, WithStyles, withStyles, Button, Theme } from "@material-ui/core";
+import { Typography, createStyles, WithStyles, withStyles, Button, Theme } from "@material-ui/core";
 import Person from "@material-ui/icons/Person";
-import classNames = require("classnames");
 const styles = (theme: Theme) => createStyles({
     Player: {
         width: "85px",
@@ -43,15 +42,6 @@ class MatchPlayerClass extends React.PureComponent<Props> {
             <Person fontSize="large" />
             <Typography className={classes.Number}>{playerNumber}</Typography>
         </Button>;
-        // return <Grid container className={classNames(classes.Player, { [classes.Green]: isSelected })} onClick={onClick}>
-        //     <Grid className={classes.PlayerNumber}
-        //         direction="column"
-        //         justify="center"
-        //         alignItems="center">
-        //         <Person fontSize="large" />
-        //         <Typography className={classes.Number}>{playerNumber}</Typography>
-        //     </Grid>
-        // </Grid>;
     }
 }
 

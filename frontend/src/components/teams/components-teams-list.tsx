@@ -1,9 +1,9 @@
 import * as React from "react";
-import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Grid, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 import { MapStateToProps, connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { MatchCreateModel, TeamModel } from "src/types";
+import { TeamModel, TeamCreateModel } from "src/types";
 import { teamReducerActions } from "@reducers/team";
 import { IStore } from "@store/state";
 import { TeamFormComponent } from "./form/components-teams-form-component";
@@ -45,7 +45,7 @@ class TeamsListComponentClass extends React.Component<Props, State> {
     })
 
     public render(): JSX.Element {
-        const { teams, isLoading, error, classes, isLoaded } = this.props;
+        const { teams, isLoading, error, isLoaded } = this.props;
         if (!isLoaded && !isLoading && error != null) {
             this.getMatches();
         }

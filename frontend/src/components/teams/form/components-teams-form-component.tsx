@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TeamModel, TeamCreateModel } from "src/types";
+import { TeamCreateModel } from "src/types";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import { Formik, FormikProps, Form, FormikConfig } from "formik";
 import { InputField } from "@components/inputs/textfield-component";
@@ -26,29 +26,28 @@ class TeamFormComponentClass extends React.Component<Props> {
         return <Formik<TeamCreateModel>
             initialValues={team}
             onSubmit={this.onSubmit}
-            render={(formikBag: FormikProps<TeamCreateModel>) =>{
-                console.log(formikBag);
+            render={(formikBag: FormikProps<TeamCreateModel>) => {
                 return <Form>
-                <InputField<keyof TeamCreateModel>
-                    type="text"
-                    name="name"
-                    label="Pavadinimas"
-                    fullWidth={true}
-                    validate={this.validate}
-                />
-                <InputField<keyof TeamCreateModel>
-                    type="text"
-                    name="city"
-                    label="Miestas"
-                    fullWidth={true}
-                    validate={this.validate}
-                />
-                <Button
-                    color="primary"
-                    type="submit"
-                    variant="contained"
-                    disabled={formikBag.isSubmitting || Object.keys(formikBag.errors).length} >Išsaugoti</Button>
-            </ Form>
+                    <InputField<keyof TeamCreateModel>
+                        type="text"
+                        name="name"
+                        label="Pavadinimas"
+                        fullWidth={true}
+                        validate={this.validate}
+                    />
+                    <InputField<keyof TeamCreateModel>
+                        type="text"
+                        name="city"
+                        label="Miestas"
+                        fullWidth={true}
+                        validate={this.validate}
+                    />
+                    <Button
+                        color="primary"
+                        type="submit"
+                        variant="contained"
+                        disabled={formikBag.isSubmitting || Boolean(Object.keys(formikBag.errors).length)} >Išsaugoti</Button>
+                </ Form>
             }
             }
         >
@@ -57,7 +56,6 @@ class TeamFormComponentClass extends React.Component<Props> {
 
     private onSubmit: FormikConfig<TeamCreateModel>["onSubmit"] = async (values) => {
         const { team } = this.props;
-        debugger;
         if (team == null || team.id === 0) {
             await teamApiCommands.post(values);
         } else {

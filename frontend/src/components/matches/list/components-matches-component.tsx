@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Grid } from "@material-ui/core";
+import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid } from "@material-ui/core";
 import { MapStateToProps, connect } from "react-redux";
 import { IStore } from "../../../store/state";
 import { MatchesContainerStyles } from "./components-matches-styles";

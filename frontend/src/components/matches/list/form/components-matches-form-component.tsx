@@ -49,7 +49,6 @@ class MatchFormComponentClass extends React.Component<Props> {
     }
 
     private onSubmit: FormikConfig<MatchCreateModel>["onSubmit"] = () => {
-        debugger;
     }
 }
 

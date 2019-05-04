@@ -1,7 +1,6 @@
 
 import * as React from "react";
 import { Grid, Typography, createStyles, WithStyles, withStyles } from "@material-ui/core";
-import Add from "@material-ui/icons/Add";
 import classNames = require("classnames");
 const styles = () => createStyles({
     Player: {

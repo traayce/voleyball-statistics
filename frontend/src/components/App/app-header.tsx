@@ -1,15 +1,14 @@
 import * as React from "react";
 import { AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, Grid, CssBaseline } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { createStyles, WithStyles, withStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { NavigationComponent } from "./app-menu";
 import { withRouter, RouteComponentProps } from "react-router";
-import { MapDispatchToProps, connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { Action, Dispatch } from "redux";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import { authenticationReducerActions } from "@reducers/authentication";
-const styles = (theme: Theme) => createStyles({
+const styles = () => createStyles({
     root: {
         flexGrow: 1,
     },
@@ -56,7 +55,6 @@ class HeaderComponentClass extends React.Component<Props, State> {
     public render(): JSX.Element | null {
         const { classes, isAuthenticated } = this.props;
         const { anchorEl, isNavigationMenuOpen } = this.state;
-        console.log(this.props.location.pathname);
         if (this.props.location.pathname.includes("/matches/") && !this.props.location.pathname.includes("/setup")) {
             return null;
         }

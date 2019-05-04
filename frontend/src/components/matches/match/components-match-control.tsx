@@ -1,9 +1,6 @@
 
 import * as React from "react";
-import { Grid, Typography, createStyles, WithStyles, withStyles, Button, Theme } from "@material-ui/core";
-import Add from "@material-ui/icons/Add";
-import classNames = require("classnames");
-import { ClsfPlayerPointType } from "src/types";
+import { createStyles, WithStyles, withStyles, Button, Theme } from "@material-ui/core";
 const styles = (theme: Theme) => createStyles({
     Player: {
         width: "85px",
@@ -41,19 +38,10 @@ interface OwnProps {
 type Props = OwnProps & WithStyles<typeof styles>;
 class MatchControlClass extends React.PureComponent<Props> {
     public render(): JSX.Element {
-        const { classes, actionName, isSelected, onClick } = this.props;
+        const { classes, actionName, onClick } = this.props;
         return <Button variant="contained" color="primary" className={classes.Button} onClick={onClick} >
             {actionName}
         </Button>;
-        // return <Grid container className={classNames(classes.Player, { [classes.Green]: isSelected })} onClick={onClick}>
-        //     <Grid className={classes.PlayerNumber}
-        //         direction="column"
-        //         justify="center"
-        //         alignItems="center">
-        //         <Add fontSize="large" />
-        //         <Typography className={classes.Number}>{actionName}</Typography>
-        //     </Grid>
-        // </Grid>;
     }
 }
 

@@ -15,7 +15,6 @@ export namespace teamReducerActions {
                 dispatch(getTeamsSuccess(response.data));
             }
             catch (e) {
-                console.log(e);
                 dispatch(getTeamsFail("error occured while gettind teames list"));
             }
         };

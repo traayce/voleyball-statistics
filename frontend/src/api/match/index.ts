@@ -21,7 +21,6 @@ export namespace matchApiCommands {
             op: "replace",
             value: model[key as keyof MatchCreateModel]
         }));
-        console.log(body);
         return request
             .patch<MatchModel>(`/matches/${matchId}`, body)
             .then(res => res)

@@ -1,8 +1,6 @@
 ﻿using System.Text;
 using Api.Configurations.Common;
 using Api.Configurations.Swagger;
-using Api.Mappings;
-using Api.Services;
 using Api.Utils.Exceptions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,12 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
-using ServiceContracts;
-using ServiceContracts.Services.TeamService;
 using Services;
-using Services.Services.TeamService;
 using AppSettings = Api.Configurations.Common.AppSettings;
 
 namespace Api

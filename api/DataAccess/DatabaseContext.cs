@@ -7,7 +7,6 @@ namespace DataAccess
     public class DatabaseContext : DbContext
     {
         public DatabaseContext (DbContextOptions<DatabaseContext> options) : base(options){ }
-        public DbSet<ProductEntity> Products { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<TeamEntity> Teams { get; set; }
         public DbSet<PlayerEntity> Players { get; set; }
@@ -18,9 +17,6 @@ namespace DataAccess
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ProductEntity>()
-                .HasIndex(x => x.Code)
-                .IsUnique();
             
             builder.Entity<UserEntity>()
                 .HasIndex(x => x.Email)

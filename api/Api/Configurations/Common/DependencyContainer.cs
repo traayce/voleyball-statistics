@@ -1,7 +1,5 @@
-using Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ServiceContracts;
 using ServiceContracts.Services.AuthenticationService;
 using ServiceContracts.Services.MatchServices.MatchPlayerService;
 using ServiceContracts.Services.MatchServices.MatchPointService;
@@ -10,7 +8,6 @@ using ServiceContracts.Services.MatchServices.PlayerPointService;
 using ServiceContracts.Services.PlayerService;
 using ServiceContracts.Services.TeamService;
 using ServiceContracts.Services.UserService;
-using Services;
 using Services.Services.AuthenticationService;
 using Services.Services.MatchServices.MatchPlayerService;
 using Services.Services.MatchServices.MatchPointService;
@@ -26,8 +23,6 @@ namespace Api.Configurations.Common
     {
         public static void ConfigureDi(this IServiceCollection services)
         {
-            services.TryAddTransient<IProductService, ProductService>();
-            services.TryAddTransient<IProductApplicationService, ProductApplicationService>();
             services.TryAddTransient<IAuthenticationService, AuthenticationService>();
             services.TryAddTransient<ITeamService, TeamService>();
             services.TryAddTransient<IPlayerService, PlayerService>();

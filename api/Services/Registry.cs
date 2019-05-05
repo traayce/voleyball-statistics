@@ -21,7 +21,6 @@ namespace Services
             services.Configure<AppSettings>(appSettingsSection);
             services.TryAddTransient<ITransactionDealerRepository, TransactionDealerRepository>();
             services.TryAddTransient<ITransactedCaller, TransactedCaller>();
-            services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();

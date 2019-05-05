@@ -23,7 +23,7 @@ namespace DataEntities.Entities.Match
         public int MatchId { get; set; }
         public virtual MatchEntity MatchEntity{ get; set; }
         
-        public virtual ICollection<PlayerPointEntity> Players { get; set; }
+        public virtual ICollection<PlayerPointEntity> PlayerPoints { get; set; }
         
         [ForeignKey("TeamEntity")]
         public int TeamId { get; set; }

@@ -3,7 +3,6 @@ using AutoMapper;
 using DataEntities.Base;
 using DataEntities.Entities;
 using DataEntities.Entities.Match;
-using ServiceContracts.Models.Product;
 using ServiceContracts.Services.MatchServices.MatchPlayerService.Models;
 using ServiceContracts.Services.MatchServices.MatchPointService.Models;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
@@ -21,11 +20,6 @@ namespace Services.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<ProductDomainModel, ProductEntity>()
-                .ForMember(x => x.Id, c => c.Ignore())
-                .IgnoreAudit();
-            CreateMap<ProductEntity, ProductDomainModel>();
-
             CreateMap<TeamEntity, TeamCreateDomainModel>();
 
             CreateMap<ITeamCreateDomainModel, TeamEntity>()

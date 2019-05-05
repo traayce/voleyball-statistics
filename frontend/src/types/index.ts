@@ -127,6 +127,7 @@ export interface MatchPointsSummaryModel {
     teamBPoints: number;
     teamASetPoints: number;
     teamBSetPoints: number;
+    lastPoint: MatchPointModel | null;
     points: MatchPointModel[];
 }
 

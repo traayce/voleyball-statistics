@@ -2,22 +2,6 @@
 import * as React from "react";
 import { createStyles, WithStyles, withStyles, Button, Theme } from "@material-ui/core";
 const styles = (theme: Theme) => createStyles({
-    Player: {
-        width: "85px",
-        height: "85px",
-        backgroundColor: "white",
-        border: "5px solid black"
-    },
-    PlayerNumber: {
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        textAlign: "center",
-        width: "100%",
-    },
-    Number: {
-        fontSize: "1em"
-    },
     Green: {
         backgroundColor: "green"
     },

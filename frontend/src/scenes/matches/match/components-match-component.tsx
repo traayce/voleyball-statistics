@@ -215,17 +215,17 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         if (match == null)
             return;
         const { pointsSummary } = match;
-        if (!pointsSummary.points == null || !pointsSummary.points.length) {
+        if (pointsSummary.lastPoint == null) {
             return;
         }
-        const last = pointsSummary.points.pop();
-        if (last == null)
+        const lastPoint = pointsSummary.lastPoint;
+        if (lastPoint == null)
             return;
         try {
             await playerPointApiCommands.post({
                 id: 0,
                 playerId: selected,
-                matchPointId: last.id,
+                matchPointId: lastPoint.id,
                 pointType: action
             });
 
@@ -319,10 +319,9 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
             return;
         const { dispatch } = this.props;
         const { pointsSummary, id, teamA } = this.props.matchModel;
-        const { setNumber, teamAPoints, teamBPoints, points } = pointsSummary;
+        const { setNumber, teamAPoints, teamBPoints, lastPoint } = pointsSummary;
         let newSetNumber: number = setNumber;
         let isSetPoint = false;
-        const lastPoint = points.pop();
         const lastPointIsSetPoint = lastPoint != null && lastPoint.isSetPoint;
         const setEnd = this.getSetEnd(setNumber);
         if (!lastPointIsSetPoint) {

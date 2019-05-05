@@ -10,7 +10,7 @@ const styles = () => createStyles({
 
 interface OwnProps {
     onClose(): void;
-    team: TeamCreateModel;
+    team?: TeamCreateModel;
 }
 type Props = OwnProps & WithStyles<typeof styles>;
 class TeamFormComponentClass extends React.Component<Props> {
@@ -24,7 +24,11 @@ class TeamFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element {
         const { team } = this.props;
         return <Formik<TeamCreateModel>
-            initialValues={team}
+            initialValues={team != null ? team : {
+                id: 0,
+                name: "",
+                city: ""
+            }}
             onSubmit={this.onSubmit}
             render={(formikBag: FormikProps<TeamCreateModel>) => {
                 return <Form>

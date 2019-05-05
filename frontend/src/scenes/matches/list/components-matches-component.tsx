@@ -1,11 +1,11 @@
 import * as React from "react";
-import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid } from "@material-ui/core";
+import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid } from "@material-ui/core";
 import { MapStateToProps, connect } from "react-redux";
 import { IStore } from "../../../store/state";
 import { MatchesContainerStyles } from "./components-matches-styles";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { MatchModel, MatchCreateModel } from "src/types";
+import { MatchModel } from "src/types";
 import { actions } from "@reducers/match";
 import { MatchCardComponent } from "./components-match-card";
 import { MatchFormComponent } from "./form/components-matches-form-component";
@@ -82,7 +82,7 @@ class MatchesClass extends React.Component<Props, State> {
 
   private renderEditor = () => {
     const { editingObject, isEditorOpen } = this.state;
-    if (!isEditorOpen)
+    if (!isEditorOpen || editingObject == null)
       return null;
     return <Dialog
       open={true}

@@ -17,6 +17,9 @@
         "emitDecoratorMetadata": true,
         "baseUrl": "./",
         "paths": {
+            "@scenes/*": [
+                "src/scenes/*"
+            ],
             "@components/*": [
                 "src/components/*"
             ],

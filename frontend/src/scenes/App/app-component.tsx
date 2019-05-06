@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Grid, withStyles, WithStyles } from "@material-ui/core";
 import { hot } from "react-hot-loader/root";
-import { AuthenticationContainer } from "@components/authentication/components-authentication-container";
 import { HeaderComponent } from "./app-header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ContactsComponent } from "@components/about/components-about";
 import { PrivateRoute } from "./app-private-route";
 import { MapStateToProps, connect } from "react-redux";
 import { IStore } from "src/store/state";
-import { MatchListContainer, MatchContainer, MatchBeginningContainer } from "@components/matches";
 import { AppContainerStyles } from "./app-styles";
-import { TeamsLisContainerComponent } from "@components/teams/components-teams-container";
+import { AuthenticationContainer } from "@scenes/authentication/components-authentication-container";
+import { MatchBeginningContainer, MatchContainer, MatchListContainer } from "@scenes/matches";
+import { ContactsComponent } from "@scenes/about/components-about";
+import { TeamsLisContainerComponent } from "@scenes/teams/components-teams-container";
 interface ReduxProps {
     isLoggedIn: boolean;
 }

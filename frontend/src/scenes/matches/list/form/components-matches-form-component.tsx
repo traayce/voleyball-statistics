@@ -2,13 +2,13 @@ import * as React from "react";
 import { MatchModel, MatchCreateModel } from "src/types";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import { Formik, FormikProps, Form, FormikConfig } from "formik";
-import { InputField } from "@components/inputs/textfield-component";
 import { Button, Typography } from "@material-ui/core";
-import { InputDateInlineField } from "@components/inputs/date/date-picker";
 import { matchApiCommands } from "@api/match";
 import isEqual = require("lodash/isEqual");
-import { IntegrationDownshift } from "@components/inputs/lookup";
 import { withRouter, RouteComponentProps } from "react-router";
+import { InputField } from "@components/inputs/textfield-component";
+import { InputDateInlineField } from "@components/inputs/date/date-picker";
+import { IntegrationDownshift } from "@components/inputs/lookup";
 
 const styles = () => createStyles({
 });
@@ -21,7 +21,6 @@ type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element {
         const { model } = this.props;
-        console.log(model);
         return <Formik<MatchCreateModel>
             initialValues={this.getInitialValues(model)}
             onSubmit={this.onSubmit}

@@ -2,7 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { storeCreator } from "./store/createStore";
-import { AppComponent } from "./components/App/app-component";
+import { AppComponent } from "./scenes/App/app-component";
 import { IStore } from "./store/state";
 const rootEl = document.getElementById("root");
 

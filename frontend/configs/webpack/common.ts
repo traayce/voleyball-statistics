@@ -8,6 +8,7 @@ export const common = {
   resolve: {
     alias: {
       "@reducers": resolve(__dirname, "../../src/store/modules/"),
+      "@scenes": resolve(__dirname, "../../src/scenes/"),
       "@components": resolve(__dirname, "../../src/components/"),
       "@assets": resolve(__dirname, "../../src/assets/"),
       "@types": resolve(__dirname, "../../src/types/"),

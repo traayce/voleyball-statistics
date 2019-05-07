@@ -20,6 +20,11 @@ namespace Repositories.Base
             Dbset = dbContext.Set<TEntity>();
         }
         
+        public virtual TEntity GetById(int id)
+        {
+            return Dbset.Find(id);
+        }
+        
         public virtual Task<TEntity> GetByIdAsync(int id)
         {
             return Dbset.FindAsync(id);
@@ -40,6 +45,11 @@ namespace Repositories.Base
         {
             DbContext.Entry(entity).State = EntityState.Modified;
             UpdateAudit(entity);
+        }
+
+        public virtual IQueryable<TEntity> GetAll()
+        {
+            return Dbset;
         }
 
         public virtual Task<List<TEntity>> GetAllAsync()

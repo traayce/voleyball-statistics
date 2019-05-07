@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
+using ServiceContracts.Services.MatchServices.MatchService.Models.Statistics;
 
 namespace ServiceContracts.Services.MatchServices.MatchService
 {

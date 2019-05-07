@@ -9,6 +9,7 @@ namespace ServiceContracts.Services.MatchServices.MatchPointService.Models
         int TeamBSetPoints { get; set; }
         int TeamAPoints { get; set; }
         int TeamBPoints { get; set; }
+        IMatchPointDomainModel LastPoint { get; set; }
         IEnumerable<IMatchPointDomainModel> Points { get; set; }
     }
 
@@ -19,6 +20,7 @@ namespace ServiceContracts.Services.MatchServices.MatchPointService.Models
         public int TeamBSetPoints { get; set; }
         public int TeamAPoints { get; set; }
         public int TeamBPoints { get; set; }
+        public IMatchPointDomainModel LastPoint { get; set; }
         public IEnumerable<IMatchPointDomainModel> Points { get; set; }
     }
 }

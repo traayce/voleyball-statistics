@@ -68,6 +68,7 @@ namespace Services.Services.MatchServices.MatchPointService
             return new MatchPointsSummaryDomainModel
             {
                 SetNumber = setNumber,
+                LastPoint = Mapper.Map(entities.LastOrDefault(), new MatchPointDomainModel()),
                 TeamAPoints = entities.Count(x => x.TeamId == teamAId && x.SetNumber == setNumber),
                 TeamBPoints = entities.Count(x => x.TeamId == teamBId && x.SetNumber == setNumber),
                 TeamASetPoints = entities.Count(x => x.IsSetPoint && x.TeamId == teamAId),

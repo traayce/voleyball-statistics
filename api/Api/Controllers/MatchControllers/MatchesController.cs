@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.MatchServices.MatchService;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
+using ServiceContracts.Services.MatchServices.MatchService.Models.Statistics;
 using Services.Services.Base;
 
 namespace Api.Controllers.MatchControllers
@@ -17,16 +18,24 @@ namespace Api.Controllers.MatchControllers
     public class MatchesController: ControllerBaseCommand
     {
         private readonly IMatchService _matchService;
+        private readonly IMatchStatisticsService _matchStatisticsService;
 
-        public MatchesController(IMatchService matchService, ITransactedCaller executor) : base(executor)
+        public MatchesController(IMatchService matchService, IMatchStatisticsService matchStatisticsService, ITransactedCaller executor) : base(executor)
         {
             _matchService = matchService;
+            _matchStatisticsService = matchStatisticsService;
         }
         
         [HttpGet]
         public ActionResult<IEnumerable<MatchDomainModel>> Get(int[] matchIds)
         {
             return Ok(matchIds.Any() ? _matchService.GetByIds<MatchDomainModel>(matchIds) : _matchService.GetList<MatchDomainModel>());
+        }
+        
+        [HttpGet("{id}/statistics")]
+        public async Task<ActionResult<IEnumerable<MatchDomainModel>>> Get(int id)
+        {
+            return Ok(await _matchStatisticsService.GetStatistics<MatchStatisticsDomainModel>(id));
         }
 
         [HttpPost]

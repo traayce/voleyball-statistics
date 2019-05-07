@@ -31,6 +31,7 @@ namespace Api.Configurations.Common
             services.TryAddTransient<IMatchPointService, MatchPointService>();
             services.TryAddTransient<IPlayerPointService, PlayerPointService>();
             services.TryAddTransient<IMatchPlayerService, MatchPlayerService>();
+            services.TryAddTransient<IMatchStatisticsService, MatchStatisticsService>();
         }
     }
 }

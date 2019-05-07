@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataContracts.Base
@@ -8,6 +9,8 @@ namespace DataContracts.Base
     {
         Task<TEntity> GetByIdAsync(int id);
         Task<List<TEntity>> GetAllAsync();
+        TEntity GetById(int id);
+        IQueryable<TEntity> GetAll();
 
         TEntity Add(TEntity entity);
 

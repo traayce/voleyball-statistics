@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { request } from "../base";
-import { MatchModel, MatchCreateModel } from "src/types";
+import { MatchModel, MatchCreateModel, MatchStatisticsModel } from "src/types";
 
 export namespace matchApiCommands {
     export const get = (ids: string[]): Promise<AxiosResponse<MatchModel[]>> => {
@@ -14,6 +14,11 @@ export namespace matchApiCommands {
             .then(res => res)
             .catch(err => err);
     };
+
+    export const getStatistics = (id: number): Promise<AxiosResponse<MatchStatisticsModel>> => request
+        .get<MatchModel[]>(`/matches/${id}/statistics`)
+        .then(res => res)
+        .catch(err => err);
 
     export const patch = (matchId: number, model: Partial<MatchCreateModel>): Promise<AxiosResponse<MatchModel>> => {
         const body = Object.keys(model).map(key => ({

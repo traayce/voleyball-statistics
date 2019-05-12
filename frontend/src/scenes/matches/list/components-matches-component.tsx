@@ -88,13 +88,13 @@ class MatchesClass extends React.Component<Props, State> {
       open={true}
       onClose={this.onModalClose()}
     >
-      <DialogTitle id="alert-dialog-title">Varžybų forma</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Varžybos</DialogTitle>
       <DialogContent>
         <MatchFormComponent model={editingObject} onClose={this.onModalClose(true)} />
       </DialogContent>
       <DialogActions>
         <Button onClick={this.onModalClose()} color="primary">
-          Close
+          Uždaryti
       </Button>
       </DialogActions>
     </Dialog>;

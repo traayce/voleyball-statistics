@@ -132,3 +132,44 @@ export interface MatchPointsSummaryModel {
 }
 
 // match end
+
+// statistics
+export interface MatchStatisticsModel {
+    id: number;
+    matchTeamA: MatchTeamStatisticsModel;
+    matchTeamB: MatchTeamStatisticsModel;
+    sets: MatchSetStatisticsModel[];
+}
+
+export interface MatchTeamStatisticsModel {
+    id: number;
+    name: string;
+    playerStatistics: MatchPlayerStatisticsModel[];
+}
+
+export interface MatchPlayerStatisticsModel {
+    playerName: string;
+    number: number;
+    points: number;
+    blocks: number;
+    assists: number;
+    turnovers: number;
+    aces: number;
+    cardYellows: number;
+    cardReds: number;
+    wasOnCourt: boolean;
+}
+
+export interface MatchSetStatisticsModel {
+    setNumber: number;
+    aPoints: number;
+    bPoints: number;
+    setSteps: MatchSetStepperModel[];
+}
+
+export interface MatchSetStepperModel {
+    pointNumber: number;
+    teamAction: string;
+    playerActions: string[];
+}
+// match

@@ -9,6 +9,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { InputField } from "@components/inputs/textfield-component";
 import { InputDateInlineField } from "@components/inputs/date/date-picker";
 import { IntegrationDownshift } from "@components/inputs/lookup";
+import { MatchStatisticsContainer } from "../statistics/components-matches-statistics-component";
 
 const styles = () => createStyles({
 });
@@ -21,6 +22,8 @@ type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element {
         const { model } = this.props;
+        if (model.isFinished)
+            return <MatchStatisticsContainer id={model.id} />;
         return <Formik<MatchCreateModel>
             initialValues={this.getInitialValues(model)}
             onSubmit={this.onSubmit}

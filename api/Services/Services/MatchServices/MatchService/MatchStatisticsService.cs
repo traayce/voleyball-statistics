@@ -42,6 +42,8 @@ namespace Services.Services.MatchServices.MatchService
         public async Task<T> GetStatistics<T>(int id) where T : IMatchStatisticsDomainModel, new()
         {
             var match = await matchRepository.GetByIdAsync(id);
+            var teamAName = match.TeamAEntity.Name;
+            var teamBName = match.TeamBEntity.Name;
 
             if (match == null)
             {
@@ -60,11 +62,10 @@ namespace Services.Services.MatchServices.MatchService
                     SetSteps = c.Select((x, index) => new MatchSetStepper()
                     {
                         PointNumber = index + 1,
-                        IsTeamAPoint = x.TeamId == match.TeamAId,
-                        Actions = GeneratePointActionInfo(x)
+                        TeamAction = $"Tašką laimėjo {(x.TeamId == match.TeamAId ? teamAName : teamBName)}",
+                        PlayerActions = GeneratePointActionInfo(x)
                     })
                 };
-
 
             var result = new T
             {
@@ -88,7 +89,7 @@ namespace Services.Services.MatchServices.MatchService
                 Id = team.Id,
                 Name = team.Name,
                 PlayerStatistics = from player in _playerRepository.GetAll()
-                    join matchPlayer in _matchPlayerRepository.GetAll().Where(x => x.MatchId == 2) on player.Id equals matchPlayer.PlayerId into matchPlayers
+                    join matchPlayer in _matchPlayerRepository.GetAll().Where(x => x.MatchId == matchId) on player.Id equals matchPlayer.PlayerId into matchPlayers
                     from matchPlayer in matchPlayers.DefaultIfEmpty()
                     where player.TeamEntityId == team.Id
                     select new MatchPlayerStatisticDomainModel

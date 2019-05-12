@@ -4,7 +4,7 @@ export const AppContainerStyles = (theme: Theme) => createStyles({
     Root: {
         height: "100%",
         [theme.breakpoints.up("md")]: {
-            marginTop: "4em"
+            // marginTop: "4em"
         }
     }
 });

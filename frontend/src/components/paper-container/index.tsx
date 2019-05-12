@@ -1,15 +1,15 @@
 import * as React from "react";
-import { WithStyles, Paper, withStyles, createStyles } from "@material-ui/core";
+import { WithStyles, Paper, withStyles, createStyles, Theme } from "@material-ui/core";
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
     Container: {
         width: "95%",
-        margin: "1em auto 0",
-        padding: "1em",
-        flexGgrow: 1,
-        minHeight: "400px",
-        paddingBottom: "2em",
-    }
+        margin: "5em auto 0",
+    padding: "1em",
+    flexGgrow: 1,
+    minHeight: "400px",
+    paddingBottom: "2em",
+}
 });
 
 class ContainerClass extends React.PureComponent<WithStyles<typeof styles>> {

@@ -25,12 +25,12 @@ class AppComponentClass extends React.PureComponent<ReduxProps & WithStyles<type
                 <HeaderComponent isAuthenticated={isLoggedIn} />
                 <Route exact path="/" component={AuthenticationContainer} />
                 <Switch>
-                    <Route path={`/matches/:id/setup`} component={MatchBeginningContainer} />
-                    <Route path={`/matches/:id`} component={MatchContainer} />
+                    <PrivateRoute path={`/matches/:id/setup`} component={MatchBeginningContainer} isLoggedIn={isLoggedIn} />
+                    <PrivateRoute path={`/matches/:id`} component={MatchContainer} isLoggedIn={isLoggedIn} />
                 </Switch>
                 <Route exact path="/matches" component={MatchListContainer} />
                 <PrivateRoute path="/contacts" component={ContactsComponent} isLoggedIn={isLoggedIn} />
-                <Route exact path="/teams" component={TeamsLisContainerComponent} />
+                <PrivateRoute exact path="/teams" component={TeamsLisContainerComponent} isLoggedIn={isLoggedIn} />
             </Grid>
         </Router>;
     }

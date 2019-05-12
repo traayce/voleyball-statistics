@@ -20,10 +20,12 @@ interface OwnProps {
 }
 type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
-    public render(): JSX.Element {
+    public render(): JSX.Element | null {
         const { model } = this.props;
         if (model.isFinished)
             return <MatchStatisticsContainer id={model.id} />;
+        if (model.isStarted)
+            return this.renderControl();
         return <Formik<MatchCreateModel>
             initialValues={this.getInitialValues(model)}
             onSubmit={this.onSubmit}

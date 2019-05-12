@@ -13,7 +13,6 @@ using Services.Services.Base;
 
 namespace Api.Controllers.MatchControllers
 {
-    [Authorize]
     [Route("api/matches/")]
     public class MatchesController: ControllerBaseCommand
     {

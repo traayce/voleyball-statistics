@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DataAccess.Migrations;
 using DataContracts;
 using DataContracts.Base;
 using DataContracts.MatchRepositories;
@@ -10,7 +9,6 @@ using DataEntities.Entities.Match;
 using Infrastructure;
 using ServiceContracts.Services.MatchServices.MatchService;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
-using ServiceContracts.Services.MatchServices.PlayerPointService.Models;
 
 namespace Services.Services.MatchServices.MatchService
 {

@@ -21,13 +21,8 @@ namespace DataEntities.Entities.Match
         
         [ForeignKey("MatchEntity")]
         public int MatchId { get; set; }
-        public virtual MatchEntity MatchEntity{ get; set; }
-        
-        public virtual ICollection<PlayerPointEntity> PlayerPoints { get; set; }
         
         [ForeignKey("TeamEntity")]
         public int TeamId { get; set; }
-        
-        public virtual TeamEntity TeamEntity { get; set; }
     }
 }

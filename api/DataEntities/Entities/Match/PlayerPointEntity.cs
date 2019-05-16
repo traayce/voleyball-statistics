@@ -12,12 +12,10 @@ namespace DataEntities.Entities.Match
         
         public int PointType { get; set; }
         
-        [ForeignKey("MatchPointEntity")]
+        [ForeignKey("MatchPoint")]
         public int MatchPointId { get; set; }
-        public virtual MatchPointEntity MatchPointEntity{ get; set; }
         
-        [ForeignKey("PlayerEntity")]
+        [ForeignKey("Player")]
         public int PlayerId { get; set; }
-        public virtual PlayerEntity PlayerEntity { get; set; }
     }
 }

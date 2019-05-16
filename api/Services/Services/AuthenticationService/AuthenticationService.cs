@@ -8,9 +8,9 @@ using DataContracts;
 using Infrastructure;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ServiceContracts.Helpers.Extensions;
 using ServiceContracts.Services.AuthenticationService;
 using ServiceContracts.Services.AuthenticationService.Models;
+using Services.Helpers.Extensions;
 
 namespace Services.Services.AuthenticationService
 {

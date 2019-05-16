@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ServiceContracts.Helpers.Extensions
+namespace Services.Helpers.Extensions
 {
     public static class StringExtensions
     {

@@ -4,9 +4,9 @@ using DataContracts;
 using DataContracts.Base;
 using DataEntities.Entities;
 using Infrastructure;
-using ServiceContracts.Helpers.Extensions;
 using ServiceContracts.Services.UserService;
 using ServiceContracts.Services.UserService.Models;
+using Services.Helpers.Extensions;
 
 namespace Services.Services.UserService
 {

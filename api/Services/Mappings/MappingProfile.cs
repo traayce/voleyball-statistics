@@ -47,7 +47,7 @@ namespace Services.Mappings
                 .ForMember(x => x.TeamB, c => c.MapFrom(x => TeamService.FormModel(x.TeamBEntity)))
                 .ForMember(x => x.Secretary, c => c.MapFrom(x => UserService.FormModel(x.SecretaryEntity)))
                 .ForMember(x => x.MatchPlayers, c => c.MapFrom(x => MatchPlayerService.FormModel(x.MatchPlayers)))
-                .ForMember(x => x.PointsSummary, c => c.MapFrom(x => MatchPointService.FormModel(x.Points, x.TeamAId, x.TeamBId)));
+                .ForMember(x => x.PointsSummary, c => c.MapFrom(x => MatchPointService.FormModel(x.MatchPoints, x.TeamAId, x.TeamBId)));
 
             CreateMap<MatchPointEntity, IMatchPointCreateDomainModel>();
             CreateMap<IMatchPointCreateDomainModel, MatchPointEntity>()
@@ -58,9 +58,7 @@ namespace Services.Mappings
 
             CreateMap<MatchPlayerEntity, IMatchPlayerCreateDomainModel>();
             CreateMap<IMatchPlayerCreateDomainModel, MatchPlayerEntity>()
-                .ForMember(x => x.MatchEntity, c => c.Ignore())
                 .ForMember(x => x.PlayerEntity, c => c.Ignore())
-                .ForMember(x => x.TeamEntity, c => c.Ignore())
                 .IgnoreAudit();
 
             CreateMap<MatchPlayerEntity, IMatchPlayerDomainModel>()
@@ -68,8 +66,6 @@ namespace Services.Mappings
             
             CreateMap<PlayerPointEntity, IPlayerPointCreateDomainModel>();
             CreateMap<IPlayerPointCreateDomainModel, PlayerPointEntity>()
-                .ForMember(x => x.PlayerEntity, c => c.Ignore())
-                .ForMember(x => x.MatchPointEntity, c => c.Ignore())
                 .IgnoreAudit();
             
             CreateMap<PlayerPointEntity, IPlayerPointDomainModel>();

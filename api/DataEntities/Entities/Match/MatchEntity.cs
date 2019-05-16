@@ -33,7 +33,7 @@ namespace DataEntities.Entities.Match
         public int TeamBId { get; set; }
         public virtual TeamEntity TeamBEntity { get; set; }
         
-        public virtual ICollection<MatchPointEntity> Points { get; set; }
+        public virtual ICollection<MatchPointEntity> MatchPoints { get; set; }
         
         public virtual ICollection<MatchPlayerEntity> MatchPlayers { get; set; }
        

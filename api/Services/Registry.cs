@@ -1,8 +1,6 @@
-using DataAccess;
 using DataContracts;
 using DataContracts.Base;
 using DataContracts.MatchRepositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -29,8 +27,7 @@ namespace Services
             services.AddTransient<IPlayerPointRepository, PlayerPointRepository>();
             services.AddTransient<IMatchPlayerRepository, MatchPlayerRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseLazyLoadingProxies().UseSqlServer(appSettingsSection.Get<AppSettings>().ConnectionString));
+            RepositoriesDependencyRegistry.AddServices(services, configuration);
             return services;
         }
     }

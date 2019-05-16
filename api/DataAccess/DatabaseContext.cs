@@ -1,4 +1,5 @@
-﻿using DataEntities.Entities;
+﻿using DataAccess.Migrations;
+using DataEntities.Entities;
 using DataEntities.Entities.Match;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,12 @@ namespace DataAccess
         public DbSet<PlayerEntity> Players { get; set; }
         public DbSet<MatchEntity> Matches { get; set; }
         public DbSet<MatchPointEntity> MatchPoints { get; set; }
+        public DbSet<MatchPlayerEntity> MatchPlayers { get; set; }
         
         public DbSet<PlayerPointEntity> PlayerPoints { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
             builder.Entity<UserEntity>()
                 .HasIndex(x => x.Email)
                 .IsUnique();

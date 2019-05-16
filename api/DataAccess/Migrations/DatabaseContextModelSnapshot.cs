@@ -70,6 +70,8 @@ namespace DataAccess.Migrations
 
                     b.Property<bool>("IsOnCourt");
 
+                    b.Property<int?>("MatchEntityId");
+
                     b.Property<int>("MatchId");
 
                     b.Property<int>("PlayerId");
@@ -82,11 +84,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MatchId");
+                    b.HasIndex("MatchEntityId");
 
                     b.HasIndex("PlayerId");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("MatchPlayerEntity");
                 });
@@ -136,6 +136,8 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CreatedBy");
 
+                    b.Property<int?>("MatchPointEntityId");
+
                     b.Property<int>("MatchPointId");
 
                     b.Property<int>("PlayerId");
@@ -148,9 +150,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MatchPointId");
-
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("MatchPointEntityId");
 
                     b.ToTable("PlayerPoints");
                 });
@@ -180,37 +180,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("TeamEntityId");
 
                     b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("DataEntities.Entities.ProductEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<string>("Name");
-
-                    b.Property<byte[]>("Photo");
-
-                    b.Property<double>("Price");
-
-                    b.Property<DateTime>("UpdatedAt");
-
-                    b.Property<int>("UpdatedBy");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasFilter("[Code] IS NOT NULL");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("DataEntities.Entities.TeamEntity", b =>
@@ -292,26 +261,20 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataEntities.Entities.Match.MatchPlayerEntity", b =>
                 {
-                    b.HasOne("DataEntities.Entities.Match.MatchEntity", "MatchEntity")
+                    b.HasOne("DataEntities.Entities.Match.MatchEntity")
                         .WithMany("MatchPlayers")
-                        .HasForeignKey("MatchId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MatchEntityId");
 
                     b.HasOne("DataEntities.Entities.PlayerEntity", "PlayerEntity")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataEntities.Entities.TeamEntity", "TeamEntity")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DataEntities.Entities.Match.MatchPointEntity", b =>
                 {
                     b.HasOne("DataEntities.Entities.Match.MatchEntity", "MatchEntity")
-                        .WithMany("Points")
+                        .WithMany("MatchPoints")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -323,15 +286,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataEntities.Entities.Match.PlayerPointEntity", b =>
                 {
-                    b.HasOne("DataEntities.Entities.Match.MatchPointEntity", "MatchPointEntity")
-                        .WithMany("Players")
-                        .HasForeignKey("MatchPointId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataEntities.Entities.PlayerEntity", "PlayerEntity")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("DataEntities.Entities.Match.MatchPointEntity")
+                        .WithMany("PlayerPoints")
+                        .HasForeignKey("MatchPointEntityId");
                 });
 
             modelBuilder.Entity("DataEntities.Entities.PlayerEntity", b =>

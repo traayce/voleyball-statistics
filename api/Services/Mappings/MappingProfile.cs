@@ -51,7 +51,6 @@ namespace Services.Mappings
 
             CreateMap<MatchPointEntity, IMatchPointCreateDomainModel>();
             CreateMap<IMatchPointCreateDomainModel, MatchPointEntity>()
-                .ForMember(x => x.MatchEntity, c => c.Ignore())
                 .IgnoreAudit();
 
             CreateMap<MatchPointEntity, IMatchPointDomainModel>();

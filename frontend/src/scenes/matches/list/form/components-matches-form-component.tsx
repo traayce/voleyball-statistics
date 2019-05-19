@@ -46,13 +46,25 @@ class MatchFormComponentClass extends React.Component<Props> {
                         keyboard={true}
                         clearable={true}
                     />
-                    <IntegrationDownshift />
+                    <InputField<keyof MatchCreateModel>
+                        type="text"
+                        name="teamAId"
+                        label="Komanda A"
+                        fullWidth={true}
+                    />
+                    <InputField<keyof MatchCreateModel>
+                        type="text"
+                        name="teamBId"
+                        label="Komanda B"
+                        fullWidth={true}
+                    />
+                    {/* <IntegrationDownshift /> */}
                     <Button
                         color="primary"
                         type="submit"
                         variant="contained"
                         disabled={formikBag.isSubmitting} >Išsaugoti</Button>
-                    <Typography>Valdymas</Typography>
+                    {model != null && <Typography variant="h6" align="center">VALDYMAS</Typography>}
                     {this.renderControl()}
                 </ Form>
             )}

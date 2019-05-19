@@ -54,6 +54,8 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
             <Typography variant="h6" align="center">ŽAIDĖJŲ STATISTIKA</Typography>
             {this.renderPlayersTable(model.matchTeamA)}
             {this.renderPlayersTable(model.matchTeamB)}
+            <Typography variant="h6" align="center">LENTELĖS PAAIŠKINIMAI</Typography>
+            {this.getStatisticsLegend()}
             <Typography variant="h6" align="center">ĮVYKIAI PAGAL SETUS</Typography>
             <Tabs
                 value={this.state.setSelected}
@@ -76,6 +78,7 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
             </Stepper>
         </Grid>;
     }
+
     private handleSetChande: (event: React.ChangeEvent<{}>, value: any) => void = (e, value) => {
         this.setState({ setSelected: value });
     }
@@ -98,7 +101,7 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
             <TableBody>
                 {team.playerStatistics.map(x => <TableRow>
                     <TableCell className={classes.CellPadding} style={{ width: "20%" }}>
-                        <Typography>{x.playerName} - {x.number}</Typography>
+                        <Typography style={{ fontWeight: "bolder" }}>{x.playerName} - {x.number}</Typography>
                     </TableCell>
                     <TableCell align="center" className={classes.CellPadding}>{x.points}</TableCell>
                     <TableCell align="center" className={classes.CellPadding}>{x.turnovers}</TableCell>
@@ -111,6 +114,17 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
             </TableBody>
         </Table>;
     }
+
+    private getStatisticsLegend = () => <Grid container alignItems="center">
+        <Grid item xs={12}><Typography variant="body1" align="center">Ta - Taškai</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">Kl - Klaidos</Typography></Grid>
+        <Grid item xs={12}>
+            <Typography variant="body1" align="center">AS - Asistuoti smūgiai</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">Bl - Blokai</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">NP - Neatriamemi padavimai</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">GK - Geltonos kortelės</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">RK - Raudonos kortelės</Typography></Grid>
+    </Grid>;
 
 }
 

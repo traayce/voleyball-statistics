@@ -16,15 +16,16 @@ const styles = () => createStyles({
 
 interface OwnProps {
     onClose(): void;
-    model: MatchModel;
+    model?: MatchModel;
 }
+
 type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element | null {
         const { model } = this.props;
-        if (model.isFinished)
+        if (model != null && model.isFinished)
             return <MatchStatisticsContainer id={model.id} />;
-        if (model.isStarted)
+        if (model != null && model.isStarted)
             return this.renderControl();
         return <Formik<MatchCreateModel>
             initialValues={this.getInitialValues(model)}
@@ -93,7 +94,7 @@ class MatchFormComponentClass extends React.Component<Props> {
         return 1;
     }
 
-    private getInitialValues = (model: MatchModel): MatchCreateModel => {
+    private getInitialValues = (model?: MatchModel): MatchCreateModel => {
         return model != null ? {
             id: model.id,
             startsAt: model.startsAt,

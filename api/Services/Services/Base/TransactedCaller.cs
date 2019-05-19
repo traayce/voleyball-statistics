@@ -29,14 +29,18 @@ namespace Services.Services.Base
                 _transactionProvider.CommitTransaction();
                 return response;
             }
-            catch (RulesException)
+            catch (Exception e) when (e is RulesException)
             {
                 _transactionProvider.RollbackTransaction();
-                throw;
+                throw e;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _transactionProvider.RollbackTransaction();
+                if (ex.InnerException is RulesException)
+                {
+                    throw ex.InnerException;
+                }
                 throw new RulesException("Something went wrong");
             }
         }

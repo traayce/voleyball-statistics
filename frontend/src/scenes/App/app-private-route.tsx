@@ -9,5 +9,5 @@ interface OwnProps {
 export const PrivateRoute = ({ isLoggedIn, component: Component, ...rest }: OwnProps & RouteProps) => (<Route {...rest} render={(props) => (
     isLoggedIn
         ? <Component {...props} />
-        : <Redirect to="/" />
+        : <Redirect to="/login" />
 )} />);

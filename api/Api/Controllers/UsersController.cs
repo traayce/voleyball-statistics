@@ -7,17 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.UserService;
+using Services.Services.Base;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ControllerBaseCommand
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
 
-        public UsersController(IAuthenticationService authenticationService, IUserService userService)
+        public UsersController(IAuthenticationService authenticationService, IUserService userService, ITransactedCaller executor) : base(executor)
         {
             _authenticationService = authenticationService;
             _userService = userService;
@@ -38,10 +39,9 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IUserLoginDomainModel>> Post([FromBody] UserLoginModel model)
+        public async Task<ActionResult<IUserLoginDomainModel>> Post([FromBody] UserCreateModel model)
         {
-            var response = await _authenticationService.Authenticate<UserLoginDomainModel>(model.Name, model.Password);
-            return Ok(response);
+            return Command( async () => await _userService.Create(model));
         }
 
         [HttpPatch("{id}")]

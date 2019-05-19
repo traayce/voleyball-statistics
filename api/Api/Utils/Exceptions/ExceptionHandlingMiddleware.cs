@@ -48,7 +48,7 @@ namespace Api.Utils.Exceptions
 
             foreach (var errorInfo in exception.Errors)
             {
-                problem.Errors.Add(errorInfo.PropertyName, new[] {errorInfo.ErrorMessage});
+                problem.Errors.Add(errorInfo.PropertyName.ToLower(), new[] {errorInfo.ErrorMessage});
             }
 
             return problem;

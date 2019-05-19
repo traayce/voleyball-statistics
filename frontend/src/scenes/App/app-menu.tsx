@@ -56,7 +56,7 @@ interface MenuItem {
 const Paths: MenuItem[] = [
     { name: "Varžybos", path: "/matches" },
     { name: "Komandos", path: "/teams" },
-    { name: "Kontaktai", path: "/contacts" }];
+    { name: "Prisijungimas", path: "/login" }];
 
 class NavigationComponentClass extends React.Component<Props, State> {
     public state: State = {

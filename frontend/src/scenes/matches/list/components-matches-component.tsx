@@ -5,16 +5,18 @@ import { IStore } from "../../../store/state";
 import { MatchesContainerStyles } from "./components-matches-styles";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { MatchModel } from "src/types";
+import { MatchModel, RolesEnum } from "src/types";
 import { actions } from "@reducers/match";
 import { MatchCardComponent } from "./components-match-card";
 import { MatchFormComponent } from "./form/components-matches-form-component";
+import { hasRole } from "@utils/permissions";
 
 interface StateProps {
   isLoading: boolean;
   matches: Array<MatchModel>;
   error?: boolean;
   isLoaded: boolean;
+  role?: string;
 }
 
 interface DispatchProps {
@@ -34,15 +36,16 @@ class MatchesClass extends React.Component<Props, State> {
     isEditorOpen: false
   };
   public state: State = this.initialState;
-  public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = ({ matches }) => ({
+  public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = ({ matches, authentication }) => ({
     matches: matches.matchesList,
     isLoading: matches.isLoading,
     error: matches.error != null,
-    isLoaded: matches.isLoaded
+    isLoaded: matches.isLoaded,
+    role: authentication.role
   })
 
   public render(): JSX.Element {
-    const { matches, isLoading, error, classes, isLoaded } = this.props;
+    const { matches, isLoading, error, classes, isLoaded, role } = this.props;
     if (!isLoaded && !isLoading && error != null) {
       this.getMatches();
     }
@@ -61,12 +64,12 @@ class MatchesClass extends React.Component<Props, State> {
           type="submit"
           variant="contained"
           onClick={this.getMatches}>Perkrauti</Button>
-        <Button
+        {hasRole([RolesEnum.Secretary, RolesEnum.Admin], role as string) && <Button
           className={classes.Button}
           color="primary"
           type="submit"
           variant="contained"
-          onClick={this.openEditor()}>Sukurti naują</Button>
+          onClick={this.openEditor()}>Sukurti naują</Button>}
       </div>
       <div>
         {matches.map((match: MatchModel) => <MatchCardComponent key={`match-${match.id}`} match={match} openEditor={this.openEditor} />)}
@@ -82,7 +85,7 @@ class MatchesClass extends React.Component<Props, State> {
 
   private renderEditor = () => {
     const { editingObject, isEditorOpen } = this.state;
-    if (!isEditorOpen || editingObject == null)
+    if (!isEditorOpen)
       return null;
     return <Dialog
       open={true}
@@ -107,9 +110,10 @@ class MatchesClass extends React.Component<Props, State> {
     }
   }
 
+
   private getMatches = () => {
-    const { dispatch } = this.props;
-    dispatch(actions.getMatches());
-  }
+  const { dispatch } = this.props;
+  dispatch(actions.getMatches());
+}
 }
 export const MatchesListComponent = withStyles(MatchesContainerStyles)(connect(MatchesClass.MapStateToProps)(MatchesClass));

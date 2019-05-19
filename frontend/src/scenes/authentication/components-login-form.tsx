@@ -22,11 +22,11 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
             return redirect ? <Redirect to="/register" /> : null;
         }
         private renderError = (error?: string) => {
-            if (error != null) {
-                return (<div className="status alert alert-danger" style={{ display: "block" }} >
-                    {error}
-                </div>);
-            }
+            // if (error != null) {
+            //     return (<div className="status alert alert-danger" style={{ display: "block" }} >
+            //         {error}
+            //     </div>);
+            // }
             return null;
         }
         public render() {
@@ -46,7 +46,7 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
                     {this.redirectAction(redirect)}
                     {this.renderError(error)}
                     <form onSubmit={onSubmit}>
-                        <FormControl error={false} fullWidth>
+                        <FormControl error={Boolean(error)} fullWidth>
                             <InputLabel >El. paštas</InputLabel>
                             <Input
                                 id="email"
@@ -54,7 +54,7 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
                                 type="email"
                                 placeholder="El. paštas"
                                 onChange={onEmailChange} />
-                            <FormHelperText></FormHelperText>
+                            <FormHelperText>{error}</FormHelperText>
                         </FormControl>
                         <FormControl error={false} fullWidth>
                             <InputLabel >Slaptažodis</InputLabel>

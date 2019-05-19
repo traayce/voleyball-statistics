@@ -1,5 +1,6 @@
 import axios from "axios";
-import { RegistrationModel } from "src/types";
+import { RegistrationModel, UserInfoModel } from "src/types";
+import { GetRequestHeader } from "@utils/header";
 const baseURL: string = "http://localhost:3000/api";
 const request = axios.create({
     baseURL: baseURL + "/authentication",
@@ -21,11 +22,12 @@ export namespace authenticationCommands {
             .then(res => res.data);
     };
 
-    export const getInfo = (token: string) => {
+    export const getInfo = () => {
         return request
-            .get(``, {
+            .get<UserInfoModel>(``, {
                 headers: {
-                    "Authorization": `Bearer: ${token}`
+                    Accept: "application/json",
+                    ...GetRequestHeader().headers
                 }
             })
             .then(res => res.data)

@@ -1,10 +1,11 @@
-import { AUTH_LOGIN_SUCCESS, AUTH_lOGIN_ERROR, AUTH_REGISTER_START, AUTH_REGISTER_ERROR, AUTH_REGISTER_SUCCESS, AUTH_LOGOUT_SUCCESS } from "./constants";
+import { AUTH_LOGIN_SUCCESS, AUTH_lOGIN_ERROR, AUTH_REGISTER_START, AUTH_REGISTER_ERROR, AUTH_REGISTER_SUCCESS, AUTH_LOGOUT_SUCCESS, AUTH_INFO_SUCCESS, AUTH_INFO_START, AUTH_INFO_ERROR } from "./constants";
 import { AuthenticationReducerState } from "./state";
 import { IAction } from "src/store/action";
 import { Reducer } from "redux";
 
 const defaultState: AuthenticationReducerState = {
-    isLoading: false
+    isLoading: false,
+    isRoleLoading: false
 };
 
 export const authenticationReducer: Reducer<AuthenticationReducerState, IAction<AuthenticationReducerState>> = (state = defaultState, action) => {
@@ -52,6 +53,23 @@ export const authenticationReducer: Reducer<AuthenticationReducerState, IAction<
                 token: undefined,
                 name: undefined
             };
+        case AUTH_INFO_SUCCESS:
+            return {
+                ...state,
+                ...action.payload,
+                isRoleLoading: false
+            }
+        case AUTH_INFO_START:
+            return {
+                ...state,
+                isRoleLoading: true
+            }
+        case AUTH_INFO_ERROR:
+            return {
+                ...state,
+                isRoleLoading: false,
+                role: ""
+            }
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import { AUTH_LOGIN_START, AUTH_LOGIN_SUCCESS, AUTH_lOGIN_ERROR, AUTH_REGISTER_START, AUTH_REGISTER_ERROR, AUTH_REGISTER_SUCCESS, AUTH_LOGOUT_SUCCESS } from "./constants";
+import { AUTH_LOGIN_START, AUTH_LOGIN_SUCCESS, AUTH_lOGIN_ERROR, AUTH_REGISTER_START, AUTH_REGISTER_ERROR, AUTH_REGISTER_SUCCESS, AUTH_LOGOUT_SUCCESS, AUTH_INFO_SUCCESS, AUTH_INFO_START, AUTH_INFO_ERROR } from "./constants";
 import { authenticationCommands } from "./api";
 import { ThunkDispatch } from "redux-thunk";
 import { AuthenticationReducerState } from "./state";
@@ -21,6 +21,7 @@ export namespace authenticationReducerActions {
         try {
             const response = await authenticationCommands.authenticate(email, password);
             dispatch(authenticateSuccess(response._id, response.login, response.token));
+            dispatch(getInfo());
         } catch (e) {
             if (isAxiosError(e)) {
                 if (e.response == null) return;
@@ -29,6 +30,27 @@ export namespace authenticationReducerActions {
                 }
             }
         }
+    };
+
+    export const getInfo = () => (
+        dispatch: dispatchType,
+    ) => {
+        dispatch({
+            type: AUTH_INFO_START
+        });
+        authenticationCommands
+            .getInfo()
+            .then(res => {
+                dispatch({
+                    type: AUTH_INFO_SUCCESS,
+                    payload: {
+                        ...res
+                    }
+                })
+            })
+            .catch(err => dispatch({
+                type: AUTH_INFO_ERROR
+            }));
     };
 
     function isAxiosError(instance: AxiosError): instance is AxiosError {

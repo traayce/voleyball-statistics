@@ -1,4 +1,6 @@
 
+import { AxiosError, AxiosResponse } from "axios";
+import { ProblemDetails, SystemError } from "src/types";
 export const GetRequestHeader = () => {
     // const { authentication } = ApplicationStore.getState() as IStore;
 
@@ -16,3 +18,26 @@ export const GetRequestHeader = () => {
         }
     });
 };
+
+
+function isAxiosError(instance: AxiosError): instance is AxiosError {
+    return (<AxiosError>instance) !== undefined;
+}
+
+function isAxiosReponse(item: AxiosResponse<ProblemDetails>): item is AxiosResponse<ProblemDetails> {
+    return (<ProblemDetails>item.data) !== undefined;
+}
+
+export function ResolveAxiosError(e: any): SystemError {
+    const defualt = { generalError: ["Nenumatyta sistemos klaida."] }
+    if (isAxiosError(e)) {
+        if (e.response == null) return defualt;
+        if (isAxiosReponse(e.response)) {
+            if (e.response.data.Errors[""] != null) {
+                return { generalError: [e.response.data.Errors[""][0]] };
+            }
+            return e.response.data.Errors;
+        }
+    }
+    return defualt;
+}

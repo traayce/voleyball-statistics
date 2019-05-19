@@ -13,10 +13,16 @@ export interface UserInfoModel {
     id: number;
     name: string;
     email: string;
-    Role: string;
+    role: RolesEnum;
 }
 
-export interface Error {
+export const enum RolesEnum {
+    User = "User",
+    Secretary = "Secretary",
+    Admin = "Admin",
+};
+
+export interface SystemError {
     [key: string]: string[];
 }
 
@@ -26,7 +32,7 @@ export interface ProblemDetails {
     Status: Number | null;
     Detail: string;
     Instance: string;
-    Errors: Error;
+    Errors: SystemError;
 }
 
 
@@ -173,3 +179,13 @@ export interface MatchSetStepperModel {
     playerActions: string[];
 }
 // match
+export interface UserLoginModel {
+    username: string;
+    password: string;
+}
+
+export interface UserCreateModel {
+    name: string;
+    password: string;
+    email: string;
+}

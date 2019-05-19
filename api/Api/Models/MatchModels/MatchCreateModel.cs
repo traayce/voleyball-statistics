@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using ServiceContracts.Services.MatchServices.MatchService.Models;
-using ServiceContracts.Services.UserService.Models;
 
 namespace Api.Models.MatchModels
 {

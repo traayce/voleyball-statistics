@@ -5,6 +5,8 @@ using AutoMapper;
 using DataContracts;
 using DataContracts.Base;
 using DataContracts.MatchRepositories;
+using DataContracts.Repositories;
+using DataContracts.Repositories.MatchRepositories;
 using DataEntities.Entities.Match;
 using Infrastructure;
 using ServiceContracts.Services.MatchServices.MatchService;

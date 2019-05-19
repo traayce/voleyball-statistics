@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DataContracts;
 using DataContracts.Base;
+using DataContracts.Repositories;
 using DataEntities.Entities;
 using Infrastructure;
 using Microsoft.IdentityModel.Tokens;

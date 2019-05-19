@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataContracts.Base;
-using DataContracts.MatchRepositories;
+using DataContracts.Repositories.MatchRepositories;
 using DataEntities.Entities.Match;
 using Infrastructure;
 using ServiceContracts.Services.MatchServices.MatchPlayerService;

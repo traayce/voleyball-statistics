@@ -1,7 +1,7 @@
 using DataContracts.Base;
 using DataEntities.Entities;
 
-namespace DataContracts
+namespace DataContracts.Repositories
 {
     public interface IPlayerRepository : IGenericCommands<PlayerEntity>
     {

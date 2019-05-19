@@ -1,6 +1,8 @@
 using DataContracts;
 using DataContracts.Base;
 using DataContracts.MatchRepositories;
+using DataContracts.Repositories;
+using DataContracts.Repositories.MatchRepositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

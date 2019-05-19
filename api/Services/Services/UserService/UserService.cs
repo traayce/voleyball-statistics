@@ -58,6 +58,8 @@ namespace Services.Services.UserService
                throw new RulesException(nameof(model.Email), "Paskyra tokiu el.paštu jau egzistuoja");
             }
 
+            UserInfoDomainModel temp;
+
             var hash = model.Password.GetHash();
             UserEntity entity = new UserEntity()
             {

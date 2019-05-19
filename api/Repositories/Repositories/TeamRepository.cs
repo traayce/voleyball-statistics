@@ -1,6 +1,7 @@
 using System;
 using DataAccess;
 using DataContracts;
+using DataContracts.Repositories;
 using DataEntities.Entities;
 using Repositories.Base;
 

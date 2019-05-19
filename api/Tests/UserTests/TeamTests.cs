@@ -41,7 +41,7 @@ namespace Tests.UserTests
 
         [Test]
         [Parallelizable]
-        public async Task PostFailureTest()
+        public void PostFailureTest()
         {
             /*model.Modifiers = new List<string> {"Modifier2", "Modifier2", "Modifier2"};
             var response = await Client.PostAsync(path, new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json"));

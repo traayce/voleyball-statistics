@@ -5,7 +5,7 @@ namespace Tests.MatchesTests.MatchPlayersTests
 {
     [TestFixture]
     [Parallelizable]
-    public partial class MatchPointsControllerTests
+    public class MatchPointsControllerTests
     {
         /*protected void Setup()
         {

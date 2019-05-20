@@ -67,7 +67,7 @@ class HeaderComponentClass extends React.Component<Props, State> {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={classes.grow}>
-                        voleyball-statistics
+                        Tinklinio statistika
           </Typography>
                     {isAuthenticated && (
                         <Grid>

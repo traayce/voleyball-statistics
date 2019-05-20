@@ -53,7 +53,7 @@ class TeamsListComponentClass extends React.Component<Props, State> {
         return <Grid>
             {this.renderEditor()}
             {isLoading && <LinearProgress />}
-            <Grid container alignItems="center">Varžybos {error}
+            <Grid container alignItems="center">{error}
                 <br />
                 <Button
                     color="primary"

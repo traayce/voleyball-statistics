@@ -172,7 +172,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 justify="center">
                 <MatchControl actionName={"Taškas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Point)} />
                 <MatchControl actionName={"Blokas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Block)} />
-                <MatchControl actionName={"Neatriamemas padavimas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Ace)} />
+                <MatchControl actionName={"Neatremiamas padavimas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Ace)} />
                 <MatchControl actionName={"Asistuotas smūgis"} onClick={this.onControlActionClick(ClsfPlayerPointType.Assist)} />
                 <MatchControl actionName={"Klaida"} onClick={this.onControlActionClick(ClsfPlayerPointType.Turnover)} />
                 <MatchControl actionName={"Kita"} onClick={this.onHandleMoreMenu()} />
@@ -191,6 +191,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     onClose={this.onHandleMoreMenu(true)}
                 >
                     <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
+                    <MenuItem onClick={this.openPrompt}>Grįžti į meniu</MenuItem>
+                    <MenuItem onClick={this.openPrompt}>Atstatyti paskutinį tašką</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardYellow)}>Geltona kortelė</MenuItem>
                     <MenuItem onClick={this.toggleSubstituteMenu(true)}>Keitimas</MenuItem>
@@ -231,10 +233,9 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
 
             this.setState({ selected: 0 });
             NotificationManager.success("Žaidėjo statistikos vienetas sėkmingai išsaugotas", "Pranešimas", 1500);
-            dispatch(actions.invalidateData());
         }
         catch (e) {
-
+            NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);
         }
     }
 
@@ -345,10 +346,11 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 matchId: id,
                 teamId
             });
+            NotificationManager.success("Taškas sėkmingai išsaugotas.", "Pranešimas", 4000);
             dispatch(actions.invalidateData());
         }
         catch (e) {
-
+            NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);
         }
     }
 

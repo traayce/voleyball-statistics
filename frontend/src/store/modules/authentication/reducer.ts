@@ -51,7 +51,9 @@ export const authenticationReducer: Reducer<AuthenticationReducerState, IAction<
                 ...state,
                 id: undefined,
                 token: undefined,
-                name: undefined
+                name: undefined,
+                role: undefined,
+                email: undefined
             };
         case AUTH_INFO_SUCCESS:
             return {

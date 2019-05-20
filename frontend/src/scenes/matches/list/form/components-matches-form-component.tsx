@@ -8,7 +8,6 @@ import isEqual = require("lodash/isEqual");
 import { withRouter, RouteComponentProps } from "react-router";
 import { InputField } from "@components/inputs/textfield-component";
 import { InputDateInlineField } from "@components/inputs/date/date-picker";
-import { IntegrationDownshift } from "@components/inputs/lookup";
 import { MatchStatisticsContainer } from "../statistics/components-matches-statistics-component";
 
 const styles = () => createStyles({
@@ -17,14 +16,17 @@ const styles = () => createStyles({
 interface OwnProps {
     onClose(): void;
     model?: MatchModel;
+    hasEditPermission: boolean;
 }
 
 type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element | null {
-        const { model } = this.props;
+        const { model, hasEditPermission } = this.props;
         if (model != null && model.isFinished)
             return <MatchStatisticsContainer id={model.id} />;
+        if (!hasEditPermission)
+            return <Typography variant="h6" align="center">Detalesnę statistiką galėsite pamatyti tik pasibaigus varžyboms</Typography>
         if (model != null && model.isStarted)
             return this.renderControl();
         return <Formik<MatchCreateModel>

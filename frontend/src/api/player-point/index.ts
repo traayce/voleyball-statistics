@@ -20,8 +20,7 @@ export namespace playerPointApiCommands {
     export const post = (model: PlayerPointCreateModel): Promise<AxiosResponse<PlayerPointModel>> => {
         return request
             .post<PlayerPointModel>(`/matches/PlayerPoints`, model)
-            .then(res => res)
-            .catch(err => err);
+            .then(res => res);
     };
 
     export const deletePoint = (id: number) => {

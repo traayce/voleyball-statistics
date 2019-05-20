@@ -18,8 +18,7 @@ export namespace matchPointApiCommands {
     export const post = (model: MatchPointCreateModel): Promise<AxiosResponse<MatchPointModel>> => {
         return request
             .post<MatchPointModel>(`/matches/MatchPoints`, model)
-            .then(res => res)
-            .catch(err => err);
+            .then(res => res);
     };
 
     export const deletePoint = (id: number) => {

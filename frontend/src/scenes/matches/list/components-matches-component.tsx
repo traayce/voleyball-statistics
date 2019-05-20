@@ -56,7 +56,7 @@ class MatchesClass extends React.Component<Props, State> {
     }
     return <Grid className={classes.Container}>
       {this.renderEditor()}
-      <div className={classes.Center}>Varžybos {error}
+      <div className={classes.Center}>{error}
         <br />
         <Button
           className={classes.Button}
@@ -93,7 +93,7 @@ class MatchesClass extends React.Component<Props, State> {
     >
       <DialogTitle id="alert-dialog-title">Varžybos</DialogTitle>
       <DialogContent>
-        <MatchFormComponent model={editingObject} onClose={this.onModalClose(true)} />
+        <MatchFormComponent hasEditPermission={hasRole([RolesEnum.Secretary, RolesEnum.Admin], this.props.role as string)} model={editingObject} onClose={this.onModalClose(true)} />
       </DialogContent>
       <DialogActions>
         <Button onClick={this.onModalClose()} color="primary">

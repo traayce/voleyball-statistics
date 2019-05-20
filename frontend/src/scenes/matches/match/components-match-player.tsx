@@ -26,7 +26,7 @@ class MatchPlayerClass extends React.PureComponent<Props> {
         const { classes, playerNumber, isSelected, onClick } = this.props;
         return <Button variant={isSelected ? "contained" : "outlined"} className={classes.Button} color="primary" onClick={onClick}>
             <Person fontSize="large" />
-            <Typography className={classes.Number}>{playerNumber}</Typography>
+            <Typography className={classes.Number} style={isSelected ? { color: "white" } : undefined}>{playerNumber}</Typography>
         </Button>;
     }
 }

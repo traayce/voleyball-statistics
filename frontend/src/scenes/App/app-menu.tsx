@@ -79,7 +79,7 @@ class NavigationComponentClass extends React.Component<Props, State> {
             <List>
                 {["Administravimas"].map((text, index) => (
                     <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                        <ListItemIcon><MailIcon /></ListItemIcon>
                         <Link to={"/administration"}><ListItemText primary={"Administravimas"} /></Link>
                     </ListItem>
                 ))}

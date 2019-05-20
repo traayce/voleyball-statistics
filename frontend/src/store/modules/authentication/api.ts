@@ -30,7 +30,6 @@ export namespace authenticationCommands {
                     ...GetRequestHeader().headers
                 }
             })
-            .then(res => res.data)
-            .catch(err => err);
+            .then(res => res.data);
     };
 }

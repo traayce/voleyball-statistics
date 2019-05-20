@@ -152,12 +152,12 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
             alignContent="center"
             justify="center">
             <Grid className={classes.Error} item>
-                {validationError}
+                <Typography variant="body1" color="error">{validationError}</Typography>
             </Grid>
-            <Button type="submit" variant="contained" onClick={this.onSubmit} >
+            <Button type="submit" variant="raised" color="primary" onClick={this.onSubmit} >
                 Pradėti varžybas
                 </Button>
-            <Grid item xs={12}><Typography variant="h6">Pasirinkite startinius šešetus (Varžybų metu juos galėsite keisti).</Typography></Grid>
+            <Grid item xs={12}><Typography variant="body1">Pasirinkite startinius šešetus (Varžybų metu juos galėsite keisti).</Typography></Grid>
             <Grid item xs={6}>
                 <TeamListComponent
                     teamName={match.teamA.name}

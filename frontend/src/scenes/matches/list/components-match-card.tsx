@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Card, CardActionArea, CardContent, Typography, CardActions, Button, Grid } from "@material-ui/core";
 import People from "@material-ui/icons/People";
+import LiveTv from "@material-ui/icons/LiveTv"
 import { MatchModel } from "src/types";
 import { createStyles, Theme, WithStyles, withStyles } from "@material-ui/core/styles";
 import moment = require("moment");
@@ -36,6 +37,15 @@ class MatchCardClass extends React.Component<Props> {
                                 {match.location}
                             </Typography>
                         </Grid>
+                        {(match.isStarted && !match.isFinished) &&
+                            <Grid container justify="center">
+                                <LiveTv />
+                            </Grid>}
+                        <Grid container justify="center">
+                            <Typography component="h4" variant="h6">
+                                {match.pointsSummary.teamAPoints} - {match.pointsSummary.teamBPoints}
+                            </Typography>
+                        </Grid>
                     </Grid>
                     <Grid
                         container
@@ -49,7 +59,7 @@ class MatchCardClass extends React.Component<Props> {
                                     <People fontSize="large" />
                                 </Grid>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {match.teamA.name}  ({match.pointsSummary.teamASetPoints})
+                                    {match.teamA.name} ({match.pointsSummary.teamASetPoints})
                     </Typography>
                             </Grid>
                         </Grid>
@@ -60,7 +70,7 @@ class MatchCardClass extends React.Component<Props> {
                                     <People fontSize="large" />
                                 </Grid>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {match.teamB.name}  ({match.pointsSummary.teamBSetPoints})
+                                    {match.teamB.name} ({match.pointsSummary.teamBSetPoints})
                     </Typography>
                             </Grid>
                         </Grid>

@@ -121,7 +121,7 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
         <Grid item xs={12}>
             <Typography variant="body1" align="center">AS - Asistuoti smūgiai</Typography></Grid>
         <Grid item xs={12}><Typography variant="body1" align="center">Bl - Blokai</Typography></Grid>
-        <Grid item xs={12}><Typography variant="body1" align="center">NP - Neatriamemi padavimai</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">NP - Neatremiami padavimai</Typography></Grid>
         <Grid item xs={12}><Typography variant="body1" align="center">GK - Geltonos kortelės</Typography></Grid>
         <Grid item xs={12}><Typography variant="body1" align="center">RK - Raudonos kortelės</Typography></Grid>
     </Grid>;

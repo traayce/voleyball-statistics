@@ -66,13 +66,13 @@ export const LoginComponentForm = withStyles(AuthenticationContainerStyles)(
                                 onChange={onPasswordChange} />
                             <FormHelperText></FormHelperText>
                         </FormControl>
-                        <Button type="submit" variant="contained" fullWidth >
+                        <Button type="submit" variant="contained" color="primary" fullWidth >
                             Prisijungti
                 </Button>
                     </form>
                     <div className={classes.Center}>
                         <p>Neturite paskyros?</p>
-                        <Button type="submit" variant="contained" onClick={onRedirect} >
+                        <Button type="submit" variant="contained" color="primary" onClick={onRedirect} >
                             Registracija
                 </Button>
                     </div>

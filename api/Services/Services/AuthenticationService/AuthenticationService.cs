@@ -30,7 +30,7 @@ namespace Services.Services.AuthenticationService
         public async Task<T> Authenticate<T>(string name, string password) where T: IUserLoginDomainModel, new()
         {
             var users = await _userRepository.GetAllAsync();
-            var user = users.SingleOrDefault(x => x.Name == name && x.Password == password.GetHash());
+            var user = users.SingleOrDefault(x => x.Email == name && x.Password == password.GetHash());
 
             if (user == null)
                 throw new RulesException("Paskyra tokiais duomenimis neegzistuoja");

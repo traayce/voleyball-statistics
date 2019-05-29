@@ -10,14 +10,14 @@ interface AdditionalProps<TFieldNames> {
 
 type InputFieldProps<TFieldNames extends string> = FieldAttributes<TextFieldProps> & AdditionalProps<TFieldNames>;
 
-const render = <TFieldNames extends string = string>({ readOnly, margin, ...props }: InputFieldProps<TFieldNames>) =>
+const render = <TFieldNames extends string = string>({ readOnly, margin, className, ...props }: InputFieldProps<TFieldNames>) =>
     ({ field, form }: FieldProps): JSX.Element => {
         const error = getIn(form.errors, field.name);
         const touch = getIn(form.touched, field.name);
         const isError = Boolean(touch) && Boolean(error);
         const disabled: boolean = props.disabled || form.isSubmitting || form.isValidating;
 
-        return <>
+        return <div className={className}>
             <MuiTextField
                 {...props}
                 {...field}
@@ -26,7 +26,7 @@ const render = <TFieldNames extends string = string>({ readOnly, margin, ...prop
                 InputProps={{ ...props.InputProps, readOnly }}
             />
             {isError ? <FormHelperText error={true}>{error}</FormHelperText> : undefined}
-        </>;
+        </div>;
     };
 
 export function InputField<TFieldNames extends string = string>(props: InputFieldProps<TFieldNames>): React.ReactElement<FieldProps> {

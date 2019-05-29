@@ -20,7 +20,7 @@ export const GetRequestHeader = () => {
 };
 
 
-function isAxiosError(instance: AxiosError): instance is AxiosError {
+export function isAxiosError(instance: AxiosError): instance is AxiosError {
     return (<AxiosError>instance) !== undefined;
 }
 

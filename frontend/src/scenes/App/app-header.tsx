@@ -108,6 +108,7 @@ class HeaderComponentClass extends React.Component<Props, State> {
 
     private handleLogout: React.MouseEventHandler = () => {
         const { dispatch } = this.props;
+        this.setState({ anchorEl: null });
         dispatch(authenticationReducerActions.logoutSuccess());
     }
 }

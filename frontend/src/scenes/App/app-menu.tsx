@@ -69,21 +69,23 @@ class NavigationComponentClass extends React.Component<Props, State> {
             <Divider />
             <List>
                 {Paths.map((item, index) => (
-                    <ListItem button key={item.name}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <Link to={item.path}><ListItemText primary={item.name} /></Link>
-                    </ListItem>
+                    <Link to={item.path}>
+                        <ListItem button key={item.name} onClick={this.props.toggle}>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={item.name} />
+                        </ListItem>
+                    </Link>
                 ))}
             </List>
             <Divider />
-            <List>
+            {/* <List>
                 {["Administravimas"].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon><MailIcon /></ListItemIcon>
                         <Link to={"/administration"}><ListItemText primary={"Administravimas"} /></Link>
                     </ListItem>
                 ))}
-            </List>
+            </List> */}
         </div>
 
 

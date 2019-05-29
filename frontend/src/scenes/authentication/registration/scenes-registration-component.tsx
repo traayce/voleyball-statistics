@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import { authenticationReducerActions } from "@reducers/authentication";
-import { Redirect } from "react-router";
+import { Redirect, withRouter, RouteComponentProps } from "react-router";
 import { IStore } from "src/store/state";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
@@ -10,12 +10,16 @@ import { UserCreateModel } from "src/types";
 import { InputField } from "@components/inputs/textfield-component";
 import { Button, WithStyles, withStyles } from "@material-ui/core";
 import { userApiCommands } from "@api/user";
-import { ResolveAxiosError } from "@utils/header";
+import { ResolveAxiosError, isAxiosError } from "@utils/header";
 import { createStyles, Theme } from "@material-ui/core/styles";
+import { AxiosResponse, AxiosError } from "axios";
 
 export const styles = (theme: Theme) => createStyles({
+  Input: {
+    marginBottom: theme.spacing.unit * 2,
+  },
   Button: {
-    marginBottom: theme.spacing.unit * 2
+    margin: "auto"
   }
 });
 interface StateProps {
@@ -27,7 +31,7 @@ interface DispatchProps {
   authenticate: (email: string, password: string) => any;
 }
 
-type Props = StateProps & DispatchProps & WithStyles<typeof styles>;
+type Props = StateProps & DispatchProps & WithStyles<typeof styles> & RouteComponentProps;
 interface TempModel extends UserCreateModel {
   repeatPassword: string;
 }
@@ -59,15 +63,16 @@ class RegistrationComponentClass extends React.Component<Props> {
       }}
       onSubmit={this.onSubmit}
       validate={this.formValidate}
-      render={(formikBag: FormikProps<TempModel>) => (
-        <Form>
+      render={(formikBag: FormikProps<TempModel>) => {
+        console.log(formikBag);
+        return <Form>
           <InputField<keyof TempModel>
-            type="text"
+            type="email"
             name="email"
             label="El. Paštas"
             fullWidth={true}
             validate={this.validate}
-            className={classes.Button}
+            className={classes.Input}
           />
           <InputField<keyof TempModel>
             type="text"
@@ -75,7 +80,7 @@ class RegistrationComponentClass extends React.Component<Props> {
             label="Vardas Pavardė"
             fullWidth={true}
             validate={this.validate}
-            className={classes.Button}
+            className={classes.Input}
           />
           <InputField<keyof TempModel>
             type="password"
@@ -83,7 +88,7 @@ class RegistrationComponentClass extends React.Component<Props> {
             label="Slaptažodis"
             validate={this.validate}
             fullWidth={true}
-            className={classes.Button}
+            className={classes.Input}
           />
           <InputField<keyof TempModel>
             type="password"
@@ -91,15 +96,16 @@ class RegistrationComponentClass extends React.Component<Props> {
             label="Pakartokite slaptažodį"
             fullWidth={true}
             validate={this.validate}
-            className={classes.Button}
+            className={classes.Input}
           />
           <Button
             color="primary"
             type="submit"
             variant="contained"
-            disabled={formikBag.isSubmitting || Boolean(formikBag.error)} >Registruotis</Button>
-        </ Form>
-      )}
+            className={classes.Button}
+            disabled={formikBag.isSubmitting || Boolean(Object.keys(formikBag.errors).length)} >Registruotis</Button>
+        </ Form>;
+      }}
     >
     </Formik>;
   }
@@ -118,21 +124,25 @@ class RegistrationComponentClass extends React.Component<Props> {
     }
     return error;
   }
-  private onSubmit: FormikConfig<UserCreateModel>["onSubmit"] = async (values) => {
+  private onSubmit: FormikConfig<UserCreateModel>["onSubmit"] = async (values, actions) => {
+    console.log(actions);
     debugger;
     try {
       const response = await userApiCommands.post(values);
-      // if (response.response.status === 400) {
-      //   const errors = ResolveAxiosError(response);
-      //   console.log(errors);
-      // }
+      const { history, authenticate } = this.props;
+      authenticate(values.email, values.password);
+      history.push("/matches");
     }
     catch (e) {
-      const errors = ResolveAxiosError(e);
+      if (isAxiosError(e)) {
+        const errors = ResolveAxiosError(e);
+        actions.setErrors(errors);
+        actions.setSubmitting(false);
+      }
     }
     return;
   }
 
 }
 
-export const ScenesRegistrationComponent = withStyles(styles)(connect(RegistrationComponentClass.MapStateToProps, RegistrationComponentClass.MapDispatchToProps)(RegistrationComponentClass));
+export const ScenesRegistrationComponent = withStyles(styles)(withRouter(connect(RegistrationComponentClass.MapStateToProps, RegistrationComponentClass.MapDispatchToProps)(RegistrationComponentClass));

@@ -1,10 +1,10 @@
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { request } from "../base";
 import { UserCreateModel, UserInfoModel } from "src/types";
 
 export namespace userApiCommands {
 
-    export const post = (model: UserCreateModel): Promise<AxiosResponse<UserInfoModel>> => {
+    export const post = (model: UserCreateModel): Promise<AxiosResponse<UserInfoModel> | AxiosError> => {
         return request
             .post<UserInfoModel>(`/users`, model)
             .then(res => {
@@ -12,8 +12,7 @@ export namespace userApiCommands {
                     throw res;
                 }
                 return res;
-            })
-            .catch(err => err);
+            });
     };
 
 }

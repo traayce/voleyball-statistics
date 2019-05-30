@@ -7,7 +7,8 @@ import { SelectProps } from "@material-ui/core/Select";
 interface AdditionalProps<TFieldNames> {
     name: TFieldNames;
     readOnly?: boolean;
-    selectItems: SelectListItem[];
+    items: SelectListItem[];
+    label?: string;
 }
 
 export interface SelectListItem {
@@ -15,9 +16,9 @@ export interface SelectListItem {
     label: string;
 }
 
-type InputFieldProps<TFieldNames extends string> = FieldAttributes<SelectProps> & AdditionalProps<TFieldNames>;
+type SelectFieldProps<TFieldNames extends string> = FieldAttributes<SelectProps> & AdditionalProps<TFieldNames>;
 
-const render = <TFieldNames extends string = string>({ readOnly, margin, className, selectItems, ...props }: InputFieldProps<TFieldNames>) =>
+const render = <TFieldNames extends string = string>({ readOnly, margin, className, items, name, ...props }: SelectFieldProps<TFieldNames>) =>
     ({ field, form }: FieldProps): JSX.Element => {
         const error = getIn(form.errors, field.name);
         const touch = getIn(form.touched, field.name);
@@ -32,16 +33,17 @@ const render = <TFieldNames extends string = string>({ readOnly, margin, classNa
             },
         };
         return <div className={className}>
-            <FormControl error={isError}>
-                <InputLabel htmlFor="select-multiple">Name</InputLabel>
+            <FormControl error={isError} fullWidth={props.fullWidth}>
+                <InputLabel htmlFor="select-multiple">{props.label}</InputLabel>
                 <Select
                     {...props}
                     {...field}
+                    name={name}
                     disabled={disabled}
-                    input={<Input  {...props.inputProps} readOnly />}
+                    input={<Input inputProps={{ ...props.inputProps, name }} />}
                     MenuProps={MenuProps}
                 >
-                    {selectItems.map(item => (
+                    {items.map(item => (
                         <MenuItem key={`${item.id}-select-item`} value={item.id} >
                             {item.label}
                         </MenuItem>
@@ -52,7 +54,7 @@ const render = <TFieldNames extends string = string>({ readOnly, margin, classNa
         </div>;
     };
 
-export function SelectField<TFieldNames extends string = string>(props: InputFieldProps<TFieldNames>): React.ReactElement<FieldProps> {
+export function SelectField<TFieldNames extends string = string>(props: SelectFieldProps<TFieldNames>): React.ReactElement<FieldProps> {
     const { validate, ...inputFieldProps } = props;
     return <Field
         {...props}

@@ -12,8 +12,6 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         
          bool IsStarted { get; set; }
         
-         int SecretaryId { get; set; }
-        
          int TeamAId { get; set; }
         
          int TeamBId { get; set; }
@@ -32,8 +30,6 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         public bool IsStarted { get; set; }
         
         public bool IsFinished { get; set; }
-        
-        public int SecretaryId { get; set; }
         
         public int TeamAId { get; set; }
         

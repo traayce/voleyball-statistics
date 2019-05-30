@@ -191,7 +191,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     onClose={this.onHandleMoreMenu(true)}
                 >
                     <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
-                    <MenuItem onClick={this.openPrompt}>Grįžti į meniu</MenuItem>
+                    <MenuItem onClick={this.returnToMenu}>Grįžti į meniu</MenuItem>
                     <MenuItem onClick={this.openPrompt}>Atstatyti paskutinį tašką</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardYellow)}>Geltona kortelė</MenuItem>
@@ -309,6 +309,11 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         dispatch(actions.invalidateData());
     }
 
+    private returnToMenu = () => {
+        const { history } = this.props;
+        history.push("/matches");
+    }
+
     private getSetEnd = (set: number) => {
         if (set < 5)
             return 24;
@@ -338,7 +343,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         }
 
         try {
-            await matchPointApiCommands.post({
+            const summary = await matchPointApiCommands.post({
                 id: 0,
                 isMatchPoint: false,
                 isSetPoint: isSetPoint,
@@ -346,8 +351,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 matchId: id,
                 teamId
             });
-            NotificationManager.success("Taškas sėkmingai išsaugotas.", "Pranešimas", 4000);
-            dispatch(actions.invalidateData());
+            //NotificationManager.success("Taškas sėkmingai išsaugotas.", "Pranešimas", 4000);
+            dispatch(actions.refreshPointSummary(id, summary.data));
         }
         catch (e) {
             NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);

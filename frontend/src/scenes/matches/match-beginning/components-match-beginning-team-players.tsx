@@ -26,15 +26,15 @@ class MatchBeginningComponentClass extends React.Component<Props> {
             <Typography>{teamName}</Typography>
             <List dense className={classes.Root}>
                 {teamPlayers.map(value => (
-                    <ListItem key={value.id} button>
+                    <ListItem key={value.id} button onClick={onSelect(value.teamId, value.id)}>
                         <ListItemAvatar>
                             <Person />
                         </ListItemAvatar>
                         <ListItemText primary={`${value.name} ${value.number}`} />
                         <ListItemSecondaryAction>
                             <Checkbox
-                                onClick={onSelect(value.teamId, value.id)}
                                 checked={selectedIds.some(x => x === value.id)}
+                                onClick={onSelect(value.teamId, value.id)}
                             />
                         </ListItemSecondaryAction>
                     </ListItem>

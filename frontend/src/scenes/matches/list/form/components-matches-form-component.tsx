@@ -9,8 +9,13 @@ import { withRouter, RouteComponentProps } from "react-router";
 import { InputField } from "@components/inputs/textfield-component";
 import { InputDateInlineField } from "@components/inputs/date/date-picker";
 import { MatchStatisticsContainer } from "../statistics/components-matches-statistics-component";
+import { SelectField } from "@components/inputs/select-component";
 
 const styles = () => createStyles({
+    Input: {
+        marginTop: "8px",
+        paddingLeft: 10
+    }
 });
 
 interface OwnProps {
@@ -22,7 +27,8 @@ interface OwnProps {
 type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element | null {
-        const { model, hasEditPermission } = this.props;
+        const { model, hasEditPermission, classes } = this.props;
+        const items = [{ id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }, { id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }, { id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }, { id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }];
         if (model != null && model.isFinished)
             return <MatchStatisticsContainer id={model.id} />;
         if (!hasEditPermission)
@@ -39,6 +45,7 @@ class MatchFormComponentClass extends React.Component<Props> {
                         name="location"
                         label="Vieta"
                         fullWidth={true}
+                        className={classes.Input}
                     />
                     <InputDateInlineField
                         name="startsAt"
@@ -47,24 +54,29 @@ class MatchFormComponentClass extends React.Component<Props> {
                         disablePast={true}
                         keyboard={true}
                         clearable={true}
+                        className={classes.Input}
                     />
-                    <InputField<keyof MatchCreateModel>
+                    <SelectField<keyof MatchCreateModel>
                         type="text"
-                        name="teamAId"
                         label="Komanda A"
+                        name="teamAId"
                         fullWidth={true}
+                        items={items}
+                        className={classes.Input}
                     />
-                    <InputField<keyof MatchCreateModel>
+                    <SelectField<keyof MatchCreateModel>
                         type="text"
                         name="teamBId"
                         label="Komanda B"
                         fullWidth={true}
+                        items={items}
+                        className={classes.Input}
                     />
-                    {/* <IntegrationDownshift /> */}
                     <Button
                         color="primary"
                         type="submit"
                         variant="contained"
+                        fullWidth
                         disabled={formikBag.isSubmitting} >Išsaugoti</Button>
                     {model != null && <Typography variant="h6" align="center">VALDYMAS</Typography>}
                     {this.renderControl()}
@@ -84,6 +96,7 @@ class MatchFormComponentClass extends React.Component<Props> {
                 color="primary"
                 type="button"
                 variant="contained"
+                fullWidth
                 onClick={this.redirect(!model.isStarted ? `matches/${model.id}/setup` : `matches/${model.id}`)}>{model.isStarted ? "Tęsti" : "Pradėti"} varžybas</Button>
         </div>;
     }
@@ -114,7 +127,6 @@ class MatchFormComponentClass extends React.Component<Props> {
             startsAt: model.startsAt,
             location: model.location,
             isStarted: model.isStarted,
-            secretaryId: model.secretary.id,
             teamAId: model.teamA.id,
             teamBId: model.teamB.id,
             isFinished: model.isFinished
@@ -123,7 +135,6 @@ class MatchFormComponentClass extends React.Component<Props> {
                 startsAt: new Date(),
                 location: "",
                 isStarted: false,
-                secretaryId: 0,
                 teamAId: 0,
                 teamBId: 0,
                 isFinished: false

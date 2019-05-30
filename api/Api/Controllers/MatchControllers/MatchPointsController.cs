@@ -30,7 +30,7 @@ namespace Api.Controllers.MatchControllers
         [Authorize(Roles = Role.Secretary)]
         public ActionResult<MatchPointDomainModel> Post([FromBody] MatchPointCreateModel model)
         {
-            return Command( async () => await _matchPointService.Save<MatchPointDomainModel>(model));
+            return Command( async () => await _matchPointService.Save<MatchPointsSummaryDomainModel>(model));
         }
     }
 }

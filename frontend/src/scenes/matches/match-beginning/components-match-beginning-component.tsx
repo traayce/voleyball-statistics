@@ -22,6 +22,10 @@ export const styles = (theme: Theme) => createStyles({
         margin: "10px 22px",
         fontSize: "2em",
         verticalAlign: "center"
+    },
+    Button: {
+        width: "100%",
+        maxWidth: "200px"
     }
 });
 interface StateProps {
@@ -58,10 +62,6 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
         isLoaded: matches.isLoaded
     })
 
-    public static MapDispatchToProps: MapDispatchToProps<DispatchProps, object> = (dispatch: ThunkDispatch<object, void, Action>) => ({
-        dispatch
-    })
-
     private getMatches = (id: string) => {
         const { dispatch } = this.props;
         dispatch(actions.getMatches([id]));
@@ -94,9 +94,10 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
         const { teamAIds, teamBIds } = this.state;
         const { matchModel, id, history, dispatch } = this.props;
         if (teamAIds.length !== 6 || teamBIds.length !== 6) {
-            this.setState({ error: "Abiejoms komandoms parinkite 6 žaidėjus" });
+            this.setState({ error: "Privalote pasirinkti po 6 žaidėjus kiekvienoje komandoje" });
             return;
         }
+        debugger;
         if (matchModel == null) return;
         const matchId = (id as unknown) as number;
         try {
@@ -128,9 +129,9 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
             this.setState({ error: "Sistemos klaida. Pabandykite vėliau." });
             return;
         }
+        console.log(actions.invalidateData);
         dispatch(actions.invalidateData);
         history.push(`/matches/${matchId}`);
-
     }
 
     public render(): JSX.Element | null {
@@ -151,13 +152,13 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
         return <Grid container
             alignContent="center"
             justify="center">
-            <Grid className={classes.Error} item>
+            <Grid container className={classes.Error} item>
                 <Typography variant="body1" color="error">{validationError}</Typography>
             </Grid>
-            <Button type="submit" variant="raised" color="primary" onClick={this.onSubmit} >
+            <Button type="submit" variant="raised" color="primary" onClick={this.onSubmit} className={classes.Button} >
                 Pradėti varžybas
                 </Button>
-            <Grid item xs={12}><Typography variant="body1">Pasirinkite startinius šešetus (Varžybų metu juos galėsite keisti).</Typography></Grid>
+            <Grid container justify="center" item xs={12}><Typography variant="body1" align="center">Pasirinkite startinius šešetus (Varžybų metu juos galėsite keisti).</Typography></Grid>
             <Grid item xs={6}>
                 <TeamListComponent
                     teamName={match.teamA.name}

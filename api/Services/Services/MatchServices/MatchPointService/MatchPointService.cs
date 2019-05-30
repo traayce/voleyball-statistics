@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DataContracts.Base;
 using DataContracts.MatchRepositories;
+using DataContracts.Repositories.MatchRepositories;
 using DataEntities.Entities.Match;
 using Infrastructure;
 using ServiceContracts.Services.MatchServices.MatchPointService;
@@ -14,17 +15,20 @@ namespace Services.Services.MatchServices.MatchPointService
     public class MatchPointService : IMatchPointService
     {
         private readonly IMatchPointRepository _matchPointRepository;
+        private readonly IMatchRepository _matchRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public MatchPointService(
             IMatchPointRepository matchPointRepository,
             IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            IMatchRepository matchRepository)
         {
             _matchPointRepository = matchPointRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _matchRepository = matchRepository;
         }
 
         public async Task<T> Get<T>(int matchPointId) where T : IMatchPointDomainModel, new()
@@ -48,7 +52,7 @@ namespace Services.Services.MatchServices.MatchPointService
             return matchPoints;
         }
 
-        public async Task<T> Save<T>(IMatchPointCreateDomainModel model) where T : IMatchPointDomainModel, new()
+        public async Task<T> Save<T>(IMatchPointCreateDomainModel model) where T : IMatchPointsSummaryDomainModel, new()
         {
             var entity = new MatchPointEntity();
             if (model.Id != 0)
@@ -57,15 +61,22 @@ namespace Services.Services.MatchServices.MatchPointService
             _mapper.Map(model, entity);
             _matchPointRepository.Add(entity);
             _unitOfWork.CommitChanges();
-            var response = await Get<T>(entity.Id);
-            return response;
+            
+            return GetSummary<T>(model.MatchId);
         }
 
-        public static IMatchPointsSummaryDomainModel FormModel(ICollection<MatchPointEntity> entities, int teamAId,
-            int teamBId)
+        public T GetSummary<T>(int matchId) where T: IMatchPointsSummaryDomainModel, new()
+        {
+            var match = _matchRepository.GetById(matchId);
+            if(match == null) throw new RulesException(Constants.GenericError);
+            return FormModel<T>(match.MatchPoints, match.TeamAId, match.TeamBId);
+        }
+
+        public static T FormModel<T>(ICollection<MatchPointEntity> entities, int teamAId,
+            int teamBId) where T: IMatchPointsSummaryDomainModel, new()
         {
             var setNumber = entities.Count(x => x.IsSetPoint) + 1;
-            return new MatchPointsSummaryDomainModel
+            return new T
             {
                 SetNumber = setNumber,
                 LastPoint = Mapper.Map(entities.LastOrDefault(), new MatchPointDomainModel()),

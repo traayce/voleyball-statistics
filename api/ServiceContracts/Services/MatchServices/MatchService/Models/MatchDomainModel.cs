@@ -18,9 +18,7 @@ namespace ServiceContracts.Services.MatchServices.MatchService.Models
         bool IsStarted { get; set; }
         
         bool IsFinished { get; set; }
-        
-        IUserInfoDomainModel Secretary { get; set; }
-        
+       
         ITeamDomainModel TeamA { get; set; }
         
         ITeamDomainModel TeamB { get; set; }

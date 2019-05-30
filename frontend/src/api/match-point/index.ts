@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { request } from "../base";
-import { MatchPointModel, MatchPointCreateModel } from "src/types";
+import { MatchPointModel, MatchPointCreateModel, MatchPointsSummaryModel } from "src/types";
 
 export namespace matchPointApiCommands {
     export const get = (ids: string[]): Promise<AxiosResponse<MatchPointModel[]>> => {
@@ -15,9 +15,9 @@ export namespace matchPointApiCommands {
             .catch(err => err);
     };
 
-    export const post = (model: MatchPointCreateModel): Promise<AxiosResponse<MatchPointModel>> => {
+    export const post = (model: MatchPointCreateModel): Promise<AxiosResponse<MatchPointsSummaryModel>> => {
         return request
-            .post<MatchPointModel>(`/matches/MatchPoints`, model)
+            .post<MatchPointsSummaryModel>(`/matches/MatchPoints`, model)
             .then(res => res);
     };
 

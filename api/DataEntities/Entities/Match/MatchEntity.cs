@@ -20,10 +20,6 @@ namespace DataEntities.Entities.Match
         
         public bool IsFinished { get; set; }
         
-        [ForeignKey("SecretaryEntity")]
-        public int SecretaryId { get; set; }
-        public virtual UserEntity SecretaryEntity { get; set; } 
-        
         [ForeignKey("TeamAEntity")]
         public int TeamAId { get; set; }
 

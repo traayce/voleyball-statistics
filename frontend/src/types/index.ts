@@ -109,7 +109,6 @@ export interface MatchModel {
     location: string;
     isStarted: boolean;
     isFinished: boolean;
-    secretary: UserInfoModel;
     teamA: TeamModel;
     teamB: TeamModel;
     matchPlayers: MatchPlayerModel[];
@@ -122,7 +121,6 @@ export interface MatchCreateModel {
     location: string;
     isStarted: boolean;
     isFinished: boolean;
-    secretaryId: number;
     teamAId: number;
     teamBId: number;
 }

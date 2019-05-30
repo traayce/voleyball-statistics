@@ -1,4 +1,4 @@
-import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_INVALIDATE } from "./constants";
+import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_INVALIDATE, MATCH_LIST_UPDATE_POINTS_SUMMARY } from "./constants";
 import { MatchReducerState } from "./state";
 import { IAction } from "src/store/action";
 import { Reducer } from "redux";
@@ -41,6 +41,21 @@ export const matchesReducer: Reducer<MatchReducerState, IAction<MatchReducerStat
                 isLoading: false,
                 isLoaded: false,
                 error: undefined
+            };
+        case MATCH_LIST_UPDATE_POINTS_SUMMARY:
+            const { id, model } = action.payload;
+            const matches = state.matchesList.map(x => {
+                if (x.id === id) {
+                    x.pointsSummary = model;
+                }
+                return x;
+            });
+            console.log(model, matches);
+            debugger;
+            return {
+                ...state,
+                error: undefined,
+                matchesList: matches
             };
         default:
             return state;

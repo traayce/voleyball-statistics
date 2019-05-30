@@ -45,9 +45,8 @@ namespace Services.Mappings
             CreateMap<MatchEntity, IMatchDomainModel>()
                 .ForMember(x => x.TeamA, c => c.MapFrom(x => TeamService.FormModel(x.TeamAEntity)))
                 .ForMember(x => x.TeamB, c => c.MapFrom(x => TeamService.FormModel(x.TeamBEntity)))
-                .ForMember(x => x.Secretary, c => c.MapFrom(x => UserService.FormModel(x.SecretaryEntity)))
                 .ForMember(x => x.MatchPlayers, c => c.MapFrom(x => MatchPlayerService.FormModel(x.MatchPlayers)))
-                .ForMember(x => x.PointsSummary, c => c.MapFrom(x => MatchPointService.FormModel(x.MatchPoints, x.TeamAId, x.TeamBId)));
+                .ForMember(x => x.PointsSummary, c => c.MapFrom(x => MatchPointService.FormModel<MatchPointsSummaryDomainModel>(x.MatchPoints, x.TeamAId, x.TeamBId)));
 
             CreateMap<MatchPointEntity, IMatchPointCreateDomainModel>();
             CreateMap<IMatchPointCreateDomainModel, MatchPointEntity>()

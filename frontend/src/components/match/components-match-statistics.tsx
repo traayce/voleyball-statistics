@@ -32,7 +32,7 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell className={classes.CellPadding}></TableCell>
+                        <TableCell className={classes.CellPadding}>Komanda / Setai</TableCell>
                         {model.sets.map((x, index) => <TableCell align="right" className={classes.CellPadding}>{index + 1}</TableCell>)}
                     </TableRow>
                 </TableHead>

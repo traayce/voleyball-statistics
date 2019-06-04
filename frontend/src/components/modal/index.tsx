@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, createStyles, withStyles, WithStyles } from "@material-ui/core";
 interface OwnProps {
     isOpen: boolean;
     contextText?: string;
@@ -8,14 +8,20 @@ interface OwnProps {
     onClose: React.MouseEventHandler;
     buttonActions: JSX.Element[];
 }
-
-type Props = OwnProps;
+const styles = () => createStyles({
+    Container: {
+        width: "50%"
+    }
+});
+type Props = OwnProps & WithStyles<typeof styles>;
 class ModalComponentClass extends React.PureComponent<Props> {
     public render(): JSX.Element {
-        const { isOpen, onClose, contextText, buttonActions, title } = this.props;
+        const { isOpen, onClose, contextText, buttonActions, title, classes } = this.props;
         return <Dialog
             open={isOpen}
             onClose={onClose}
+            maxWidth="md"
+            fullWidth={true}
         >
             <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
             <DialogContent>
@@ -31,4 +37,4 @@ class ModalComponentClass extends React.PureComponent<Props> {
     }
 }
 
-export const ModalComponent = ModalComponentClass;
+export const ModalComponent = withStyles(styles)(ModalComponentClass);

@@ -80,7 +80,7 @@ namespace Services.Services.MatchServices.MatchService
 
         public IEnumerable<T> GetList<T>() where T : IMatchDomainModel, new()
         {
-            var matches = matchRepository.GetAllAsync().Result.Select(match => _mapper.Map(match, new T()));
+            var matches = matchRepository.GetAllAsync().Result.OrderByDescending(x => x.Id).Select(match => _mapper.Map(match, new T()));
 
             return matches;
         }

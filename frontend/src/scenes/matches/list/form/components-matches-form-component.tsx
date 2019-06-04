@@ -28,7 +28,7 @@ type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
     public render(): JSX.Element | null {
         const { model, hasEditPermission, classes } = this.props;
-        const items = [{ id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }, { id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }, { id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }, { id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }];
+        const items = [{ id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }];
         if (model != null && model.isFinished)
             return <MatchStatisticsContainer id={model.id} />;
         if (!hasEditPermission)

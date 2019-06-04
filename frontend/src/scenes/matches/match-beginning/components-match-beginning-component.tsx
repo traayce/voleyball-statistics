@@ -129,8 +129,7 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
             this.setState({ error: "Sistemos klaida. Pabandykite vėliau." });
             return;
         }
-        console.log(actions.invalidateData);
-        dispatch(actions.invalidateData);
+        dispatch(actions.invalidateData());
         history.push(`/matches/${matchId}`);
     }
 

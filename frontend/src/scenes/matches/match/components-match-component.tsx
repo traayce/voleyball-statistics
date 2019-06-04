@@ -192,7 +192,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 >
                     <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
                     <MenuItem onClick={this.returnToMenu}>Grįžti į meniu</MenuItem>
-                    <MenuItem onClick={this.openPrompt}>Atstatyti paskutinį tašką</MenuItem>
+                    <MenuItem onClick={this.onLastPointReset}>Atstatyti paskutinį tašką</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardYellow)}>Geltona kortelė</MenuItem>
                     <MenuItem onClick={this.toggleSubstituteMenu(true)}>Keitimas</MenuItem>
@@ -320,6 +320,19 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         else return 14;
     }
 
+    private onLastPointReset = (): React.MouseEventHandler => async () => {
+        if (this.props.matchModel == null)
+            return;
+        const pointsSummary = this.props.matchModel.pointsSummary;
+        const { lastPoint } = pointsSummary;
+        if (lastPoint == null) {
+            NotificationManager.error("Nėra taškų kuriuos galima atstatyti.", "Klaida", 2500);
+            return;
+        }
+
+        await matchPointApiCommands.deletePoint(lastPoint.id);
+    }
+
     private onTeamPointActionClick = (teamId: number): React.MouseEventHandler => async () => {
         if (this.props.matchModel == null)
             return;
@@ -352,7 +365,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 teamId
             });
             //NotificationManager.success("Taškas sėkmingai išsaugotas.", "Pranešimas", 4000);
-            dispatch(actions.refreshPointSummary(id, summary.data));
+            dispatch(actions.invalidateData());
         }
         catch (e) {
             NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);

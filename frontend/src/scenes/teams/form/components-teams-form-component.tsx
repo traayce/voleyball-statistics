@@ -1,16 +1,20 @@
 import * as React from "react";
-import { TeamCreateModel } from "src/types";
+import { TeamCreateModel, TeamModel } from "src/types";
 import { createStyles, WithStyles, withStyles } from "@material-ui/core/styles";
 import { Formik, FormikProps, Form, FormikConfig } from "formik";
 import { InputField } from "@components/inputs/textfield-component";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { teamApiCommands } from "@api/team";
 const styles = () => createStyles({
+    Container: {
+        maxWidth: "500px",
+        width: "100%"
+    }
 });
 
 interface OwnProps {
     onClose(): void;
-    team?: TeamCreateModel;
+    team?: TeamModel;
 }
 type Props = OwnProps & WithStyles<typeof styles>;
 class TeamFormComponentClass extends React.Component<Props> {
@@ -23,8 +27,17 @@ class TeamFormComponentClass extends React.Component<Props> {
     }
     public render(): JSX.Element {
         const { team } = this.props;
-        return <Formik<TeamCreateModel>
-            initialValues={team != null ? team : {
+        return <Grid
+            container
+            alignItems="center"
+            justify="center"
+            className={this.props.classes.Container}
+        ><Formik<TeamCreateModel>
+            initialValues={team != null ? {
+                id: team.id,
+                name: team.name,
+                city: team.city
+            } : {
                 id: 0,
                 name: "",
                 city: ""
@@ -55,7 +68,8 @@ class TeamFormComponentClass extends React.Component<Props> {
             }
             }
         >
-        </Formik>;
+            </Formik>
+        </Grid>;
     }
 
     private onSubmit: FormikConfig<TeamCreateModel>["onSubmit"] = async (values) => {

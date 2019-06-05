@@ -10,6 +10,7 @@ import { actions } from "@reducers/match";
 import { MatchCardComponent } from "./components-match-card";
 import { MatchFormComponent } from "./form/components-matches-form-component";
 import { hasRole } from "@utils/permissions";
+import { ModalComponent } from "@components/modal";
 
 interface StateProps {
   isLoading: boolean;
@@ -87,20 +88,30 @@ class MatchesClass extends React.Component<Props, State> {
     const { editingObject, isEditorOpen } = this.state;
     if (!isEditorOpen)
       return null;
-    return <Dialog
-      open={true}
+    return <ModalComponent
+      title="Varžybos"
+      isOpen={true}
       onClose={this.onModalClose()}
+      buttonActions={[<Button onClick={this.onModalClose()} color="primary">
+        Uždaryti
+</Button>]}
     >
-      <DialogTitle id="alert-dialog-title">Varžybos</DialogTitle>
-      <DialogContent>
-        <MatchFormComponent hasEditPermission={hasRole([RolesEnum.Secretary, RolesEnum.Admin], this.props.role as string)} model={editingObject} onClose={this.onModalClose(true)} />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={this.onModalClose()} color="primary">
-          Uždaryti
-      </Button>
-      </DialogActions>
-    </Dialog>;
+      <MatchFormComponent hasEditPermission={hasRole([RolesEnum.Secretary, RolesEnum.Admin], this.props.role as string)} model={editingObject} onClose={this.onModalClose(true)} />
+    </ModalComponent>
+    // return <Dialog
+    //   open={true}
+    //   onClose={this.onModalClose()}
+    // >
+    //   <DialogTitle id="alert-dialog-title">Varžybos</DialogTitle>
+    //   <DialogContent>
+    //     <MatchFormComponent hasEditPermission={hasRole([RolesEnum.Secretary, RolesEnum.Admin], this.props.role as string)} model={editingObject} onClose={this.onModalClose(true)} />
+    //   </DialogContent>
+    //   <DialogActions>
+    //     <Button onClick={this.onModalClose()} color="primary">
+    //       Uždaryti
+    //   </Button>
+    //   </DialogActions>
+    // </Dialog>;
   }
 
   private onModalClose = (refetch?: boolean) => () => {
@@ -112,8 +123,8 @@ class MatchesClass extends React.Component<Props, State> {
 
 
   private getMatches = () => {
-  const { dispatch } = this.props;
-  dispatch(actions.getMatches());
-}
+    const { dispatch } = this.props;
+    dispatch(actions.getMatches());
+  }
 }
 export const MatchesListComponent = withStyles(MatchesContainerStyles)(connect(MatchesClass.MapStateToProps)(MatchesClass));

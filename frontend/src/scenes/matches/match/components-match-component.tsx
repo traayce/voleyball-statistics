@@ -196,7 +196,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     open={Boolean(anchor)}
                     onClose={this.onHandleMoreMenu(true)}
                 >
-                    <MenuItem onClick={this.onMenuClickProxy(this.openPrompt)}>Baigti varžybas</MenuItem>
+                    <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
                     <MenuItem onClick={this.returnToMenu}>Grįžti į meniu</MenuItem>
                     <MenuItem onClick={this.onLastPointReset}>Atstatyti paskutinį tašką</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
@@ -213,15 +213,14 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         this.setState({ anchor: isClose ? null : e.currentTarget });
     }
 
-    private onMenuClickProxy = (func: React.MouseEventHandler) => {
-        console.log("execute")
+    private closeMenu = () => {
         this.setState({ anchor: null });
-        return func;
     }
 
     private onControlActionClick = (action: ClsfPlayerPointType): React.MouseEventHandler => async () => {
         const { selected } = this.state;
         const { matchModel: match, dispatch } = this.props;
+        this.closeMenu();
         if (selected === 0) {
             NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
             return;
@@ -252,8 +251,9 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
     }
 
     private toggleSubstituteMenu = (open: boolean): React.MouseEventHandler => () => {
+        this.closeMenu();
         if (this.state.selected === 0) {
-            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
+            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 2000);
             return;
         }
         this.setState({ isSubstituteOpen: open });
@@ -335,6 +335,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
     private onLastPointReset: React.MouseEventHandler = async () => {
         if (this.props.matchModel == null)
             return;
+        this.closeMenu();
         const pointsSummary = this.props.matchModel.pointsSummary;
         const { lastPoint } = pointsSummary;
         if (lastPoint == null) {
@@ -394,6 +395,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
     }
 
     private openPrompt: React.MouseEventHandler = () => {
+        this.closeMenu();
         this.setState({ isPromptOpen: true });
     }
 

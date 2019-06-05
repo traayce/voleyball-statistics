@@ -125,8 +125,6 @@ class RegistrationComponentClass extends React.Component<Props> {
     return error;
   }
   private onSubmit: FormikConfig<UserCreateModel>["onSubmit"] = async (values, actions) => {
-    console.log(actions);
-    debugger;
     try {
       const response = await userApiCommands.post(values);
       const { history, authenticate } = this.props;

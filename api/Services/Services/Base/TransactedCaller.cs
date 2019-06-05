@@ -42,7 +42,7 @@ namespace Services.Services.Base
                 {
                     throw ex.InnerException;
                 }
-                throw new RulesException("Something went wrong");
+                throw new RulesException(ex.ToString());
             }
         }
         
@@ -68,7 +68,7 @@ namespace Services.Services.Base
                 {
                     throw ex.InnerException;
                 }
-                throw new RulesException("Something went wrong");
+                throw new RulesException(ex.ToString());
             }
         }
     }

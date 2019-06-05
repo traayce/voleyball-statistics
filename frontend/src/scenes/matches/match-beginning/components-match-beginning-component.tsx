@@ -97,7 +97,6 @@ class MatchBeginningComponentClass extends React.Component<Props, State> {
             this.setState({ error: "Privalote pasirinkti po 6 žaidėjus kiekvienoje komandoje" });
             return;
         }
-        debugger;
         if (matchModel == null) return;
         const matchId = (id as unknown) as number;
         try {

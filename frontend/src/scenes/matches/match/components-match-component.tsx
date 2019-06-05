@@ -19,6 +19,7 @@ import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
 import { ModalComponent } from "@components/modal";
 import { matchPlayerApiCommands } from "@api/match-player";
 import Person from "@material-ui/icons/Person";
+import LinearProgress from "@material-ui/core/LinearProgress";
 interface StateProps {
     matchModel?: MatchModel;
     isLoading: boolean;
@@ -97,6 +98,9 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         const teamAPlayers = matchPlayers.filter(x => x.isOnCourt && x.teamId === match.teamA.id);
         const teamBPlayers = matchPlayers.filter(x => x.isOnCourt && x.teamId === match.teamB.id);
         return <Grid container>
+            <Grid container style={{ height: "4px" }}>
+                {isLoading && <LinearProgress style={{ width: "100%", position: "absolute" }} />}
+            </Grid>
             <MatchPrompt
                 isOpen={isPromptOpen}
                 onClose={this.onPromptAction(false)}
@@ -116,7 +120,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                             onClick={this.onTeamPointActionClick(match.teamA.id)}
                             teamSetScore={`${match.pointsSummary.teamASetPoints} - ${match.pointsSummary.teamBSetPoints}`}
                             teamPointScore={match.pointsSummary.teamAPoints}
-                            teamName={match.teamA.name} />
+                            teamName={match.teamA.name}
+                            isLoading={isLoading} />
                     </Grid>
                     <Grid
                         container
@@ -162,7 +167,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                             onClick={this.onTeamPointActionClick(match.teamB.id)}
                             teamSetScore={`${match.pointsSummary.teamBSetPoints} - ${match.pointsSummary.teamASetPoints}`}
                             teamPointScore={match.pointsSummary.teamBPoints}
-                            teamName={match.teamB.name} />
+                            teamName={match.teamB.name}
+                            isLoading={isLoading} />
                     </Grid>
                 </Grid>
             </Grid>
@@ -170,12 +176,12 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                 alignItems="stretch"
                 direction="row"
                 justify="center">
-                <MatchControl actionName={"Taškas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Point)} />
-                <MatchControl actionName={"Blokas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Block)} />
-                <MatchControl actionName={"Neatremiamas padavimas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Ace)} />
-                <MatchControl actionName={"Asistuotas smūgis"} onClick={this.onControlActionClick(ClsfPlayerPointType.Assist)} />
-                <MatchControl actionName={"Klaida"} onClick={this.onControlActionClick(ClsfPlayerPointType.Turnover)} />
-                <MatchControl actionName={"Kita"} onClick={this.onHandleMoreMenu()} />
+                <MatchControl actionName={"Taškas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Point)} disabled={isLoading} />
+                <MatchControl actionName={"Blokas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Block)} disabled={isLoading} />
+                <MatchControl actionName={"Neatremiamas padavimas"} onClick={this.onControlActionClick(ClsfPlayerPointType.Ace)} disabled={isLoading} />
+                <MatchControl actionName={"Asistuotas smūgis"} onClick={this.onControlActionClick(ClsfPlayerPointType.Assist)} disabled={isLoading} />
+                <MatchControl actionName={"Klaida"} onClick={this.onControlActionClick(ClsfPlayerPointType.Turnover)} disabled={isLoading} />
+                <MatchControl actionName={"Kita"} onClick={this.onHandleMoreMenu()} disabled={false} />
                 <Menu
                     id="menu-appbar"
                     anchorEl={anchor}
@@ -190,7 +196,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     open={Boolean(anchor)}
                     onClose={this.onHandleMoreMenu(true)}
                 >
-                    <MenuItem onClick={this.openPrompt}>Baigti varžybas</MenuItem>
+                    <MenuItem onClick={this.onMenuClickProxy(this.openPrompt)}>Baigti varžybas</MenuItem>
                     <MenuItem onClick={this.returnToMenu}>Grįžti į meniu</MenuItem>
                     <MenuItem onClick={this.onLastPointReset}>Atstatyti paskutinį tašką</MenuItem>
                     <MenuItem onClick={this.onControlActionClick(ClsfPlayerPointType.CardRed)}>Raudona kortelė</MenuItem>
@@ -205,6 +211,12 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
 
     private onHandleMoreMenu = (isClose: boolean = false): React.MouseEventHandler<HTMLElement> => (e) => {
         this.setState({ anchor: isClose ? null : e.currentTarget });
+    }
+
+    private onMenuClickProxy = (func: React.MouseEventHandler) => {
+        console.log("execute")
+        this.setState({ anchor: null });
+        return func;
     }
 
     private onControlActionClick = (action: ClsfPlayerPointType): React.MouseEventHandler => async () => {
@@ -320,7 +332,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         else return 14;
     }
 
-    private onLastPointReset = (): React.MouseEventHandler => async () => {
+    private onLastPointReset: React.MouseEventHandler = async () => {
         if (this.props.matchModel == null)
             return;
         const pointsSummary = this.props.matchModel.pointsSummary;
@@ -331,6 +343,8 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         }
 
         await matchPointApiCommands.deletePoint(lastPoint.id);
+        this.props.dispatch(actions.invalidateData());
+        NotificationManager.success("Taškas sėkmingai atstatytas.", "Pranešimas", 2000);
     }
 
     private onTeamPointActionClick = (teamId: number): React.MouseEventHandler => async () => {
@@ -356,16 +370,23 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         }
 
         try {
-            const summary = await matchPointApiCommands.post({
+            // const summary = await matchPointApiCommands.post({
+            //     id: 0,
+            //     isMatchPoint: false,
+            //     isSetPoint: isSetPoint,
+            //     setNumber: newSetNumber,
+            //     matchId: id,
+            //     teamId
+            // });
+            //NotificationManager.success("Taškas sėkmingai išsaugotas.", "Pranešimas", 4000);
+            dispatch(actions.addPoint({
                 id: 0,
                 isMatchPoint: false,
                 isSetPoint: isSetPoint,
                 setNumber: newSetNumber,
                 matchId: id,
                 teamId
-            });
-            //NotificationManager.success("Taškas sėkmingai išsaugotas.", "Pranešimas", 4000);
-            dispatch(actions.invalidateData());
+            }));
         }
         catch (e) {
             NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);

@@ -17,13 +17,14 @@ interface OwnProps {
     actionName: string;
     isSelected?: boolean;
     onClick?: React.MouseEventHandler;
+    disabled: boolean;
 }
 
 type Props = OwnProps & WithStyles<typeof styles>;
 class MatchControlClass extends React.PureComponent<Props> {
     public render(): JSX.Element {
-        const { classes, actionName, onClick } = this.props;
-        return <Button variant="contained" color="primary" className={classes.Button} onClick={onClick} >
+        const { classes, actionName, onClick, disabled } = this.props;
+        return <Button variant="contained" color="primary" className={classes.Button} onClick={onClick} disabled={disabled}>
             {actionName}
         </Button>;
     }

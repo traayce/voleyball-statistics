@@ -1,10 +1,11 @@
-import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_INVALIDATE, MATCH_LIST_UPDATE_POINTS_SUMMARY } from "./constants";
+import { MATCH_LIST_FETCH_SUCCESS, MATCH_LIST_FETCH_START, MATCH_LIST_FETCH_ERROR, MATCH_LIST_FETCH_INVALIDATE, MATCH_LIST_UPDATE_POINTS_SUMMARY, MATCH_ACTION_START } from "./constants";
 import { matchCommands } from "./api";
 import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { MatchReducerState } from "./state";
 import { IAction } from "@store/action";
-import { MatchModel, MatchPointsSummaryModel } from "src/types";
+import { MatchModel, MatchPointsSummaryModel, MatchPointCreateModel } from "src/types";
+import { matchPointApiCommands } from "@api/match-point";
 
 export const getMatches = (ids: string[] = []) => {
     return async (dispatch: ThunkDispatch<MatchReducerState, void, Action>) => {
@@ -19,18 +20,20 @@ export const getMatches = (ids: string[] = []) => {
     };
 };
 
-// export const refreshPointSummary = (ids: string[] = []) => {
-//     return async (dispatch: ThunkDispatch<MatchReducerState, void, Action>) => {
-//         dispatch(getMatchesStart());
-//         try {
-//             const response = await matchCommands.get(ids);
-//             dispatch(getMatchesSuccess(response.data));
-//         }
-//         catch (e) {
-//             dispatch(getMatchesFail("error occured while gettind matches list"));
-//         }
-//     };
-// };
+export const addPoint = (model: MatchPointCreateModel) => {
+    return async (dispatch: ThunkDispatch<MatchReducerState, void, Action>) => {
+        dispatch({
+            type: MATCH_ACTION_START
+        });
+        try {
+            const summary = await matchPointApiCommands.post(model);
+            dispatch(refreshPointSummary(model.matchId, summary.data));
+        }
+        catch (e) {
+            dispatch(getMatchesFail("error occured while gettind matches list"));
+        }
+    };
+};
 
 export const refreshPointSummary = (matchId: number, model: MatchPointsSummaryModel): IAction<MatchReducerState> => {
     return ({

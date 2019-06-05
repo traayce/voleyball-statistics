@@ -40,6 +40,17 @@ namespace Services.Services.MatchServices.MatchPointService
             var model = _mapper.Map(matchPoint, new T());
             return model;
         }
+        
+        public void Delete(int matchPointId)
+        {
+            var matchPoint = _matchPointRepository.GetById(matchPointId);
+
+            if (matchPoint == null)
+                throw new RulesException("Taškas tokiu Id neegzistuoja");
+
+            _matchPointRepository.Delete(matchPoint);
+            _unitOfWork.CommitChanges();
+        }
 
         public IEnumerable<T> GetByIds<T>(int[] matchPointIds) where T : IMatchPointDomainModel, new()
         {

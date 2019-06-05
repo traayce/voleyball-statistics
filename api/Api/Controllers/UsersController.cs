@@ -41,7 +41,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<IUserLoginDomainModel>> Post([FromBody] UserCreateModel model)
         {
-            return Command( async () => await _userService.Create(model));
+            return CommandAsync( async () => await _userService.Create(model));
         }
 
         [HttpPatch("{id}")]

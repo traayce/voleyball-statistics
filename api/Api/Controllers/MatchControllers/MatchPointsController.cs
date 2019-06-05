@@ -25,12 +25,22 @@ namespace Api.Controllers.MatchControllers
         {
             return Ok(_matchPointService.GetByIds<MatchPointDomainModel>(ids));
         }
+        
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            return Command<object>(() =>
+            {
+                _matchPointService.Delete(id);
+                return null;
+            });
+        }
 
         [HttpPost]
         [Authorize(Roles = Role.Secretary)]
         public ActionResult<MatchPointDomainModel> Post([FromBody] MatchPointCreateModel model)
         {
-            return Command( async () => await _matchPointService.Save<MatchPointsSummaryDomainModel>(model));
+            return CommandAsync( async () => await _matchPointService.Save<MatchPointsSummaryDomainModel>(model));
         }
     }
 }

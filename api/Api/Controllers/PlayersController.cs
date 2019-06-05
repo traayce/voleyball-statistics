@@ -31,7 +31,7 @@ namespace Api.Controllers
         [HttpPost]
         public ActionResult<IUserLoginDomainModel> Post([FromBody] PlayerCreateModel model)
         {
-            return Command(async () => await _playerService.Save<PlayerDomainModel>(model));
+            return CommandAsync(async () => await _playerService.Save<PlayerDomainModel>(model));
         }
     }
 }

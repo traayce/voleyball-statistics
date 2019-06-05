@@ -33,7 +33,7 @@ namespace Api.Controllers.MatchControllers
         [Authorize(Roles = Role.Secretary)]
         public ActionResult<MatchPlayerDomainModel> Post([FromBody] MatchPlayerCreateModel model)
         {
-            return Command(async () => await _matchPlayerService.Save<MatchPlayerDomainModel>(model));
+            return CommandAsync(async () => await _matchPlayerService.Save<MatchPlayerDomainModel>(model));
         }
         
         [HttpPatch("{id}")]
@@ -43,7 +43,7 @@ namespace Api.Controllers.MatchControllers
         {
             var model = await _matchPlayerService.GetCreateModel<MatchPlayerCreateModel>(id);
             personPatch.ApplyTo(model);
-            return Command( async () => await _matchPlayerService.Save<MatchPlayerDomainModel>(model));
+            return CommandAsync( async () => await _matchPlayerService.Save<MatchPlayerDomainModel>(model));
         }
     }
 }

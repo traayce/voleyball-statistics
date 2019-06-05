@@ -31,7 +31,7 @@ namespace Api.Controllers.MatchControllers
         [Authorize(Roles = Role.Secretary)]
         public ActionResult<PlayerPointDomainModel> Post([FromBody] PlayerPointCreateModel model)
         {
-            return Command(async () => await _playerPointService.Save<PlayerPointDomainModel>(model));
+            return CommandAsync(async () => await _playerPointService.Save<PlayerPointDomainModel>(model));
         }
     }
 }

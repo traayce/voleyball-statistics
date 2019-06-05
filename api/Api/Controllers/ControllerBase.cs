@@ -14,12 +14,26 @@ namespace Api.Controllers
         {
             _executor = executor;
         }
-        protected ActionResult Command<T>(Func<Task<T>> action)
+        protected ActionResult CommandAsync<T>(Func<Task<T>> action)
         {
             if (!ModelState.IsValid)
                 throw new RulesException();
 
             var result = _executor.Execute(action);
+            return Ok(result);
+        }
+        
+        protected ActionResult Command<T>(Func<T> action)
+        {
+            if (!ModelState.IsValid)
+                throw new RulesException();
+
+            var result = _executor.Execute(action);
+            if (result == null)
+            {
+                return NoContent();
+            }
+            
             return Ok(result);
         }
     }

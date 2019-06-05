@@ -33,7 +33,7 @@ namespace Api.Controllers
         [HttpPost]
         public ActionResult<TeamDomainModel> Post([FromBody] TeamCreateModel model)
         {
-            return Command( async () => await _teamService.Save<TeamDomainModel>(model));
+            return CommandAsync( async () => await _teamService.Save<TeamDomainModel>(model));
         }
         
         [HttpPatch("{id}")]
@@ -43,7 +43,7 @@ namespace Api.Controllers
         {
             var model = await _teamService.GetCreateModel<TeamCreateModel>(id);
             personPatch.ApplyTo(model);
-            return Command( async () => await _teamService.Save<TeamDomainModel>(model));
+            return CommandAsync( async () => await _teamService.Save<TeamDomainModel>(model));
         }
     }
 }

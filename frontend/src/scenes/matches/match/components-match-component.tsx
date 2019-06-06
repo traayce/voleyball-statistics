@@ -12,7 +12,6 @@ import { MatchControl } from "./components-match-control";
 import { matchPointApiCommands } from "@api/match-point";
 import { playerPointApiCommands } from "@api/player-point";
 import { MatchTeamPointComponent } from "./components-match-team-point-component";
-import { NotificationContainer, NotificationManager } from "react-notifications";
 import { MatchPrompt } from "./components-match-prompt";
 import { matchApiCommands } from "@api/match";
 import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
@@ -20,6 +19,7 @@ import { ModalComponent } from "@components/modal";
 import { matchPlayerApiCommands } from "@api/match-player";
 import Person from "@material-ui/icons/Person";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { WithSnackbarProps, withSnackbar, VariantType } from "notistack";
 interface StateProps {
     matchModel?: MatchModel;
     isLoading: boolean;
@@ -50,7 +50,7 @@ interface State {
     isSubstituteOpen: boolean;
 }
 
-type Props = WithStyles<typeof MatchesContainerStyles> & Params & StateProps & DispatchProps & RouteComponentProps;
+type Props = WithStyles<typeof MatchesContainerStyles> & Params & StateProps & DispatchProps & RouteComponentProps & WithSnackbarProps;
 class MatchComponentClass extends React.PureComponent<Props, State> {
 
     public static MapStateToProps: MapStateToProps<StateProps, Params, IStore> = ({ matches }, { id }) => ({
@@ -204,7 +204,6 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                     <MenuItem onClick={this.toggleSubstituteMenu(true)}>Keitimas</MenuItem>
                 </Menu>
             </Grid>
-            <NotificationContainer />
             {this.renderSubsituteModal()}
         </Grid>;
     }
@@ -222,7 +221,9 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         const { matchModel: match, dispatch } = this.props;
         this.closeMenu();
         if (selected === 0) {
-            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
+            this.props.enqueueSnackbar("Pirma turite pasirinkti žaidėją!", {
+                variant: "error",
+            });
             return;
         }
         if (match == null)
@@ -243,17 +244,17 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
             });
 
             this.setState({ selected: 0 });
-            NotificationManager.success("Žaidėjo statistikos vienetas sėkmingai išsaugotas", "Pranešimas", 1500);
+            this.showInfoBar("Žaidėjo statistikos vienetas sėkmingai išsaugotas", "success");
         }
         catch (e) {
-            NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);
+            this.showInfoBar("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "error");
         }
     }
 
     private toggleSubstituteMenu = (open: boolean): React.MouseEventHandler => () => {
         this.closeMenu();
         if (this.state.selected === 0) {
-            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 2000);
+            this.showInfoBar("Pirma turite pasirinkti žaidėją!", "error");
             return;
         }
         this.setState({ isSubstituteOpen: open });
@@ -265,7 +266,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         if (!isSubstituteOpen || matchModel == null)
             return;
         if (selected === 0) {
-            NotificationManager.error("Pirma turite pasirinkti žaidėją!", "Klaida", 3000);
+            this.showInfoBar("Pirma turite pasirinkti žaidėją!", "error");
             return;
         }
         const selectedPlayer = matchModel.matchPlayers.find(x => x.player.id === selected);
@@ -339,13 +340,13 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
         const pointsSummary = this.props.matchModel.pointsSummary;
         const { lastPoint } = pointsSummary;
         if (lastPoint == null) {
-            NotificationManager.error("Nėra taškų kuriuos galima atstatyti.", "Klaida", 2500);
+            this.showInfoBar("Nėra taškų kuriuos galima atstatyti.", "error");
             return;
         }
 
         await matchPointApiCommands.deletePoint(lastPoint.id);
         this.props.dispatch(actions.invalidateData());
-        NotificationManager.success("Taškas sėkmingai atstatytas.", "Pranešimas", 2000);
+        this.showInfoBar("Taškas sėkmingai atstatytas.", "success");
     }
 
     private onTeamPointActionClick = (teamId: number): React.MouseEventHandler => async () => {
@@ -390,7 +391,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
             }));
         }
         catch (e) {
-            NotificationManager.error("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "Klaida", 3000);
+            this.showInfoBar("Sistemos klaida, patirinkite savo interneto ryšį arba pabandykite vėliau.", "error");
         }
     }
 
@@ -411,6 +412,11 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
             history.push("/matches");
         }
     }
+
+    private showInfoBar = (text: string, type: VariantType) => this.props.enqueueSnackbar(text, {
+        variant: type,
+        className: this.props.classes.Snack
+    });
 }
 
-export const MatchComponent = withRouter(connect(MatchComponentClass.MapStateToProps)(withStyles(MatchesContainerStyles)(MatchComponentClass)));
+export const MatchComponent = withSnackbar(withRouter(connect(MatchComponentClass.MapStateToProps)(withStyles(MatchesContainerStyles)(MatchComponentClass))));

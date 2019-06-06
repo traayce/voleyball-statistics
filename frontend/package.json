@@ -89,6 +89,7 @@
     "material-ui-pickers": "^2.2.4",
     "module-alias": "^2.2.0",
     "moment": "^2.24.0",
+    "notistack": "^0.8.5",
     "raven-js": "^3.27.0",
     "react-notifications": "^1.4.3",
     "react-redux": "^6.0.0",

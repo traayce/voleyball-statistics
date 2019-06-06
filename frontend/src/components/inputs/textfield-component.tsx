@@ -17,7 +17,7 @@ const render = <TFieldNames extends string = string>({ readOnly, margin, classNa
         const isError = Boolean(touch) && Boolean(error);
         const disabled: boolean = props.disabled || form.isSubmitting || form.isValidating;
 
-        return <div className={className}>
+        return <div className={className} style={{ marginBottom: "6px" }}>
             <MuiTextField
                 {...props}
                 {...field}
@@ -25,7 +25,7 @@ const render = <TFieldNames extends string = string>({ readOnly, margin, classNa
                 error={isError}
                 InputProps={{ ...props.InputProps, readOnly }}
             />
-            {isError ? <FormHelperText error={true}>{error}</FormHelperText> : undefined}
+            <FormHelperText error={isError}>{isError && error}</FormHelperText>
         </div>;
     };
 

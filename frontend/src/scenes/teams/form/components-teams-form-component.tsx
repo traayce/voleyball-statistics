@@ -7,8 +7,6 @@ import { Button, Grid } from "@material-ui/core";
 import { teamApiCommands } from "@api/team";
 const styles = () => createStyles({
     Container: {
-        maxWidth: "500px",
-        width: "100%"
     }
 });
 
@@ -27,10 +25,7 @@ class TeamFormComponentClass extends React.Component<Props> {
     }
     public render(): JSX.Element {
         const { team } = this.props;
-        return <Grid
-            container
-            alignItems="center"
-            justify="center"
+        return <div
             className={this.props.classes.Container}
         ><Formik<TeamCreateModel>
             initialValues={team != null ? {
@@ -38,10 +33,10 @@ class TeamFormComponentClass extends React.Component<Props> {
                 name: team.name,
                 city: team.city
             } : {
-                id: 0,
-                name: "",
-                city: ""
-            }}
+                    id: 0,
+                    name: "",
+                    city: ""
+                }}
             onSubmit={this.onSubmit}
             render={(formikBag: FormikProps<TeamCreateModel>) => {
                 return <Form>
@@ -63,13 +58,14 @@ class TeamFormComponentClass extends React.Component<Props> {
                         color="primary"
                         type="submit"
                         variant="contained"
+                        fullWidth
                         disabled={formikBag.isSubmitting || Boolean(Object.keys(formikBag.errors).length)} >Išsaugoti</Button>
                 </ Form>;
             }
             }
         >
             </Formik>
-        </Grid>;
+        </div>;
     }
 
     private onSubmit: FormikConfig<TeamCreateModel>["onSubmit"] = async (values) => {

@@ -43,6 +43,13 @@ export interface PlayerModel {
     teamId: number;
 }
 
+export interface PlayerCreateModel {
+    id: number;
+    name: string;
+    number: number;
+    teamId: number;
+}
+
 export interface TeamModel {
     id: number;
     name: string;

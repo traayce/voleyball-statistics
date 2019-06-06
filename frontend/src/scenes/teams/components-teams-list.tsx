@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
+import { LinearProgress, WithStyles, withStyles, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, Typography } from "@material-ui/core";
 import { MapStateToProps, connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
@@ -13,6 +13,8 @@ import { createStyles, Theme } from "@material-ui/core/styles";
 import { ModalComponent } from "@components/modal";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { playerApiCommands } from "@api/player";
+import { PlayersListComponent } from "./players/scenes-players-list-component";
 export const styles = (theme: Theme) => createStyles({
 });
 interface StateProps {
@@ -29,14 +31,14 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps & WithStyles<typeof styles>;
 
 interface State {
-    editingObject?: TeamModel;
+    editingObjectId?: number;
     isEditorOpen: boolean;
     selected: number[]
 }
 
 class TeamsListComponentClass extends React.Component<Props, State> {
     public initialState: State = {
-        editingObject: undefined,
+        editingObjectId: undefined,
         isEditorOpen: false,
         selected: []
     };
@@ -79,8 +81,8 @@ class TeamsListComponentClass extends React.Component<Props, State> {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {teams.map(row => (
-                            <TableRow key={row.id} onClick={this.openEditor(row)}>
+                        {teams.map((row, index) => (
+                            <TableRow key={row.id} onClick={this.openEditor(index)}>
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
@@ -93,87 +95,33 @@ class TeamsListComponentClass extends React.Component<Props, State> {
         </Grid>;
     }
 
-    private openEditor = (team?: TeamModel) => () => {
+    private openEditor = (team?: number) => () => {
         this.setState({
-            editingObject: team, isEditorOpen: true
+            editingObjectId: team, isEditorOpen: true
         });
     }
 
     private renderEditor = () => {
-        const { editingObject, isEditorOpen } = this.state;
+        const { editingObjectId: editingObject, isEditorOpen } = this.state;
         if (!isEditorOpen)
             return null;
+        const model = editingObject != null ? this.props.teams[editingObject] : undefined;
         return <ModalComponent
             title="Komandos forma"
             isOpen={true}
             onClose={this.onModalClose()}
-            buttonActions={[<Button onClick={this.onModalClose()} color="primary">
-                Uždaryti
+            buttonActions={
+                [<Button onClick={this.onModalClose()} color="primary">
+                    Uždaryti
 </Button>]}
         >
-            <TeamFormComponent team={editingObject} onClose={this.onModalClose(true)} />
-            {editingObject != null && <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="left">
-                            {this.state.selected.length > 0 && <DeleteIcon color="action" onClick={this.onPlayersDelete} />}
-                        </TableCell>
-                        <TableCell>Vardas</TableCell>
-                        <TableCell>Numeris</TableCell>
-                        <TableCell align="right">Valdymas</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {editingObject.players.map(row => {
-                        const isItemSelected = this.isSelected(row.id);
-                        return <TableRow key={row.id} onClick={this.handleClick(row.id)} selected={isItemSelected}>
-                            <TableCell>
-                                <Checkbox
-                                    checked={isItemSelected}
-                                />
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell>{row.number}</TableCell>
-                            <TableCell align="right"><EditIcon onClick={this.openEditor(row)} /></TableCell>
-                        </TableRow>
-                    })}
-                </TableBody>
-            </Table>}
+            <TeamFormComponent team={model} onClose={this.onModalClose(true)} />
+            {model != null && <PlayersListComponent model={model} />}
         </ModalComponent >;
     }
-
-    private onPlayerDelete = (): React.MouseEvent => () => {
-        const { selected } = this.props;
-    }
-
-    private handleClick = (id: number): React.MouseEvent<HTMLTableRowElement> => (e) => {
-        console.log("handleCLick")
-        const { selected } = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected: number[] = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({ selected: newSelected });
-    }
-
-    private isSelected = (id: number) => this.state.selected.indexOf(id) !== -1;
-
+    
     private onModalClose = (refetch?: boolean) => () => {
-        this.setState({ editingObject: undefined, isEditorOpen: false });
+        this.setState({ editingObjectId: undefined, isEditorOpen: false });
         if (refetch) {
             this.getMatches();
         }

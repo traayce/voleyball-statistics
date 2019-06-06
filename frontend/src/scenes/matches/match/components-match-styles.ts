@@ -58,4 +58,7 @@ export const MatchesContainerStyles = (theme: Theme) => createStyles({
   media: {
     height: 140,
   },
+  Snack: {
+    flexGrow: 0
+  }
 });

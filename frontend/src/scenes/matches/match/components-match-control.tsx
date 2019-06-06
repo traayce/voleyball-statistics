@@ -9,7 +9,10 @@ const styles = (theme: Theme) => createStyles({
         margin: theme.spacing.unit,
         width: "13%",
         marginTop: 0,
-        marginBottom: 0
+        marginBottom: 0,
+        [theme.breakpoints.down("sm")]: {
+            fontSize: "0.70rem"
+        },
     }
 });
 

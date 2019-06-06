@@ -11,7 +11,15 @@ const styles = (theme: Theme) => createStyles({
     },
     Button: {
         margin: theme.spacing.unit,
-        minWidth: "100px"
+        minWidth: "100px",
+        [theme.breakpoints.up("md")]: {
+            minWidth: "150px",
+            minHeight: "100px"
+        },
+        [theme.breakpoints.up("lg")]: {
+            minWidth: "200px",
+            minHeight: "130px"
+        }
     }
 });
 interface OwnProps {

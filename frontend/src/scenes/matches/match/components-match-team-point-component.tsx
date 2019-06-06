@@ -1,9 +1,12 @@
 
 import * as React from "react";
-import { Grid, Typography, createStyles, WithStyles, withStyles, Button } from "@material-ui/core";
+import { Grid, Typography, createStyles, WithStyles, withStyles, Button, Theme } from "@material-ui/core";
 import classNames = require("classnames");
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
     Player: {
+        [theme.breakpoints.up("md")]: {
+            padding: "20px"
+        }
     },
     PlayerNumber: {
 

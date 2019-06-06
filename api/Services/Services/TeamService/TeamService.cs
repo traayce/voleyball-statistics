@@ -151,5 +151,19 @@ namespace Services.Services.TeamService
             var model = _mapper.Map(match, new T());
             return model;
         }
+        
+        public bool Delete(int teamId)
+        {
+            var player = teamRepository.GetById(teamId);
+
+            if (player == null || !player.IsValid)
+                throw new RulesException("Komanda tokiu Id neegzistuoja");
+
+            player.IsValid = false;
+            teamRepository.Edit(player);
+            _unitOfWork.CommitChanges();
+
+            return true;
+        }
     }
 }

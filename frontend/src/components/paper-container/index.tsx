@@ -5,11 +5,12 @@ const styles = (theme: Theme) => createStyles({
     Container: {
         width: "95%",
         margin: "5em auto 0",
-    padding: "1em",
-    flexGgrow: 1,
-    minHeight: "400px",
-    paddingBottom: "2em",
-}
+        padding: "1em",
+        flexGgrow: 1,
+        minHeight: "400px",
+        paddingBottom: "2em",
+        maxWidth: "1280px"
+    }
 });
 
 class ContainerClass extends React.PureComponent<WithStyles<typeof styles>> {

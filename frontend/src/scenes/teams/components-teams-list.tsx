@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { playerApiCommands } from "@api/player";
 import { PlayersListComponent } from "./players/scenes-players-list-component";
+import { teamApiCommands } from "@api/team";
 export const styles = (theme: Theme) => createStyles({
 });
 interface StateProps {
@@ -59,13 +60,14 @@ class TeamsListComponentClass extends React.Component<Props, State> {
         return <Grid>
             {this.renderEditor()}
             {isLoading && <LinearProgress />}
-            <Grid container alignItems="center">{error}
+            <Grid container alignItems="center" justify="flex-end">{error}
                 <br />
                 <Button
                     color="primary"
                     type="submit"
                     variant="contained"
-                    onClick={this.getMatches}>Perkrauti</Button>
+                    onClick={this.getMatches}
+                    style={{ marginRight: "5px" }}>Perkrauti</Button>
                 <Button
                     color="primary"
                     type="submit"
@@ -76,17 +78,26 @@ class TeamsListComponentClass extends React.Component<Props, State> {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Pavadinimas</TableCell>
-                            <TableCell align="right">Miestas</TableCell>
+                            <TableCell padding="none">{this.state.selected.length > 0 && <DeleteIcon color="action" onClick={this.onTeamDelete} />}</TableCell>
+                            <TableCell padding="none">Pavadinimas</TableCell>
+                            <TableCell padding="none" align="right">Miestas</TableCell>
+                            <TableCell padding="none" align="right">Redagavimas</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {teams.map((row, index) => (
-                            <TableRow key={row.id} onClick={this.openEditor(index)}>
-                                <TableCell component="th" scope="row">
+                            <TableRow key={row.id}>
+                                <TableCell padding="none">
+                                    <Checkbox
+                                        checked={this.isSelected(row.id)}
+                                        onClick={this.handleClick(row.id)}
+                                    />
+                                </TableCell>
+                                <TableCell component="th" scope="row" padding="none">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.city}</TableCell>
+                                <TableCell align="right" padding="none">{row.city}</TableCell>
+                                <TableCell padding="none" align="right"><EditIcon onClick={this.openEditor(index)} /></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -119,7 +130,7 @@ class TeamsListComponentClass extends React.Component<Props, State> {
             {model != null && <PlayersListComponent model={model} />}
         </ModalComponent >;
     }
-    
+
     private onModalClose = (refetch?: boolean) => () => {
         this.setState({ editingObjectId: undefined, isEditorOpen: false });
         if (refetch) {
@@ -131,5 +142,39 @@ class TeamsListComponentClass extends React.Component<Props, State> {
         const { dispatch } = this.props;
         dispatch(teamReducerActions.getTeams());
     }
+
+    private onTeamDelete: React.MouseEventHandler = async () => {
+        const { selected } = this.state;
+        try {
+            await teamApiCommands.deleteTeams(selected);
+            this.props.dispatch(teamReducerActions.getTeams());
+            this.setState({ selected: [] });
+        }
+        catch (e) {
+        }
+    }
+
+    private handleClick = (id: number): React.MouseEventHandler => (e) => {
+        const { selected } = this.state;
+        const selectedIndex = selected.indexOf(id);
+        let newSelected: number[] = [];
+
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+
+        this.setState({ selected: newSelected });
+    }
+
+    private isSelected = (id: number) => this.state.selected.indexOf(id) !== -1;
 }
 export const TeamsListComponent = withStyles(styles)(connect(TeamsListComponentClass.MapStateToProps)(TeamsListComponentClass));

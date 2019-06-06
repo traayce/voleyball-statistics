@@ -10,5 +10,6 @@ namespace ServiceContracts.Services.TeamService
         IEnumerable<T> GetByIds<T>(int[] teamIds) where T : ITeamDomainModel, new();
         Task<T> Save<T>(ITeamCreateDomainModel model) where T : ITeamDomainModel, new();
         Task<T> GetCreateModel<T>(int id) where T : ITeamCreateDomainModel, new();
+        bool Delete(int teamId);
     }
 }

@@ -74,7 +74,7 @@ class PlayersListComponentClass extends React.Component<Props, State> {
                                 {this.state.selected.length > 0 && <DeleteIcon color="action" onClick={this.onPlayerDelete} />}
                             </TableCell>
                             <TableCell padding="none">Vardas</TableCell>
-                            <TableCell padding="none">Numeris</TableCell>
+                            <TableCell padding="none"> Marškinėlių numeris</TableCell>
                             <TableCell padding="none" align="right">Valdymas</TableCell>
                         </TableRow>
                     </TableHead>

@@ -179,7 +179,7 @@ export interface MatchSetStatisticsModel {
 }
 
 export interface MatchSetStepperModel {
-    pointNumber: number;
+    setScore: string;
     teamAction: string;
     playerActions: string[];
 }

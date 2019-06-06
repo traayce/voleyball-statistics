@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { request } from "../base";
 import { TeamModel, TeamCreateModel } from "src/types";
+import { transformRequestOptions } from "@utils/serializer";
 
 export namespace teamApiCommands {
     export const get = (ids: string[]): Promise<AxiosResponse<TeamModel[]>> => {
@@ -34,9 +35,15 @@ export namespace teamApiCommands {
             .catch(err => err);
     };
 
-    export const deleteTeam = (id: number) => {
+    export const deleteTeams = (ids: number[]) => {
         return request
-            .delete(`/teams/${id}`)
+            .delete(`/teams`,
+                {
+                    params: {
+                        teamIds: ids.map(x => x.toString())
+                    },
+                    paramsSerializer: (params) => transformRequestOptions(params)
+                })
             .then(res => res.data);
     };
 }

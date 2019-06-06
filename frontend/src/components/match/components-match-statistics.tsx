@@ -51,31 +51,39 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
                     </TableRow>
                 </TableBody>
             </Table>
-            <Typography variant="h6" align="center">ŽAIDĖJŲ STATISTIKA</Typography>
+            <Typography variant="h6" align="center">KOMANDŲ ŽAIDĖJŲ STATISTIKA</Typography>
             {this.renderPlayersTable(model.matchTeamA)}
             {this.renderPlayersTable(model.matchTeamB)}
             <Typography variant="h6" align="center">LENTELĖS PAAIŠKINIMAI</Typography>
             {this.getStatisticsLegend()}
             <Typography variant="h6" align="center">ĮVYKIAI PAGAL SETUS</Typography>
-            <Tabs
-                value={this.state.setSelected}
-                onChange={this.handleSetChande}
-                indicatorColor="primary"
-                textColor="primary"
-                variant="scrollable"
-            >
-                {model.sets.map((x, index) => <Tab label={`${index + 1}`} style={{ width: `${100 / model.sets.length}%` }} />)}
-            </Tabs>
-            <Stepper orientation="vertical" >
-                {model.sets[this.state.setSelected].setSteps.map((setAction, index) => (
-                    <Step key={setAction.pointNumber} active>
-                        <StepLabel>{setAction.teamAction}</StepLabel>
-                        <StepContent>
-                            {setAction.playerActions.map(x => <Typography>{x}</Typography>)}
-                        </StepContent>
-                    </Step>
-                ))}
-            </Stepper>
+            <Grid container justify="center">
+                <Tabs
+                    value={this.state.setSelected}
+                    onChange={this.handleSetChande}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="scrollable"
+                >
+                    {model.sets.map((x, index) => <Tab label={`${index + 1}`} style={{ width: `${100 / model.sets.length}%` }} />)}
+                </Tabs>
+                <Grid item container justify="center">
+                    <Stepper orientation="vertical" >
+                        {model.sets[this.state.setSelected].setSteps.map((setAction, index) => (
+                            <Step key={index} active>
+                                <StepLabel>{setAction.teamAction}
+                                    <Typography variant="caption">
+                                        ({setAction.setScore})
+                        </Typography>
+                                </StepLabel>
+                                <StepContent>
+                                    {setAction.playerActions.map(x => <Typography>{x}</Typography>)}
+                                </StepContent>
+                            </Step>
+                        ))}
+                    </Stepper>
+                </Grid>
+            </Grid>
         </Grid>;
     }
 
@@ -85,34 +93,40 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
 
     private renderPlayersTable = (team: MatchTeamStatisticsModel): JSX.Element => {
         const { classes } = this.props;
-        return <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell className={classes.CellPadding} component="th">{team.name}</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">Ta</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">Kl</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">AS</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">Bl</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">NP</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">GK</TableCell>
-                    <TableCell className={classes.CellPadding} component="th" align="center">RK</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {team.playerStatistics.map(x => <TableRow>
-                    <TableCell className={classes.CellPadding} style={{ width: "20%" }}>
-                        <Typography style={{ fontWeight: "bolder" }}>{x.playerName} - {x.number}</Typography>
-                    </TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.points}</TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.turnovers}</TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.assists}</TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.blocks}</TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.aces}</TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.cardYellows}</TableCell>
-                    <TableCell align="center" className={classes.CellPadding}>{x.cardReds}</TableCell>
-                </TableRow>)}
-            </TableBody>
-        </Table>;
+        return <>
+            <br />
+            <Grid item xs={12} />
+            <Typography variant="h6" align="center">{team.name}</Typography>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell className={classes.CellPadding} component="th">Žaidėjas - Marškinėlių Numeris</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">Ta</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">Kl</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">AS</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">Bl</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">NP</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">GK</TableCell>
+                        <TableCell className={classes.CellPadding} component="th" align="center">RK</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {team.playerStatistics.map(x => {
+                        return <TableRow>
+                            <TableCell className={classes.CellPadding} style={{ width: "20%" }}>
+                                <Typography style={x.wasOnCourt ? { fontWeight: "bolder" } : undefined}>{x.playerName} - {x.number}</Typography>
+                            </TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.points}</TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.turnovers}</TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.assists}</TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.blocks}</TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.aces}</TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.cardYellows}</TableCell>
+                            <TableCell align="center" className={classes.CellPadding}>{x.cardReds}</TableCell>
+                        </TableRow>
+                    })}
+                </TableBody>
+            </Table></>;
     }
 
     private getStatisticsLegend = () => <Grid container alignItems="center">
@@ -124,6 +138,7 @@ class MatchStatisticsComponentClass extends React.Component<Props, State> {
         <Grid item xs={12}><Typography variant="body1" align="center">NP - Neatremiami padavimai</Typography></Grid>
         <Grid item xs={12}><Typography variant="body1" align="center">GK - Geltonos kortelės</Typography></Grid>
         <Grid item xs={12}><Typography variant="body1" align="center">RK - Raudonos kortelės</Typography></Grid>
+        <Grid item xs={12}><Typography variant="body1" align="center">Paryškintas žaidėjas - buvo aikštelėje</Typography></Grid>
     </Grid>;
 
 }

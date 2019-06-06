@@ -45,5 +45,21 @@ namespace Api.Controllers
             personPatch.ApplyTo(model);
             return CommandAsync( async () => await _teamService.Save<TeamDomainModel>(model));
         }
+        
+        [Authorize(Roles = Role.Secretary)]
+        [HttpDelete]
+        public ActionResult Delete(int[] teamIDs)
+        {
+            return Command<IActionResult>(() =>
+                {
+                    foreach (int teamId in teamIDs)
+                    {
+                        _teamService.Delete(teamId);
+                    }
+
+                    return null;
+                }
+            );
+        }
     }
 }

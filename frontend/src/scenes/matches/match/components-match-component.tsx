@@ -288,7 +288,7 @@ class MatchComponentClass extends React.PureComponent<Props, State> {
                                 <Person />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={player.name} secondary={`Numeris - ${player.number}`} />
+                        <ListItemText primary={player.name} secondary={`Marškinėlių numeris - ${player.number}`} />
                     </ListItem>
                 ))}
             </List>

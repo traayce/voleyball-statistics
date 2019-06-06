@@ -49,7 +49,7 @@ const render = <TFieldNames extends string = string>({ readOnly, margin, classNa
                         </MenuItem>
                     ))}
                 </Select>
-                <FormHelperText>{error}</FormHelperText>
+                <FormHelperText>{isError && error}</FormHelperText>
             </FormControl>
         </div>;
     };

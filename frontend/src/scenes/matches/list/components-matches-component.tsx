@@ -36,6 +36,16 @@ class MatchesClass extends React.Component<Props, State> {
     editingObject: undefined,
     isEditorOpen: false
   };
+
+  constructor(props: any) {
+    super(props);
+    this.getMatches();
+  }
+
+  public componentDidMount() {
+    this.getMatches();
+  }
+
   public state: State = this.initialState;
   public static MapStateToProps: MapStateToProps<StateProps, object, IStore> = ({ matches, authentication }) => ({
     matches: matches.matchesList,
@@ -97,21 +107,7 @@ class MatchesClass extends React.Component<Props, State> {
 </Button>]}
     >
       <MatchFormComponent hasEditPermission={hasRole([RolesEnum.Secretary, RolesEnum.Admin], this.props.role as string)} model={editingObject} onClose={this.onModalClose(true)} />
-    </ModalComponent>
-    // return <Dialog
-    //   open={true}
-    //   onClose={this.onModalClose()}
-    // >
-    //   <DialogTitle id="alert-dialog-title">Varžybos</DialogTitle>
-    //   <DialogContent>
-    //     <MatchFormComponent hasEditPermission={hasRole([RolesEnum.Secretary, RolesEnum.Admin], this.props.role as string)} model={editingObject} onClose={this.onModalClose(true)} />
-    //   </DialogContent>
-    //   <DialogActions>
-    //     <Button onClick={this.onModalClose()} color="primary">
-    //       Uždaryti
-    //   </Button>
-    //   </DialogActions>
-    // </Dialog>;
+    </ModalComponent>;
   }
 
   private onModalClose = (refetch?: boolean) => () => {

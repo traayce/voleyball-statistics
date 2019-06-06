@@ -46,6 +46,7 @@ namespace Services.Services.MatchServices.MatchService
             var match = await matchRepository.GetByIdAsync(id);
             var teamAName = match.TeamAEntity.Name;
             var teamBName = match.TeamBEntity.Name;
+            var teamAId = match.TeamAId;
 
             if (match == null)
             {
@@ -63,7 +64,7 @@ namespace Services.Services.MatchServices.MatchService
                     BPoints = c.Count(x => x.TeamId == match.TeamBId),
                     SetSteps = c.Select((x, index) => new MatchSetStepper()
                     {
-                        PointNumber = index + 1,
+                        SetScore = $"{c.Count(y => y.Id <= x.Id && y.TeamId == teamAId)} - {c.Count(y => y.Id <= x.Id && y.TeamId != teamAId)}",
                         TeamAction = $"Tašką laimėjo {(x.TeamId == match.TeamAId ? teamAName : teamBName)}",
                         PlayerActions = GeneratePointActionInfo(x)
                     })

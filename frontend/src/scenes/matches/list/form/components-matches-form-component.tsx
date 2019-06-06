@@ -26,6 +26,14 @@ interface OwnProps {
 
 type Props = OwnProps & WithStyles<typeof styles> & RouteComponentProps;
 class MatchFormComponentClass extends React.Component<Props> {
+    private validate = (value: string) => {
+        let error;
+        if (!value) {
+            error = "Laukas yra privalomas";
+        }
+        return error;
+    }
+
     public render(): JSX.Element | null {
         const { model, hasEditPermission, classes } = this.props;
         const items = [{ id: 11, label: "Vitameda" }, { id: 10, label: "Blokada" }];
@@ -37,6 +45,11 @@ class MatchFormComponentClass extends React.Component<Props> {
             return this.renderControl();
         return <Formik<MatchCreateModel>
             initialValues={this.getInitialValues(model)}
+            validate={(values) => {
+                if(values.teamAId === values.teamBId){
+                    return {teamBId: "Negalima pasirinkti tos pačios komandos"}
+                }
+            }}
             onSubmit={this.onSubmit}
             render={(formikBag: FormikProps<MatchCreateModel>) => (
                 <Form>
@@ -46,6 +59,7 @@ class MatchFormComponentClass extends React.Component<Props> {
                         label="Vieta"
                         fullWidth={true}
                         className={classes.Input}
+                        validate={this.validate}
                     />
                     <InputDateInlineField
                         name="startsAt"
@@ -55,22 +69,25 @@ class MatchFormComponentClass extends React.Component<Props> {
                         keyboard={true}
                         clearable={true}
                         className={classes.Input}
+                        validate={this.validate}
                     />
                     <SelectField<keyof MatchCreateModel>
                         type="text"
-                        label="Komanda A"
+                        label="Priimanti komanda"
                         name="teamAId"
                         fullWidth={true}
                         items={items}
                         className={classes.Input}
+                        validate={this.validate}
                     />
                     <SelectField<keyof MatchCreateModel>
                         type="text"
                         name="teamBId"
-                        label="Komanda B"
+                        label="Svečių komanda"
                         fullWidth={true}
                         items={items}
                         className={classes.Input}
+                        validate={this.validate}
                     />
                     <Button
                         color="primary"

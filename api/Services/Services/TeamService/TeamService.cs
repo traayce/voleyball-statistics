@@ -48,7 +48,7 @@ namespace Services.Services.TeamService
                 Id = team.Id,
                 Name = team.Name,
                 City = team.City,
-                Players = team.Players?.Select(x => new PlayerDomainModel()
+                Players = team.Players?.Where(x => x.IsValid).Select(x => new PlayerDomainModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -67,7 +67,7 @@ namespace Services.Services.TeamService
                     Id = team.Id,
                     Name = team.Name,
                     City = team.City,
-                    Players = team.Players?.Select(x => new PlayerDomainModel()
+                    Players = team.Players?.Where(x => x.IsValid).Select(x => new PlayerDomainModel()
                     {
                         Id = x.Id,
                         Name = x.Name,

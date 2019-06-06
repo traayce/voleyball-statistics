@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Models.PlayerModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Services.AuthenticationService.Models;
 using ServiceContracts.Services.PlayerService;
@@ -48,6 +49,16 @@ namespace Api.Controllers
                     return null;
                 }
             );
+        }
+        
+        [HttpPatch("{id}")]
+        [Authorize(Roles = Role.Secretary)]
+        public async Task<ActionResult<PlayerDomainModel>> Patch([FromRoute] int id,
+            [FromBody] JsonPatchDocument<PlayerCreateModel> personPatch)
+        {
+            var model = await _playerService.GetCreateModel<PlayerCreateModel>(id);
+            personPatch.ApplyTo(model);
+            return CommandAsync( async () => await _playerService.Save<PlayerDomainModel>(model));
         }
     }
 }

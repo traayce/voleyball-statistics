@@ -67,7 +67,15 @@ namespace Services.Services.PlayerService
             if (model.Id != 0)
                 entity = await PlayerRepository.GetByIdAsync(model.Id);
             _mapper.Map(model, entity);
-            PlayerRepository.Add(entity);
+            if (entity.Id != 0)
+            {
+                PlayerRepository.Edit(entity);
+            }
+            else
+            {
+                PlayerRepository.Add(entity);
+            }
+
             _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
@@ -85,6 +93,16 @@ namespace Services.Services.PlayerService
             _unitOfWork.CommitChanges();
 
             return true;
+        }
+        
+        public async Task<T> GetCreateModel<T>(int id) where T : IPlayerCreateDomainModel, new()
+        {
+            var match = await PlayerRepository.GetByIdAsync(id);
+
+            if (match == null)
+                throw new RulesException("Žaidėjas tokiu Id neegzistuoja");
+            var model = _mapper.Map(match, new T());
+            return model;
         }
     }
 }

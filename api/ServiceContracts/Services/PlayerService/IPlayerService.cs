@@ -11,5 +11,6 @@ namespace ServiceContracts.Services.PlayerService
         Task<T> Save<T>(IPlayerCreateDomainModel model) where T : IPlayerDomainModel, new();
 
         bool Delete(int playerId);
+        Task<T> GetCreateModel<T>(int id) where T : IPlayerCreateDomainModel, new();
     }
 }

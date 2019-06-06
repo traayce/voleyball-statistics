@@ -9,5 +9,7 @@ namespace ServiceContracts.Services.PlayerService
         Task<T> Get<T>(int playerId) where T : IPlayerDomainModel, new();
         IEnumerable<T> GetByIds<T>(int[] playerIds) where T : IPlayerDomainModel, new();
         Task<T> Save<T>(IPlayerCreateDomainModel model) where T : IPlayerDomainModel, new();
+
+        bool Delete(int playerId);
     }
 }

@@ -26,6 +26,18 @@ namespace DataAccess
             builder.Entity<UserEntity>()
                 .Property(x => x.Role)
                 .HasDefaultValue("User");
+  
+            builder.Entity<PlayerEntity>()
+                .Property(b => b.IsValid)
+                .HasDefaultValue(true);
+            
+            builder.Entity<MatchEntity>()
+                .Property(b => b.IsValid)
+                .HasDefaultValue(true);
+            
+            builder.Entity<TeamEntity>()
+                .Property(b => b.IsValid)
+                .HasDefaultValue(true);
         }
     }
 }

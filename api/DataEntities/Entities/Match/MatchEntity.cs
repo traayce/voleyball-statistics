@@ -32,6 +32,8 @@ namespace DataEntities.Entities.Match
         public virtual ICollection<MatchPointEntity> MatchPoints { get; set; }
         
         public virtual ICollection<MatchPlayerEntity> MatchPlayers { get; set; }
+        
+        public bool IsValid { get; set; }
        
     }
 }

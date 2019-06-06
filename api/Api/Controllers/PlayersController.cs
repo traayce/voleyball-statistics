@@ -12,15 +12,15 @@ namespace Api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class PlayersController: ControllerBaseCommand
+    public class PlayersController : ControllerBaseCommand
     {
         private readonly IPlayerService _playerService;
 
-        public PlayersController(IPlayerService playerService, ITransactedCaller executor): base(executor)
+        public PlayersController(IPlayerService playerService, ITransactedCaller executor) : base(executor)
         {
             _playerService = playerService;
         }
-        
+
         [HttpGet]
         public ActionResult<IEnumerable<PlayerDomainModel>> Get(int[] playerIds)
         {
@@ -32,6 +32,22 @@ namespace Api.Controllers
         public ActionResult<IUserLoginDomainModel> Post([FromBody] PlayerCreateModel model)
         {
             return CommandAsync(async () => await _playerService.Save<PlayerDomainModel>(model));
+        }
+
+        [Authorize(Roles = Role.Secretary)]
+        [HttpDelete]
+        public ActionResult Delete(int[] playerIds)
+        {
+            return Command<IActionResult>(() =>
+                {
+                    foreach (int playerId in playerIds)
+                    {
+                        _playerService.Delete(playerId);
+                    }
+
+                    return null;
+                }
+            );
         }
     }
 }

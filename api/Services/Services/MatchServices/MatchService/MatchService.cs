@@ -40,7 +40,7 @@ namespace Services.Services.MatchServices.MatchService
         {
             var match = await matchRepository.GetByIdAsync(matchId);
 
-            if (match == null)
+            if (match == null || !match.IsValid)
                 throw new RulesException("Komanda tokiu Id neegzistuoja");
             var model = _mapper.Map(match, new T());
             return model;
@@ -48,7 +48,7 @@ namespace Services.Services.MatchServices.MatchService
 
         public IEnumerable<T> GetByIds<T>(int[] matchIds) where T : IMatchDomainModel, new()
         {
-            var matches = matchRepository.GetAllMatching(x => matchIds.Contains(x.Id))
+            var matches = matchRepository.GetAllMatching(x => x.IsValid && matchIds.Contains(x.Id))
                 .Select(match => _mapper.Map(match, new T()));
 
             if (!matches.Any())
@@ -80,7 +80,7 @@ namespace Services.Services.MatchServices.MatchService
 
         public IEnumerable<T> GetList<T>() where T : IMatchDomainModel, new()
         {
-            var matches = matchRepository.GetAllAsync().Result.OrderByDescending(x => x.Id).Select(match => _mapper.Map(match, new T()));
+            var matches = matchRepository.GetAllAsync().Result.Where(x => x.IsValid).OrderByDescending(x => x.Id).Select(match => _mapper.Map(match, new T()));
 
             return matches;
         }

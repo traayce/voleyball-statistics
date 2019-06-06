@@ -13,5 +13,6 @@ namespace DataEntities.Entities
         public string Name { get; set; }
         public string City { get; set; }
         public virtual ICollection<PlayerEntity> Players { get; set; }
+        public bool IsValid { get; set; }
     }
 }

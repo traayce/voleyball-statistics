@@ -32,7 +32,7 @@ namespace Services.Services.PlayerService
         {
             var player = await PlayerRepository.GetByIdAsync(playerId);
 
-            if (player == null)
+            if (player == null || !player.IsValid)
                 throw new RulesException("Žaidėjas tokiu Id neegzistuoja");
 
             return new T
@@ -46,7 +46,7 @@ namespace Services.Services.PlayerService
         
         public IEnumerable<T> GetByIds<T>(int[] playerIds) where T: IPlayerDomainModel, new()
         {
-            var players = PlayerRepository.GetAllMatching(x => playerIds.Contains(x.Id)).Select(player => 
+            var players = PlayerRepository.GetAllMatching(x => x.IsValid && playerIds.Contains(x.Id)).Select(player => 
                 new T
                 {
                     Id = player.Id,
@@ -71,6 +71,20 @@ namespace Services.Services.PlayerService
             _unitOfWork.CommitChanges();
             var response = await Get<T>(entity.Id);
             return response;
+        }
+
+        public bool Delete(int playerId)
+        {
+            var player = PlayerRepository.GetById(playerId);
+
+            if (player == null || !player.IsValid)
+                throw new RulesException("Žaidėjas tokiu Id neegzistuoja");
+
+            player.IsValid = false;
+            PlayerRepository.Edit(player);
+            _unitOfWork.CommitChanges();
+
+            return true;
         }
     }
 }

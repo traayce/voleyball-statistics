@@ -61,7 +61,7 @@ namespace Services.Services.TeamService
         public async Task<IEnumerable<T>> GetAll<T>() where T: ITeamDomainModel, new()
         {
             var teams = await teamRepository.GetAllAsync();
-            return teams.Select(team => 
+            return teams.Where(x => x.IsValid).Select(team => 
                 new T
                 {
                     Id = team.Id,
@@ -84,7 +84,7 @@ namespace Services.Services.TeamService
                 return GetAll<T>().Result;
             }
             
-            var teams = teamRepository.GetAllMatching(x => teamIds.Contains(x.Id)).Select(team => 
+            var teams = teamRepository.GetAllMatching(x => x.IsValid && teamIds.Contains(x.Id)).Select(team => 
                 new T
                 {
                     Id = team.Id,
